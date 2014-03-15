@@ -1,2 +1,3 @@
-settings_*
+settings/local
+settings/prod
 manage_*

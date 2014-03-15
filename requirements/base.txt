@@ -1,1 +1,2 @@
-pip install -e git+git://github.com/kmmbvnr/django-jenkins.git#egg=django-jenkins
+Django==1.6.2
+South==0.8.4
