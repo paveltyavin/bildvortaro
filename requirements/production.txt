@@ -1,3 +1,5 @@
+-r ./base.txt
 django-jenkins
 pep8
 pyflakes
+gunicorn
