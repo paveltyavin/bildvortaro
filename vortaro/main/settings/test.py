@@ -1,4 +1,26 @@
-from vortaro.main.settings.prod import *
+from vortaro.main.settings.base import *
+
+INSTALLED_APPS += ('gunicorn',)
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(PROJECT_ROOT, 'logs/django.log'),
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 INSTALLED_APPS += ('django_jenkins',)
 JENKINS_TASKS = (
@@ -19,3 +41,4 @@ DATABASES = {
         'PORT': '',
     },
 }
+
