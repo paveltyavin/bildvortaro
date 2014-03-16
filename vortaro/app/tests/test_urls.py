@@ -6,4 +6,4 @@ class UrlsTestCase(TestCase):
     def test_main_page(self):
         c = Client()
         response = c.get('/')
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 200)
