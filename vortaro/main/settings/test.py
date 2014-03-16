@@ -6,20 +6,8 @@ INSTALLED_APPS += ('gunicorn',)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(PROJECT_ROOT, 'logs/django.log'),
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
+    'handlers': {},
+    'loggers': {},
 }
 
 INSTALLED_APPS += ('django_jenkins',)
