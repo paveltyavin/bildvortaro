@@ -1,5 +1,3 @@
 -r ./base.txt
-django-jenkins
-pep8
-pyflakes
-gunicorn
+gunicorn==18.0
+raven==4.0.4
