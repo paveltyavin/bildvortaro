@@ -1,0 +1,50 @@
+from vortaro.main.settings.base import *
+
+INSTALLED_APPS += ('gunicorn',)
+
+INSTALLED_APPS += (
+    'raven.contrib.django.raven_compat',
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(PROJECT_ROOT, 'logs/django.log'),
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['sentry'],
+            'propagate': False,
+        },
+    },
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'vortaro',
+        'USER': 'vortaro',
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
+        'HOST': '127.0.0.1',
+        'PORT': '',
+    },
+}
+
+RAVEN_CONFIG = {
+    'dsn': 'http://{}@sentry.tyavin.name/2'.format(os.environ['SENTRY_KEY']),
+}

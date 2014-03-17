@@ -1,8 +1,6 @@
 vortaro/main/settings/local.py
-vortaro/main/settings/prod.py
-manage_local*
-manage_prod.py
+vortaro/main/settings/local_test.py
 
-migrations
-
+manage_local.py
+manage_local_test.py
 *.pyc
