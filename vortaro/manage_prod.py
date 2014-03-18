@@ -1,4 +1,4 @@
-#!./home/vinograd19/vortaro/env/bin/python
+#!/home/vinograd19/vortaro/env/bin/python
 
 import os
 import sys
