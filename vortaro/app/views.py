@@ -1,9 +1,12 @@
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView, View
+from django.views.generic.list import ListView
+from vortaro.app.models import Word
 
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     template_name = 'home.html'
+    model = Word
 
 
 class ErrorView(View):

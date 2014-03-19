@@ -1,9 +1,36 @@
+{% load vortaro_tags %}
+{% load thumbnail %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Vortaro M</title>
+    <title>Vortaro</title>
+    <link rel="stylesheet" href="/static/css/style.css"/>
 </head>
 <body>
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">Vortaro.RU</div>
+        <div class="col-lg-4 col-lg-offset-4">Search</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">Sidebar</div>
+        <div class="col-lg-10">
+            {% for word in object_list %}
+                {% if forloop.counter0|row_start:"5" %}
+                    <div class="row">
+                {% endif %}
+            <div class="col-lg-2">
+                {% thumbnail word.image '200x200' as im %}
+                    <img class="img-thumbnail" src="{{ im.url }}">
+                {% endthumbnail %}
+                {{ word.name }}
+            </div>
+            {% if forloop.counter0|row_end:"5" or forloop.last %}
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
 </body>
 </html>

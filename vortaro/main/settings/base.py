@@ -34,7 +34,13 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = ()
+STATICFILES_DIRS = (
+    os.path.abspath(os.path.join(SRC_ROOT, 'static')),
+)
+
+TEMPLATE_DIRS = (
+    os.path.abspath(os.path.join(SRC_ROOT, 'templates')),
+)
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -57,10 +63,6 @@ MIDDLEWARE_CLASSES = (
     'vortaro.main.middlewares.RemoveSlashMiddleware',
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(DJANGO_ROOT, 'templates'),
-)
-
 INSTALLED_APPS = (
     # contrib
     'django.contrib.admin',
@@ -75,6 +77,7 @@ INSTALLED_APPS = (
 
     # 3rd-party
     'south',
+    'sorl.thumbnail',
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
