@@ -52,4 +52,4 @@ RAVEN_CONFIG = {
 }
 
 STATIC_ROOT = '/static/vortaro/static/'
-MEDIA = '/static/vortaro/media/'
+MEDIA_ROOT = '/static/vortaro/media/'
