@@ -1,7 +1,7 @@
 from vortaro.main.settings.base import *
 
-DEBUG= False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = True
 INSTALLED_APPS += ('gunicorn',)
 
 INSTALLED_APPS += (
