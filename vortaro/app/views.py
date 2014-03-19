@@ -17,5 +17,7 @@ class LogView(View):
     def get(self, request, *args, **kwargs):
         import logging
         logger = logging.getLogger('raven')
-        logging.warn({})
+        logger.warn('Murr!', extra={
+            'stack': True,
+        })
         return HttpResponse('ok')
