@@ -1,5 +1,7 @@
 from vortaro.main.settings.base import *
 
+DEBUG= False
+TEMPLATE_DEBUG = False
 INSTALLED_APPS += ('gunicorn',)
 
 INSTALLED_APPS += (
@@ -48,3 +50,6 @@ DATABASES = {
 RAVEN_CONFIG = {
     'dsn': 'http://{}@sentry.tyavin.name/2'.format(os.environ['SENTRY_KEY']),
 }
+
+STATIC_ROOT = '/static/vortaro/static/'
+MEDIA = '/static/vortaro/media/'
