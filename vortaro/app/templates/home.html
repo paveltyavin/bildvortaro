@@ -10,18 +10,16 @@
         <div class="col-lg-2">Sidebar</div>
         <div class="col-lg-10">
             {% for word in object_list %}
-                {% if forloop.counter0|row_start:"5" %}
-                    <div class="row">
-                {% endif %}
-            <div class="col-lg-2">
-                {% thumbnail word.image '200x200' as im %}
-                    <img class="img-thumbnail" src="{{ im.url }}">
-                {% endthumbnail %}
-                {{ word.name }}
-            </div>
-            {% if forloop.counter0|row_end:"5" or forloop.last %}
+                <div class="word-block">
+                    {% thumbnail word.image '150x150' upscale=True as im %}
+                        <div class="word-image-container">
+                            <img class="" src="{{ im.url }}">
+                        </div>
+                    {% endthumbnail %}
+                    <div class="word-caption">
+                        {{ word.name }}
+                    </div>
                 </div>
-            {% endif %}
             {% endfor %}
         </div>
     </div>

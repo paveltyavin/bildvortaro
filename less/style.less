@@ -1,8 +1,33 @@
 @import "../../bower_components/bootstrap/less/variables";
 @import "../../bower_components/bootstrap/less/mixins";
 @import "../../bower_components/bootstrap/less/grid";
-
 @import "../../bower_components/bootstrap/less/scaffolding";
-
 @import "./_sticky-footer";
 
+@eo: #0f8007;
+
+#footer {
+  background-color: @eo;
+  color: #fff;
+}
+
+.word-image-container {
+  height: 160px;
+  line-height: 154px;
+  max-height: 160px;
+  width: 160px;
+  padding: 0px;
+  background-color: #fff;
+  border: 2px solid #b8b8b8;
+  border-radius: 4px;
+  display: inline-block;
+  max-width: 100%;
+  text-align: center;
+}
+
+.word-image-container > img {
+  vertical-align: middle;
+  display: inline-block;
+  float: none;
+
+}

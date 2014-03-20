@@ -81,6 +81,7 @@ INSTALLED_APPS = (
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
+    'vortaro.app.context_processors.base',
 )
 
 AUTH_USER_MODEL = 'app.User'
