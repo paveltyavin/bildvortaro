@@ -56,3 +56,8 @@ RAVEN_CONFIG = {
 
 STATIC_ROOT = '/static/vortaro/static/'
 MEDIA_ROOT = '/static/vortaro/media/'
+
+
+STATICFILES_DIRS += (
+    os.path.join(PROJECT_ROOT, 'less_compiled/'),
+)

@@ -19,9 +19,9 @@ def get_image_wrap(model):
         else:
             name = filename
             extension = ''
-        return '{model}/{name}.{extension}'.format(
+        return u'{model}/{name}.{extension}'.format(
             model=model,
-            name=slugify(name),
+            name=slugify(unicode(name)),
             extension=extension.lower(),
         )
 
