@@ -1,13 +1,7 @@
+{% extends 'base.html' %}
 {% load vortaro_tags %}
 {% load thumbnail %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Vortaro</title>
-    <link rel="stylesheet" href="/static/style.css"/>
-</head>
-<body>
-<div class="container">
+{% block content %}
     <div class="row">
         <div class="col-lg-4">Vortaro.RU</div>
         <div class="col-lg-4 col-lg-offset-4">Search</div>
@@ -31,6 +25,4 @@
             {% endfor %}
         </div>
     </div>
-</div>
-</body>
-</html>
+{% endblock %}

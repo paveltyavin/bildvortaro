@@ -35,11 +35,23 @@ def migrate():
             run('./manage_prod.py migrate --noinput')
     return
 
-'sudo supervisorctl restart vortaro'
+
+def collectstatic():
+    with password_prefix:
+        with cd('/home/vinograd19/vortaro/src/vortaro'):
+            run('./manage_prod.py collectstatic --noinput')
+    return
+
+
+def restart():
+    run('sudo supervisorctl restart vortaro')
+
 
 def update(hash=None):
     pull(hash=hash)
     migrate()
     bower()
     less()
+    collectstatic()
+    restart()
     return
