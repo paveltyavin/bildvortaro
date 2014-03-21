@@ -10,13 +10,27 @@
 </head>
 <body>
 
-<div class="container-fluid">
+{% block navbar %}
+    <div class="container navbar-container">
+        <div class="row navbar">
+            <div class="col-lg-4">
+                <div class="vortaro-logo">Vortaro.ru</div>
+            </div>
+            <div class="col-lg-4 col-lg-offset-4">
+                <i class="glyphicon glyphicon-search"></i>
+                <input type="text" placeholder="..." id="search">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<div class="container">
     {% block content %}
     {% endblock %}
 </div>
 
 <div id="footer">
-    <div class="container-fluid">
+    <div class="container">
         <p>(c) {{ now.year }}</p>
     </div>
 </div>

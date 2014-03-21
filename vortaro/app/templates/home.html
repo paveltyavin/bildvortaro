@@ -3,17 +3,32 @@
 {% load thumbnail %}
 {% block content %}
     <div class="row">
-        <div class="col-lg-4">Vortaro.RU</div>
-        <div class="col-lg-4 col-lg-offset-4">Search</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">Sidebar</div>
-        <div class="col-lg-10">
+        <div class="col-md-2">
+            <div class="sidebar">
+                {% for category in categories %}
+                    <div class="row">
+                        <div class="col-sm-4">
+                            {% thumbnail category.image '32x32' upscale=True as im %}
+                                <a href="#">
+                                    <img class="category-image" src="{{ im.url }}">
+                                </a>
+                            {% endthumbnail %}
+                        </div>
+                        <div class="col-sm-8">
+                            <a href="#">
+                                {{ category.name }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-10">
             {% for word in object_list %}
                 <div class="word-block">
-                    {% thumbnail word.image '150x150' upscale=True as im %}
+                    {% thumbnail word.image '156x156' upscale=True as im %}
                         <div class="word-image-container">
-                            <img class="" src="{{ im.url }}">
+                            <img class="word-image" src="{{ im.url }}">
                         </div>
                     {% endthumbnail %}
                     <div class="word-caption">

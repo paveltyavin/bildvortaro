@@ -1,33 +1,40 @@
 @import "../../bower_components/bootstrap/less/variables";
+@import "./_variables";
+
 @import "../../bower_components/bootstrap/less/mixins";
+@import "../../bower_components/bootstrap/less/normalize";
+@import "../../bower_components/bootstrap/less/utilities";
 @import "../../bower_components/bootstrap/less/grid";
 @import "../../bower_components/bootstrap/less/scaffolding";
-@import "./_sticky-footer";
 
-@eo: #0f8007;
+@import "../../bower_components/bootstrap/less/glyphicons";
+
+@import "./_sticky-footer";
+@import "./_word-block";
 
 #footer {
   background-color: @eo;
   color: #fff;
 }
 
-.word-image-container {
-  height: 160px;
-  line-height: 154px;
-  max-height: 160px;
-  width: 160px;
-  padding: 0px;
-  background-color: #fff;
-  border: 2px solid #b8b8b8;
-  border-radius: 4px;
-  display: inline-block;
-  max-width: 100%;
-  text-align: center;
+@font-face {
+  font-family: 'Impact';
+  src: ~"url('/static/fonts/impact/impact.eot')";
+  src: ~"url('/static/fonts/impact/impact.woff') format('woff')", ~"url('/static/fonts/impact/impact.ttf') format('truetype')", ~"url('/static/fonts/impact/impact.svg') format('svg')";
 }
 
-.word-image-container > img {
-  vertical-align: middle;
-  display: inline-block;
-  float: none;
+.vortaro-logo {
+  color: @eo;
+  font-family:'Impact';
+  font-size:4em;
+}
 
+.navbar-container{
+  border-bottom: 3px double @eo;
+  margin-bottom: 10px;
+}
+
+.sidebar{
+  border:1px solid @eo;
+  border-radius: 4px;
 }
