@@ -28,18 +28,27 @@ def get_image_wrap(model):
     return f
 
 
+WORD_CLASS_CHOICES = (
+    (u'Noun', u'substantivoj'),
+    (u'Adjective', u'adjektivoj'),
+    (u'Verb', u'verboj'),
+    (u'Numeral', u'numeraloj'),
+)
+
+
 class Word(models.Model):
     class Meta:
         verbose_name = u'Слово'
         verbose_name_plural = u'Слова'
 
     name = models.CharField(max_length=128, verbose_name=u'Имя')
-    category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None,)
+    category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None, )
     image = models.ImageField(
         verbose_name=u'Изображение',
         upload_to=get_image_wrap('word'),
         default='',
     )
+    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'Noun', max_length=10)
 
     def __unicode__(self):
         return self.name
@@ -52,6 +61,9 @@ class Category(models.Model):
 
     name = models.CharField(max_length=128, verbose_name=u'Имя')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image_wrap('category'))
+    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'Noun', max_length=10)
+
+
     def __unicode__(self):
         return self.name
 

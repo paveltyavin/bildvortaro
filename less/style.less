@@ -1,40 +1,29 @@
 @import "../../bower_components/bootstrap/less/variables";
 @import "./_variables";
-
 @import "../../bower_components/bootstrap/less/mixins";
 @import "../../bower_components/bootstrap/less/normalize";
 @import "../../bower_components/bootstrap/less/utilities";
 @import "../../bower_components/bootstrap/less/grid";
 @import "../../bower_components/bootstrap/less/scaffolding";
-
+@import "../../bower_components/bootstrap/less/buttons";
+@import "../../bower_components/bootstrap/less/forms";
+@import "../../bower_components/bootstrap/less/list-group";
+@import "../../bower_components/bootstrap/less/input-groups";
 @import "../../bower_components/bootstrap/less/glyphicons";
-
 @import "./_sticky-footer";
 @import "./_word-block";
+@import "./_navbar";
 
-#footer {
-  background-color: @eo;
-  color: #fff;
+.category-image-container {
+  text-align: center;
 }
 
-@font-face {
-  font-family: 'Impact';
-  src: ~"url('/static/fonts/impact/impact.eot')";
-  src: ~"url('/static/fonts/impact/impact.woff') format('woff')", ~"url('/static/fonts/impact/impact.ttf') format('truetype')", ~"url('/static/fonts/impact/impact.svg') format('svg')";
+.sidebar .list-group {
+  margin-top: 0px;
 }
 
-.vortaro-logo {
-  color: @eo;
-  font-family:'Impact';
-  font-size:4em;
-}
-
-.navbar-container{
-  border-bottom: 3px double @eo;
-  margin-bottom: 10px;
-}
-
-.sidebar{
-  border:1px solid @eo;
-  border-radius: 4px;
+@media (min-width: @screen-md-min) {
+  .sidebar {
+    padding-right: 0;
+  }
 }

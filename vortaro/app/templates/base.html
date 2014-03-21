@@ -13,12 +13,18 @@
 {% block navbar %}
     <div class="container navbar-container">
         <div class="row navbar">
-            <div class="col-lg-4">
-                <div class="vortaro-logo">Vortaro.ru</div>
+            <div class="col-sm-4">
+                <div class="vortaro-logo">Vortaro<span class="vortaro-logo-star">★</span>ru</div>
             </div>
-            <div class="col-lg-4 col-lg-offset-4">
-                <i class="glyphicon glyphicon-search"></i>
-                <input type="text" placeholder="..." id="search">
+            <div class="col-sm-4 col-sm-offset-4">
+                <div class="search-container pull-right input-group">
+                    <input type="text" class="search-input form-control" placeholder="...">
+
+                    <span class="btn input-group-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                </div>
+
             </div>
         </div>
     </div>
