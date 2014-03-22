@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from sorl.thumbnail.shortcuts import get_thumbnail
-from vortaro.app.models import Word
+from vortaro.app.models import Word, WORD_CLASS_CHOICES
 
 
 class WordSerializer(serializers.ModelSerializer):

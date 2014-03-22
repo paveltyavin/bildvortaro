@@ -4,29 +4,29 @@
 {% block content %}
     <div class="row">
         <div class="col-md-2 sidebar">
-            <ul class="nav nav-pills nav-justified">
+            <ul class="nav nav-pills nav-justified word-classes">
                 {% for wc in word_class_choices %}
                     <li>
-                        <a href="#">
+                        <a href="#" data-word-class="{{ wc.0 }}">
                             {{ wc.1 }}
                         </a>
                     </li>
                 {% endfor %}
             </ul>
 
-            <ul class="list-group">
+            <ul class="list-group categories">
                 {% for category in categories %}
                     <li class="list-group-item">
                         <div class="row">
                             <div class="col-xs-4 col-lg-3 category-image-container">
                                 {% thumbnail category.image '32x32' upscale=True as im %}
-                                    <a href="#">
+                                    <a href="#" data-category-id="{{ category.id }}">
                                         <img class="category-image" src="{{ im.url }}">
                                     </a>
                                 {% endthumbnail %}
                             </div>
                             <div class="col-xs-8 col-lg-9">
-                                <a href="#">
+                                <a href="#" data-categoryId="{{ category.id }}">
                                     {{ category.name }}
                                 </a>
                             </div>

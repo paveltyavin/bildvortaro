@@ -36,8 +36,8 @@ define([
       page: 0,
       perPage: 10,
       search: '',
-      category: '',
-      wordClass: ''
+      category: null,
+      wordClass: null
     }
   });
 
@@ -48,10 +48,44 @@ define([
     el: 'body',
     ui: {
       search: 'input.search-input',
-      perPage: '.per-page'
+      perPage: '.per-page',
+      wordClasses: '.word-classes',
+      categories: '.categories'
     },
     initialize: function () {
+      this.initData();
       this.bindUIElements();
+      this.initUI();
+    },
+    initUI: function () {
+      var _this = this;
+      this.ui.search.on('keyup', function (ev) {
+        var search = this.value;
+        _this.filter.set('search', search);
+      });
+      this.ui.perPage.find('.btn').on('click', function (ev) {
+        var perPage = $(this).text();
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        _this.filter.set('perPage', perPage);
+      });
+
+      this.ui.wordClasses.find('a').on('click', function (ev) {
+        ev.preventDefault();
+        var wordClass = $(this).data('word-class');
+        $(this).parents('li').addClass('active').siblings().removeClass('active');
+        _this.filter.set('wordClass', wordClass);
+      });
+
+      this.ui.categories.find('a').on('click', function (ev) {
+        ev.preventDefault();
+        var categoryId = $(this).data('category-id');
+        $(this).parents('li').addClass('active').siblings().removeClass('active');
+        _this.filter.set('category', categoryId);
+      });
+    },
+    initData: function () {
+
       var _this = this;
       this.wordCollection = new WordCollection();
       this.filterCollection = new WordCollection();
@@ -64,26 +98,26 @@ define([
       }));
 
       this.wordCollection.fetch();
-      this.ui.search.on('keyup', function (ev) {
-        var search = this.value;
-        _this.filter.set('search', search);
-      })
-      this.ui.perPage.find('.btn').on('click', function (ev) {
-        var perPage = $(this).text();
-        $(this).siblings().removeClass('active');
-        $(this).addClass('active');
-        _this.filter.set('perPage', perPage);
-      })
 
     },
     filterWordCollection: function () {
       var filter = this.filter;
       var newCollection = this.wordCollection.search(filter.get('search'));
-      newCollection = newCollection.slice(
+
+      var whereParams = {};
+      if (filter.get('wordClass'))
+        whereParams.word_class = filter.get('wordClass');
+
+      if (filter.get('category'))
+        whereParams.category = filter.get('wordClass');
+      newCollection = newCollection.where(whereParams);
+
+      var slice = newCollection.slice(
         0 + filter.get('page') * filter.get('perPage'),
         (1 + filter.get('page')) * filter.get('perPage')
       );
-      this.filterCollection.reset(newCollection);
+
+      this.filterCollection.reset(slice);
     }
   });
 
