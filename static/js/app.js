@@ -72,23 +72,29 @@ define([
         _this.filter.set('perPage', perPage);
       });
 
+      this.filter.on('change:wordClass', function () {
+        _this.ui.wordClasses.find('a').removeClass('active')
+        _this.ui.wordClasses.find('a[data-word-class="' + _this.filter.get('wordClass') + '"]').addClass('active');
+      });
       this.ui.wordClasses.find('a').on('click', function (ev) {
         ev.preventDefault();
-        if ($(this).hasClass('active')) {
-          _this.filter.set('wordClass', undefined);
-        } else {
-          _this.filter.set('wordClass', $(this).data('word-class'));
-        }
+        var wordClass = undefined;
+        if (!$(this).hasClass('active'))
+          wordClass = $(this).data('word-class');
+        _this.filter.set('wordClass', wordClass);
       });
 
+
+      this.filter.on('change:category', function () {
+        _this.ui.categories.find('a').removeClass('active')
+        _this.ui.categories.find('a[data-category-id="' + _this.filter.get('category') + '"]').addClass('active');
+      });
       this.ui.categories.find('a').on('click', function (ev) {
         ev.preventDefault();
-        if ($(this).hasClass('active')) {
-          _this.filter.set('category', undefined);
-
-        } else {
-          _this.filter.set('category', $(this).data('category-id'));
-        }
+        var category = undefined;
+        if (!$(this).hasClass('active'))
+          category = $(this).data('category-id');
+        _this.filter.set('category', category);
       });
     },
     initData: function () {
