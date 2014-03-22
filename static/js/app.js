@@ -62,6 +62,8 @@ define([
       this.ui.search.on('keyup', function (ev) {
         var search = this.value;
         _this.filter.set('search', search);
+        _this.filter.set('category', undefined);
+        _this.filter.set('wordClass', undefined);
       });
       this.ui.perPage.find('.btn').on('click', function (ev) {
         var perPage = $(this).text();
@@ -72,6 +74,11 @@ define([
 
       this.ui.wordClasses.find('a').on('click', function (ev) {
         ev.preventDefault();
+        if ($(this).parents('li').hasClass('active')) {
+          $(this).parents('li').removeClass('active');
+          _this.filter.set('wordClass', undefined);
+          return
+        }
         var wordClass = $(this).data('word-class');
         $(this).parents('li').addClass('active').siblings().removeClass('active');
         _this.filter.set('wordClass', wordClass);
@@ -79,6 +86,11 @@ define([
 
       this.ui.categories.find('a').on('click', function (ev) {
         ev.preventDefault();
+        if ($(this).parents('li').hasClass('active')) {
+          $(this).parents('li').removeClass('active');
+          _this.filter.set('category', undefined);
+          return
+        }
         var categoryId = $(this).data('category-id');
         $(this).parents('li').addClass('active').siblings().removeClass('active');
         _this.filter.set('category', categoryId);
@@ -109,8 +121,10 @@ define([
         whereParams.word_class = filter.get('wordClass');
 
       if (filter.get('category'))
-        whereParams.category = filter.get('wordClass');
-      newCollection = newCollection.where(whereParams);
+        whereParams.category = filter.get('category');
+
+      if (Object.keys(whereParams).length !== 0)
+        newCollection = newCollection.where(whereParams);
 
       var slice = newCollection.slice(
         0 + filter.get('page') * filter.get('perPage'),
