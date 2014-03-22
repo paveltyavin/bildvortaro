@@ -1,10 +1,13 @@
 {
   "name": "vortaro",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
-    "jquery": "latest",
-    "bootstrap": "latest",
-    "font-awesome":"latest"
+    "jquery": "1.11.0",
+    "bootstrap": "3.1.1",
+    "font-awesome":"4.0.3",
+    "marionette":"1.6.4",
+    "r.js":"2.1.11",
+    "spin.js":"2.0.0"
   },
   "private": true
 }

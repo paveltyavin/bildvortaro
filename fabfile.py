@@ -25,7 +25,7 @@ def bower():
 
 def less():
     with cd('/home/vinograd19/vortaro/src'):
-        run('lessc -x -s /home/vinograd19/vortaro/src/less/style.less /home/vinograd19/vortaro/less_compiled/style.css')
+        run('lessc -x -s /home/vinograd19/vortaro/src/less/style.less /home/vinograd19/vortaro/extra-static/less/css/style.css')
 
 
 def migrate():
