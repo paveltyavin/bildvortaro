@@ -59,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
     'vortaro.main.middlewares.StripWhitespaceMiddleware',
     'vortaro.main.middlewares.RemoveSlashMiddleware',
 )
@@ -78,6 +79,7 @@ INSTALLED_APPS = (
     # 3rd-party
     'south',
     'sorl.thumbnail',
+    'social_auth',
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
@@ -87,7 +89,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 AUTH_USER_MODEL = 'app.User'
 
 DEBUG = True
-TEMPLATE_DEBUG=True
+TEMPLATE_DEBUG = True
 
 JENKINS_TASKS = (
     'django_jenkins.tasks.with_coverage',
@@ -101,3 +103,12 @@ JENKINS_TASKS = (
 
 VK_APP_ID = os.environ.get('VK_APP_ID')
 VK_API_SECRET = os.environ.get('VK_API_SECRET')
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.contrib.vk.VKOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/'

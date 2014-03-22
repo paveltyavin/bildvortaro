@@ -5,5 +5,5 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.HomeView.as_view()),
     url(r'^error$', views.ErrorView.as_view()),
-    url(r'^log', views.LogView.as_view()),
+    url(r'^log$', views.LogView.as_view()),
 )

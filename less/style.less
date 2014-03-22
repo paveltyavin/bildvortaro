@@ -11,15 +11,14 @@
 @import "../../bower_components/bootstrap/less/input-groups";
 //@import "../../bower_components/bootstrap/less/glyphicons";
 @import "../../bower_components/bootstrap/less/navs";
-
 @import "../../bower_components/font-awesome/less/variables";
+
 @fa-font-path : '/static/fonts/awesome/';
 @import "../../bower_components/font-awesome/less/mixins";
 @import "../../bower_components/font-awesome/less/path";
 @import "../../bower_components/font-awesome/less/core";
 @import "../../bower_components/font-awesome/less/larger";
 @import "../../bower_components/font-awesome/less/icons";
-
 
 @import "./_footer";
 @import "./_word-block";
@@ -31,19 +30,28 @@
 
 .sidebar .row {
   margin-left: 0px;
-  margin-right:0px;
+  margin-right: 0px;
   padding-right: 0px;
 }
 
-.sidebar .list-group  {
+.sidebar .list-group {
   padding-right: 0px;
 }
-.sidebar .nav>li>a{
+
+.sidebar .nav > li > a {
   padding: 10px;
 }
+
 @media (min-width: @screen-md-min) {
   .sidebar {
     padding-right: 0;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .nav-justified > li {
+    display: inherit;
+    width: inherit;
   }
 }
 
