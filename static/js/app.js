@@ -34,7 +34,7 @@ define([
   var Filter = Backbone.Model.extend({
     defaults: {
       page: 0,
-      perPage: 400,
+      perPage: 10,
       search: '',
       category: '',
       wordClass: ''
@@ -46,7 +46,12 @@ define([
       mainRegion: '.main-region'
     },
     el: 'body',
+    ui: {
+      search: 'input.search-input',
+      perPage: '.per-page'
+    },
     initialize: function () {
+      this.bindUIElements();
       var _this = this;
       this.wordCollection = new WordCollection();
       this.filterCollection = new WordCollection();
@@ -59,6 +64,16 @@ define([
       }));
 
       this.wordCollection.fetch();
+      this.ui.search.on('keyup', function (ev) {
+        var search = this.value;
+        _this.filter.set('search', search);
+      })
+      this.ui.perPage.find('.btn').on('click', function (ev) {
+        var perPage = $(this).text();
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        _this.filter.set('perPage', perPage);
+      })
 
     },
     filterWordCollection: function () {
