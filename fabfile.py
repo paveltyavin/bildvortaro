@@ -12,10 +12,9 @@ def host_type():
     return
 
 
-def pull(hash=None):
+def pull():
     with cd('/home/vinograd19/vortaro/src/'):
-        if hash is None:
-            run('git pull -q')
+        run('git pull -q')
     return
 
 
@@ -47,8 +46,8 @@ def restart():
     run('sudo supervisorctl restart vortaro')
 
 
-def update(hash=None):
-    pull(hash=hash)
+def update():
+    pull()
     migrate()
     bower()
     less()

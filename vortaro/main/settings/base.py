@@ -59,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'social_auth.middleware.SocialAuthExceptionMiddleware',
+    # 'social_auth.middleware.SocialAuthExceptionMiddleware',
     'vortaro.main.middlewares.StripWhitespaceMiddleware',
     'vortaro.main.middlewares.RemoveSlashMiddleware',
 )
@@ -104,11 +104,15 @@ JENKINS_TASKS = (
 VK_APP_ID = os.environ.get('VK_APP_ID')
 VK_API_SECRET = os.environ.get('VK_API_SECRET')
 
+FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
+FACEBOOK_API_SECRET = os.environ.get('FACEBOOK_API_SECRET')
+
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.vk.VKOAuth2Backend',
+    'social_auth.backends.facebook.FacebookBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/'
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/login-redirect'
+LOGIN_ERROR_URL = '/login-error'
