@@ -116,6 +116,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/login-redirect'
-LOGIN_ERROR_URL = '/login-error'
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/'
