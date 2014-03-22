@@ -7,7 +7,7 @@ class WordSerializer(serializers.ModelSerializer):
     thumb = serializers.SerializerMethodField('get_thumb')
 
     def get_thumb(self, obj):
-        return get_thumbnail(obj.image, '150x150', upscale=True).url
+        return get_thumbnail(obj.image, '150x150', upscale=True, background="#333333").url
 
     class Meta:
         model = Word

@@ -4,36 +4,26 @@
 {% block content %}
     <div class="row">
         <div class="col-md-2 sidebar">
-            <ul class="nav nav-pills nav-justified word-classes">
+            {#            <ul class="nav nav-pills nav-justified word-classes">#}
+            <div class="list-group word-classes">
                 {% for wc in word_class_choices %}
-                    <li>
-                        <a href="#" data-word-class="{{ wc.0 }}">
-                            {{ wc.1 }}
-                        </a>
-                    </li>
+                    <a class="list-group-item"  href="#" data-word-class="{{ wc.0 }}">
+                        {{ wc.1 }}
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
+            {#            </ul>#}
 
-            <ul class="list-group categories">
+            <div class="list-group categories">
                 {% for category in categories %}
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-xs-4 col-lg-3 category-image-container">
-                                {% thumbnail category.image '32x32' as im %}
-                                    <a href="#" data-category-id="{{ category.id }}">
-                                        <img class="category-image" src="{{ im.url }}">
-                                    </a>
-                                {% endthumbnail %}
-                            </div>
-                            <div class="col-xs-8 col-lg-9">
-                                <a href="#" data-category-id="{{ category.id }}">
-                                    {{ category.name }}
-                                </a>
-                            </div>
-                        </div>
-                    </li>
+                    <a class="list-group-item" href="#" data-category-id="{{ category.id }}">
+                        {% thumbnail category.image '32x32' as im %}
+                            <img class="category-image" src="{{ im.url }}">
+                        {% endthumbnail %}
+                        {{ category.name }}
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
         <div class="col-md-10 main-region">
         </div>

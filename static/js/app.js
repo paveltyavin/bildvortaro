@@ -74,26 +74,21 @@ define([
 
       this.ui.wordClasses.find('a').on('click', function (ev) {
         ev.preventDefault();
-        if ($(this).parents('li').hasClass('active')) {
-          $(this).parents('li').removeClass('active');
+        if ($(this).hasClass('active')) {
           _this.filter.set('wordClass', undefined);
-          return
+        } else {
+          _this.filter.set('wordClass', $(this).data('word-class'));
         }
-        var wordClass = $(this).data('word-class');
-        $(this).parents('li').addClass('active').siblings().removeClass('active');
-        _this.filter.set('wordClass', wordClass);
       });
 
       this.ui.categories.find('a').on('click', function (ev) {
         ev.preventDefault();
-        if ($(this).parents('li').hasClass('active')) {
-          $(this).parents('li').removeClass('active');
+        if ($(this).hasClass('active')) {
           _this.filter.set('category', undefined);
-          return
+
+        } else {
+          _this.filter.set('category', $(this).data('category-id'));
         }
-        var categoryId = $(this).data('category-id');
-        $(this).parents('li').addClass('active').siblings().removeClass('active');
-        _this.filter.set('category', categoryId);
       });
     },
     initData: function () {
