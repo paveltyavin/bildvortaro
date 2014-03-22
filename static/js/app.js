@@ -36,8 +36,8 @@ define([
       page: 0,
       perPage: 10,
       search: '',
-      category: null,
-      wordClass: null
+      category: undefined,
+      wordClass: undefined
     }
   });
 
