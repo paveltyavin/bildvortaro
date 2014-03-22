@@ -48,7 +48,7 @@ class Word(models.Model):
         upload_to=get_image_wrap('word'),
         default='',
     )
-    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'S', max_length=1)
+    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'S', max_length=10)
 
     def __unicode__(self):
         return self.name

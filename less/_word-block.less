@@ -4,7 +4,7 @@
 }
 
 .word-block {
-  text-align: right;
+  text-align: center;
   margin-bottom: 40px;
 }
 
@@ -19,6 +19,7 @@
 
 @media (min-width: @screen-xs-min) {
   .word-block {
+//    text-align: right;
     width: percentage(1 / 2);
   }
 }
@@ -34,12 +35,12 @@
     width: percentage(1 / 4);
   }
 }
+
 @media (min-width: @screen-lg-min) {
   .word-block {
     width: percentage(1 / 5);
   }
 }
-
 
 .word-block {
   padding-right: 0;
@@ -58,6 +59,7 @@
   display: inline-block;
   text-align: center;
 }
+
 .word-image-container {
   .square-image-container(160px)
 }
