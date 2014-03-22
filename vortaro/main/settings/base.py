@@ -80,6 +80,7 @@ INSTALLED_APPS = (
     'south',
     'sorl.thumbnail',
     'social_auth',
+    'rest_framework',
 )
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',

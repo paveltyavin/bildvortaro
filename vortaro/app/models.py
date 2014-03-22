@@ -41,7 +41,7 @@ class Word(models.Model):
         verbose_name = u'Слово'
         verbose_name_plural = u'Слова'
 
-    name = models.CharField(max_length=128, verbose_name=u'Имя')
+    name = models.CharField(max_length=128, verbose_name=u'Имя', unique=True,)
     category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None, )
     image = models.ImageField(
         verbose_name=u'Изображение',
