@@ -4,9 +4,8 @@ from django.views.generic.list import ListView
 from vortaro.app.models import Word
 
 
-class HomeView(ListView):
+class HomeView(TemplateView):
     template_name = 'home.html'
-    model = Word
 
 
 class ErrorView(View):

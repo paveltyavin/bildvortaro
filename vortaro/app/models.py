@@ -57,11 +57,10 @@ class Word(models.Model):
 class Category(models.Model):
     class Meta:
         verbose_name = u'Категория'
-        verbose_name_plural = u'Катеоргии'
+        verbose_name_plural = u'Категории'
 
     name = models.CharField(max_length=128, verbose_name=u'Имя')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image_wrap('category'))
-    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'Noun', max_length=10)
 
 
     def __unicode__(self):
