@@ -61,7 +61,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # 'social_auth.middleware.SocialAuthExceptionMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
     'vortaro.main.middlewares.StripWhitespaceMiddleware',
     'vortaro.main.middlewares.RemoveSlashMiddleware',
 )
