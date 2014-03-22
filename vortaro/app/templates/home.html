@@ -17,7 +17,7 @@
             <div class="list-group categories">
                 {% for category in categories %}
                     <a class="list-group-item" href="#" data-category-id="{{ category.id }}">
-                        {% thumbnail category.image '32x32' as im %}
+                        {% thumbnail category.image '24x24' background="#fff" as im %}
                             <img class="category-image" src="{{ im.url }}">
                         {% endthumbnail %}
                         {{ category.name }}
