@@ -22,7 +22,8 @@ def get_image_wrap(model):
         return u'{model}/{name}.{extension}'.format(
             model=model,
             name=slugify(unicode(name)),
-            extension=extension.lower(),
+            extension='jpg',
+            # extension=extension.lower(),
         )
 
     return f
