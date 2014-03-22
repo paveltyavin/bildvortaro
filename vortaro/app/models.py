@@ -29,10 +29,10 @@ def get_image_wrap(model):
 
 
 WORD_CLASS_CHOICES = (
-    (u'Noun', u'substantivoj'),
-    (u'Adjective', u'adjektivoj'),
-    (u'Verb', u'verboj'),
-    (u'Numeral', u'numeraloj'),
+    (u'S', u'substantivoj'),
+    (u'A', u'adjektivoj'),
+    (u'V', u'verboj'),
+    (u'N', u'numeraloj'),
 )
 
 
@@ -48,7 +48,7 @@ class Word(models.Model):
         upload_to=get_image_wrap('word'),
         default='',
     )
-    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'Noun', max_length=10)
+    word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'S', max_length=1)
 
     def __unicode__(self):
         return self.name

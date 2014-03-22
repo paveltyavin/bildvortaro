@@ -21,7 +21,7 @@
                     <input type="text" class="search-input form-control" placeholder="...">
 
                     <span class="btn input-group-addon">
-                        <i class="glyphicon glyphicon-search"></i>
+                        <i class="fa fa-search"></i>
                     </span>
                 </div>
 
@@ -35,9 +35,18 @@
     {% endblock %}
 </div>
 
-<div id="footer">
+<div class="footer">
     <div class="container">
-        <p>(c) {{ now.year }}</p>
+        <div class="row">
+            <div class="col-sm-2">
+                <p class=""><i class="fa fa-rights"></i> {{ now.year }}</p>
+            </div>
+            <div class="col-sm-10">
+                <p>
+                    <i class="fa fa-vk"></i>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 
