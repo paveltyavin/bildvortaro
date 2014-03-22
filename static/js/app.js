@@ -34,7 +34,7 @@ define([
   var Filter = Backbone.Model.extend({
     defaults: {
       page: 0,
-      perPage: 10,
+      perPage: 20,
       search: '',
       category: undefined,
       wordClass: undefined
