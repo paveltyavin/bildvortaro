@@ -142,7 +142,9 @@ define([
       if (Object.keys(whereParams).length !== 0)
         newCollection = newCollection.where(whereParams);
 
-      this.filterCollection.reset(newCollection.toArray());
+      if (newCollection.toArray !== undefined)
+        newCollection = newCollection.toArray()
+      this.filterCollection.reset(newCollection);
       this.sliceCollection.reset(this.getSlice());
     },
     doScroll: function () {
