@@ -33,7 +33,6 @@ define([
 
   var Filter = Backbone.Model.extend({
     defaults: {
-      perPage: Math.floor(screen.width / 60),
       search: '',
       category: undefined,
       wordClass: undefined
@@ -45,10 +44,11 @@ define([
       mainRegion: '.main-region'
     },
     page: 0,
+    perPage: Math.floor(screen.width / 60),
+    endScroll: false,
     el: 'body',
     ui: {
       search: 'input.search-input',
-      perPage: '.per-page',
       wordClasses: '.word-classes',
       categories: '.categories',
       nextButton: '.next-button'
@@ -65,12 +65,6 @@ define([
         _this.filter.set('search', search);
         _this.filter.set('category', undefined);
         _this.filter.set('wordClass', undefined);
-      });
-      this.ui.perPage.find('.btn').on('click', function (ev) {
-        var perPage = $(this).text();
-        $(this).siblings().removeClass('active');
-        $(this).addClass('active');
-        _this.filter.set('perPage', perPage);
       });
 
       this.filter.on('change:wordClass', function () {
@@ -98,9 +92,9 @@ define([
         _this.filter.set('category', category);
       });
 
-      this.ui.nextButton.on('click', function () {
-        _this.doScroll();
-      });
+      setInterval(function () {
+        _this.checkScroll(_this)
+      }, 250);
     },
     initData: function () {
 
@@ -121,8 +115,8 @@ define([
     },
     getSlice: function () {
       var slice = this.filterCollection.slice(
-        0 + this.page * this.filter.get('perPage'),
-        (1 + this.page ) * this.filter.get('perPage')
+        0 + this.page * this.perPage,
+        (1 + this.page ) * this.perPage
       );
       slice = _.shuffle(slice);
       return slice;
@@ -146,10 +140,25 @@ define([
         newCollection = newCollection.toArray()
       this.filterCollection.reset(newCollection);
       this.sliceCollection.reset(this.getSlice());
+      this.endScroll = false;
+    },
+    checkScroll: function () {
+      if (!this.endScroll) {
+        var top = this.$el.height();
+        top -= $(window).scrollTop();
+        top -= $(window).height();
+        if (top < 0)
+          this.doScroll();
+      }
     },
     doScroll: function () {
       this.page += 1;
-      this.sliceCollection.add(this.getSlice());
+      var slice = this.getSlice();
+      if (slice.length > 0) {
+        this.sliceCollection.add();
+      } else {
+        this.endScroll = true;
+      }
     }
   });
 
