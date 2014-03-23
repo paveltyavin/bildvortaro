@@ -1,6 +1,7 @@
 require.config({
   baseUrl: '/static',
   paths: {
+    'appear': 'bower_components/appear/jquery.appear',
     'backbone': 'bower_components/backbone/backbone',
     'backbone.paginator': 'bower_components/backbone.paginator/dist/backbone.paginator',
     'backbone.dualstorage': 'bower_components/Backbone.dualStorage/backbone.dualstorage.amd',

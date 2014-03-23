@@ -7,7 +7,7 @@
             {#            <ul class="nav nav-pills nav-justified word-classes">#}
             <div class="list-group word-classes">
                 {% for wc in word_class_choices %}
-                    <a class="list-group-item"  href="#" data-word-class="{{ wc.0 }}">
+                    <a class="list-group-item" href="#" data-word-class="{{ wc.0 }}">
                         {{ wc.1 }}
                     </a>
                 {% endfor %}
@@ -25,7 +25,9 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-md-10 main-region">
+        <div class="col-md-10">
+            <div class="main-region"></div>
+            <div class="next-button">AAA</div>
         </div>
     </div>
 {% endblock %}

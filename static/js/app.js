@@ -33,8 +33,7 @@ define([
 
   var Filter = Backbone.Model.extend({
     defaults: {
-      page: 0,
-      perPage: 20,
+      perPage: Math.floor(screen.width / 60),
       search: '',
       category: undefined,
       wordClass: undefined
@@ -45,12 +44,14 @@ define([
     regions: {
       mainRegion: '.main-region'
     },
+    page: 0,
     el: 'body',
     ui: {
       search: 'input.search-input',
       perPage: '.per-page',
       wordClasses: '.word-classes',
-      categories: '.categories'
+      categories: '.categories',
+      nextButton: '.next-button'
     },
     initialize: function () {
       this.initData();
@@ -73,7 +74,7 @@ define([
       });
 
       this.filter.on('change:wordClass', function () {
-        _this.ui.wordClasses.find('a').removeClass('active')
+        _this.ui.wordClasses.find('a').removeClass('active');
         _this.ui.wordClasses.find('a[data-word-class="' + _this.filter.get('wordClass') + '"]').addClass('active');
       });
       this.ui.wordClasses.find('a').on('click', function (ev) {
@@ -86,7 +87,7 @@ define([
 
 
       this.filter.on('change:category', function () {
-        _this.ui.categories.find('a').removeClass('active')
+        _this.ui.categories.find('a').removeClass('active');
         _this.ui.categories.find('a[data-category-id="' + _this.filter.get('category') + '"]').addClass('active');
       });
       this.ui.categories.find('a').on('click', function (ev) {
@@ -96,26 +97,40 @@ define([
           category = $(this).data('category-id');
         _this.filter.set('category', category);
       });
+
+      this.ui.nextButton.on('click', function () {
+        _this.doScroll();
+      });
     },
     initData: function () {
 
       var _this = this;
-      this.wordCollection = new WordCollection();
+      this.fullCollection = new WordCollection();
+      this.sliceCollection = new WordCollection();
       this.filterCollection = new WordCollection();
-      this.wordCollection.on('sync', _this.filterWordCollection, this);
       this.filter = new Filter();
-      this.filter.on('change', this.filterWordCollection, this);
+      this.filter.on('change', this.doFilter, this);
+      this.fullCollection.on('sync', this.doFilter, this)
 
       this.mainRegion.show(new WordsView({
-        collection: _this.filterCollection
+        collection: _this.sliceCollection
       }));
 
-      this.wordCollection.fetch();
+      this.fullCollection.fetch();
 
     },
-    filterWordCollection: function () {
+    getSlice: function () {
+      var slice = this.filterCollection.slice(
+        0 + this.page * this.filter.get('perPage'),
+        (1 + this.page ) * this.filter.get('perPage')
+      );
+      slice = _.shuffle(slice);
+      return slice;
+    },
+    doFilter: function () {
       var filter = this.filter;
-      var newCollection = this.wordCollection.search(filter.get('search'));
+      this.page = 0;
+      var newCollection = this.fullCollection.search(filter.get('search'));
 
       var whereParams = {};
       if (filter.get('wordClass'))
@@ -127,12 +142,12 @@ define([
       if (Object.keys(whereParams).length !== 0)
         newCollection = newCollection.where(whereParams);
 
-      var slice = newCollection.slice(
-        0 + filter.get('page') * filter.get('perPage'),
-        (1 + filter.get('page')) * filter.get('perPage')
-      );
-
-      this.filterCollection.reset(slice);
+      this.filterCollection.reset(newCollection.toArray());
+      this.sliceCollection.reset(this.getSlice());
+    },
+    doScroll: function () {
+      this.page += 1;
+      this.sliceCollection.add(this.getSlice());
     }
   });
 

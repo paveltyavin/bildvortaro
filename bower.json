@@ -9,7 +9,8 @@
     "jquery": "1.11.0",
     "marionette":"1.6.4",
     "r.js":"2.1.11",
-    "spin.js":"2.0.0"
+    "spin.js":"2.0.0",
+    "appear":null
   },
   "private": true
 }
