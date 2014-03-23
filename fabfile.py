@@ -5,6 +5,7 @@ from fabric.context_managers import prefix
 env.use_ssh_config = True
 
 password_prefix = prefix('source /home/vinograd19/vortaro/conf/passwords.sh')
+bash_prefix = prefix('source /home/vinograd19/.bashrc')
 
 
 def host_type():
@@ -13,8 +14,9 @@ def host_type():
 
 
 def pull():
-    with cd('/home/vinograd19/vortaro/src/'):
-        run('git pull -q')
+    with bash_prefix:
+        with cd('/home/vinograd19/vortaro/src/'):
+            run('git pull -q')
     return
 
 

@@ -39,12 +39,24 @@ define([
     }
   });
 
+
   var AppView = Marionette.Layout.extend({
     regions: {
       mainRegion: '.main-region'
     },
     page: 0,
-    perPage: Math.floor(screen.width / 60),
+    perPage: (function () {
+      var w = $(window).width();
+      if (w > 1200)
+        return 5 * 3;
+      if (w > 992)
+        return 4 * 3;
+      if (w > 768)
+        return 3 * 3;
+      if (w > 480)
+        return 2 * 3;
+      return 3;
+    })(),
     endScroll: false,
     el: 'body',
     ui: {
@@ -155,7 +167,7 @@ define([
       this.page += 1;
       var slice = this.getSlice();
       if (slice.length > 0) {
-        this.sliceCollection.add();
+        this.sliceCollection.add(slice);
       } else {
         this.endScroll = true;
       }
