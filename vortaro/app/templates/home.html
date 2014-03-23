@@ -3,8 +3,7 @@
 {% load thumbnail %}
 {% block content %}
     <div class="row">
-        <div class="col-md-2 sidebar">
-            {#            <ul class="nav nav-pills nav-justified word-classes">#}
+        <div class="col-md-2 sidebar hidden-sm hidden-xs">
             <div class="list-group word-classes">
                 {% for wc in word_class_choices %}
                     <a class="list-group-item" href="#" data-word-class="{{ wc.0 }}">
@@ -12,7 +11,6 @@
                     </a>
                 {% endfor %}
             </div>
-            {#            </ul>#}
 
             <div class="list-group categories">
                 {% for category in categories %}

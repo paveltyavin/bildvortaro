@@ -106,7 +106,7 @@ define([
 
       setInterval(function () {
         _this.checkScroll(_this)
-      }, 250);
+      }, 100);
     },
     initData: function () {
 
@@ -159,7 +159,7 @@ define([
         var top = this.$el.height();
         top -= $(window).scrollTop();
         top -= $(window).height();
-        if (top < 0)
+        if (top < 100)
           this.doScroll();
       }
     },
