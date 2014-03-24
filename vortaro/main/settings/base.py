@@ -79,6 +79,7 @@ INSTALLED_APPS = (
     'vortaro.app',
 
     # 3rd-party
+    'adminsortable',
     'south',
     'sorl.thumbnail',
     'social_auth',

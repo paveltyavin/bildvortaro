@@ -1,14 +1,27 @@
 # coding=utf-8
+import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
 
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save, pre_save
 from sorl.thumbnail import delete
 
 
 class User(AbstractUser):
     pass
+
+
+class OwnerModel(models.Model):
+    class Meta:
+        abstract = True
+
+    user_created = models.ForeignKey('User', verbose_name=u'Создатель', default=1,
+                                     related_name="%(class)s_created")
+    user_modified = models.ForeignKey('User', verbose_name=u'Последний изменивший', default=1,
+                                      related_name="%(class)s_modified")
+    date_created = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
+    date_modified = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
 
 
 def get_image_wrap(model):
@@ -37,12 +50,15 @@ WORD_CLASS_CHOICES = (
 )
 
 
-class Word(models.Model):
+class Word(OwnerModel):
     class Meta:
+        ordering = ('order',)
         verbose_name = u'Слово'
         verbose_name_plural = u'Слова'
 
-    name = models.CharField(max_length=128, verbose_name=u'Имя', unique=True,)
+    order = models.IntegerField(default=0, blank=False, null=False)
+
+    name = models.CharField(max_length=128, verbose_name=u'Имя', unique=True, )
     category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None, )
     image = models.ImageField(
         verbose_name=u'Изображение',
@@ -55,11 +71,13 @@ class Word(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category(OwnerModel):
     class Meta:
+        ordering = ('order',)
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
 
+    order = models.IntegerField(default=0, blank=False, null=False)
     name = models.CharField(max_length=128, verbose_name=u'Имя')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image_wrap('category'))
 
@@ -73,4 +91,17 @@ def delete_image(instance, **kwargs):
         delete(instance.image)
 
 
+def post_OwnerModel_save(instance, created, *args, **kwargs):
+    if hasattr(instance, 'saved'):
+        return
+    if created:
+        instance.date_created = datetime.datetime.now()
+    else:
+        instance.date_modified = datetime.datetime.now()
+    instance.saved = True
+    instance.save()
+
+
 post_delete.connect(delete_image, sender=Word)
+post_save.connect(post_OwnerModel_save, sender=Word)
+post_save.connect(post_OwnerModel_save, sender=Category)

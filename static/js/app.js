@@ -6,9 +6,10 @@ define([
     urlRoot: '/api/word/'
   });
   var WordCollection = Backbone.Collection.extend({
-    local: function() { return true; },
+//    local: function() { return true; },
     model: Word,
     url: '/api/word',
+    comparator:'order',
     search: function (letters) {
       if (letters == "") return this;
       var pattern = new RegExp(letters, "gi");
