@@ -6,6 +6,7 @@ define([
     urlRoot: '/api/word/'
   });
   var WordCollection = Backbone.Collection.extend({
+    local: function() { return true; },
     model: Word,
     url: '/api/word',
     search: function (letters) {
@@ -72,12 +73,12 @@ define([
     },
     initUI: function () {
       var _this = this;
-      this.ui.search.on('keyup', function (ev) {
+      this.ui.search.on('keyup', function () {
         $(this).val(function (i, v) {
           v = v.replace(/c[xX]/, 'ĉ');
           v = v.replace(/C[xX]/, 'Ĉ');
 
-          v = v.replace(/j[xX]/, 'Ĵ');
+          v = v.replace(/j[xX]/, 'ĵ');
           v = v.replace(/J[xX]/, 'Ĵ');
 
           v = v.replace(/u[xX]/, 'ŭ');
@@ -150,12 +151,12 @@ define([
         0 + this.page * this.perPage,
         (1 + this.page ) * this.perPage
       );
-      slice = _.shuffle(slice);
       return slice;
     },
     doFilter: function () {
       var filter = this.filter;
       this.page = 0;
+      var newArray = [];
       var newCollection = this.fullCollection.search(filter.get('search'));
 
       var whereParams = {};
@@ -165,12 +166,12 @@ define([
       if (filter.get('category'))
         whereParams.category = filter.get('category');
 
-      if (Object.keys(whereParams).length !== 0)
-        newCollection = newCollection.where(whereParams);
-
-      if (newCollection.toArray !== undefined)
-        newCollection = newCollection.toArray()
-      this.filterCollection.reset(newCollection);
+      if (Object.keys(whereParams).length !== 0) {
+        newArray = newCollection.where(whereParams);
+      } else {
+        newArray = _.shuffle(newCollection.toArray());
+      }
+      this.filterCollection.reset(newArray);
       this.sliceCollection.reset(this.getSlice());
       this.endScroll = false;
     },
