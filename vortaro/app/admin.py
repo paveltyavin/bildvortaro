@@ -5,14 +5,15 @@ from django.contrib.sites.models import Site
 from vortaro.app.models import Word, Category, User
 
 
-class WordAdmin(SortableAdminMixin, admin.ModelAdmin):
+class WordAdmin(admin.ModelAdmin):
     list_display = ('name', 'category', 'word_class', 'order')
+    list_editable = ('order',)
     list_filter = ('category', 'word_class')
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    pass
-
+    list_display = ('name','order')
+    list_editable = ('order',)
 
 class UserAdmin(admin.ModelAdmin):
     pass

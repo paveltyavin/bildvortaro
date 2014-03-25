@@ -56,7 +56,7 @@ class Word(OwnerModel):
         verbose_name = u'Слово'
         verbose_name_plural = u'Слова'
 
-    order = models.IntegerField(default=0, blank=False, null=False)
+    order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
 
     name = models.CharField(max_length=128, verbose_name=u'Имя', unique=True, )
     category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None, )
@@ -77,7 +77,7 @@ class Category(OwnerModel):
         verbose_name = u'Категория'
         verbose_name_plural = u'Категории'
 
-    order = models.IntegerField(default=0, blank=False, null=False)
+    order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
     name = models.CharField(max_length=128, verbose_name=u'Имя')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image_wrap('category'))
 
