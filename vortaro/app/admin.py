@@ -12,8 +12,9 @@ class WordAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name','order')
+    list_display = ('name', 'order')
     list_editable = ('order',)
+
 
 class UserAdmin(admin.ModelAdmin):
     pass
