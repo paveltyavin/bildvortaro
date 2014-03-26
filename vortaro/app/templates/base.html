@@ -71,5 +71,18 @@
     </script>
     <script type="text/javascript" src="/static/js/app-build.js"></script>
 {% endif %}
+<script>
+    require([
+        'marionette'
+    ], function (Marionette) {
+        var Application = new Marionette.Application();
+
+        Application.addInitializer(function () {
+            require(['js/app']);
+        });
+
+        Application.start();
+    });
+</script>
 </body>
 </html>

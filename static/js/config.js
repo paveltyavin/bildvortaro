@@ -28,15 +28,3 @@ require.config({
   },
   waitSeconds: 15
 });
-
-require([
-  'marionette'
-], function (Marionette) {
-  var Application = new Marionette.Application();
-
-  Application.addInitializer(function() {
-    require(['js/app']);
-  });
-
-  Application.start();
-});
