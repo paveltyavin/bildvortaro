@@ -19,7 +19,7 @@ class ModelsTestCase(TestCase):
 
 class WordTestCase(TestCase):
     def setUp(self):
-        test_img_path = os.path.abspath(settings.DJANGO_ROOT, 'app/tests/files/1.jpg')
+        test_img_path = os.path.join(settings.DJANGO_ROOT, 'app/tests/files/1.jpg')
         test_img = open(test_img_path, 'rb')
         self.word = Word.objects.create(
             image=File(test_img)
