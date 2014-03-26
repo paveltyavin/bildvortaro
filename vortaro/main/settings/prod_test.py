@@ -16,3 +16,15 @@ JENKINS_TASKS = (
     'django_jenkins.tasks.run_pyflakes',
     'django_jenkins.tasks.with_coverage',
 )
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(SRC_ROOT, 'db/db.sqlite3'),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    },
+}
