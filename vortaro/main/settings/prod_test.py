@@ -30,3 +30,4 @@ DATABASES = {
 }
 
 STATIC_ROOT = os.path.join(SRC_ROOT, 'static_root')
+MEDIA_ROOT = os.path.join(SRC_ROOT, 'media_root')
