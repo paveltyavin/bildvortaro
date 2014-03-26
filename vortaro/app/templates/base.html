@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="col-xs-5 col-sm-4">
-                            <div class="btn-toolbar  pull-right" >
+                            <div class="btn-toolbar  pull-right">
                                 <div class="btn-group">
                                     <a class="btn btn-default" href="{% url 'socialauth_begin' 'vk-oauth' %}">
                                         <i class="fa fa-vk"></i>
@@ -59,11 +59,17 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" data-main="/static/js/config.js" src="/static/bower_components/r.js/require.js"></script>
-{#{% if DEBUG %}#}
-{#    <script type="text/javascript" data-main="/static/js/config.js" src="/static/bower_components/r.js/require.js"></script>#}
-{#{% else %}#}
-{#    <script type="text/javascript" src="/static/js/app_build.js"></script>#}
-{#{% endif %}#}
+{% if DEBUG %}
+    <script>
+        window.debug = true;
+    </script>
+    <script type="text/javascript" data-main="/static/js/config.js"
+            src="/static/bower_components/r.js/require.js"></script>
+{% else %}
+    <script>
+        window.debug = true;
+    </script>
+    <script type="text/javascript" src="/static/js/build.js"></script>
+{% endif %}
 </body>
 </html>

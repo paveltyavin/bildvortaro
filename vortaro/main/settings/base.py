@@ -38,6 +38,7 @@ STATICFILES_DIRS = (
     os.path.abspath(os.path.join(SRC_ROOT, 'static')),
     os.path.abspath(os.path.join(PROJECT_ROOT, 'extra-static/less')),
     os.path.abspath(os.path.join(PROJECT_ROOT, 'extra-static/bower')),
+    os.path.abspath(os.path.join(PROJECT_ROOT, 'extra-static/require')),
 )
 
 TEMPLATE_DIRS = (

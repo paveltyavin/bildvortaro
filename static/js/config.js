@@ -29,8 +29,6 @@ require.config({
   waitSeconds: 15
 });
 
-window.debug = true;
-
 require([
   'marionette'
 ], function (Marionette) {
