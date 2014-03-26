@@ -6,6 +6,5 @@
   paths: {
     requireLib: "bower_components/r.js/require"
   },
-  include: ['requireLib'],
-  optimize: "none"
+  include: ['requireLib']
 })

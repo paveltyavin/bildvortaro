@@ -37,11 +37,6 @@ def migrate():
             run('./manage_prod.py migrate --noinput')
     return
 
-#
-# def copy_require():
-#     run('cp /home/vinograd19/vortaro/extra-static/bower_components/r.js')
-#     return
-
 
 def collectstatic():
     with password_prefix:
@@ -57,6 +52,7 @@ def restart():
 def require_build():
     with cd('/static/vortaro/static/js'):
         run('node ./../bower_components/r.js/dist/r.js -o build.js')
+
 
 def update():
     pull()
