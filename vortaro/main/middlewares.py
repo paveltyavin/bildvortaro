@@ -67,7 +67,7 @@ class RemoveSlashMiddleware(object):
 class StripWhitespaceMiddleware(object):
     def __init__(self):
         self.whitespace = re.compile('^\s*\n', re.MULTILINE)
-        # self.whitespace_lead = re.compile('^\s+', re.MULTILINE)
+        self.whitespace_lead = re.compile('^\s+', re.MULTILINE)
         self.whitespace_trail = re.compile('\s+$', re.MULTILINE)
 
 

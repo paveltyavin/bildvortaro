@@ -6,15 +6,15 @@ admin.autodiscover()
 
 urlpatterns = []
 
-if not settings.DEBUG:
+if settings.DEBUG:
     urlpatterns += patterns(
         'django.views.static',
         url(r'^media/(?P<path>.*)$', 'serve', kwargs={'document_root': settings.MEDIA_ROOT}),
     )
-    urlpatterns += patterns(
-        'django.views.static',
-        url(r'^static/(?P<path>.*)$', 'serve', kwargs={'document_root': settings.STATIC_ROOT}),
-    )
+    # urlpatterns += patterns(
+    #     'django.views.static',
+    #     url(r'^static/(?P<path>.*)$', 'serve', kwargs={'document_root': settings.STATIC_ROOT}),
+    # )
 
 urlpatterns += patterns(
     '',

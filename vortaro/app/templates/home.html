@@ -5,22 +5,13 @@
     <div class="row">
         <div class="col-md-2 sidebar hidden-sm hidden-xs">
             <div class="list-group word-classes">
-                {% for wc in word_class_choices %}
-                    <a class="list-group-item" href="#" data-word-class="{{ wc.0 }}">
-                        {{ wc.1 }}
-                    </a>
-                {% endfor %}
+                <a class="list-group-item" href="#" data-word-class="S">substantivoj</a>
+                <a class="list-group-item" href="#" data-word-class="A">adjektivoj</a>
+                <a class="list-group-item active" href="#" data-word-class="V">verboj</a>
+                <a class="list-group-item" href="#" data-word-class="N">numeraloj</a>
             </div>
 
-            <div class="list-group categories">
-                {% for category in categories %}
-                    <a class="list-group-item" href="#" data-category-id="{{ category.id }}">
-                        {% thumbnail category.image '24x24' background="#fff" as im %}
-                            <img class="category-image" src="{{ im.url }}">
-                        {% endthumbnail %}
-                        {{ category.name }}
-                    </a>
-                {% endfor %}
+            <div class="list-group categories-region">
             </div>
         </div>
         <div class="col-md-10 main-region">

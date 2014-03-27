@@ -1,40 +1,19 @@
 define([
-  'hbs!templates/word-block',
+  'js/views/word',
+  'js/views/category',
+
+  'js/models/word',
+  'js/models/category',
+
   'jquery',
   'backbone',
   'marionette',
+
   'backbone.dualstorage'
-], function (wordTemplate, $, Backbone, Marionette) {
-  var Word = Backbone.Model.extend({
-    urlRoot: '/api/word/'
-  });
-  var WordCollection = Backbone.Collection.extend({
-//    local: function() { return true; },
-    model: Word,
-    url: '/api/word',
-    comparator:'order',
-    search: function (letters) {
-      if (letters == "") return this;
-      var pattern = new RegExp(letters, "gi");
-      return _(this.filter(function (data) {
-        return pattern.test(data.get("name"));
-      }));
-    }
-  });
-
-  var WordView = Marionette.ItemView.extend({
-    className: 'word-block',
-    template: wordTemplate,
-    model: Word
-  });
-
-  var WordsView = Marionette.CollectionView.extend({
-    className: 'words',
-    itemView: WordView,
-    initialize: function () {
-      this.listenTo(this.collection, 'reset', this.render);
-    }
-  });
+], function (
+  wordViews, categoryViews,
+  wordModels, categoryModels,
+  $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -44,10 +23,10 @@ define([
     }
   });
 
-
   var AppView = Marionette.Layout.extend({
     regions: {
-      mainRegion: '.main-region'
+      mainRegion: '.main-region',
+      categoriesRegion: '.categories-region'
     },
     page: 0,
     perPage: (function () {
@@ -67,11 +46,11 @@ define([
     ui: {
       search: 'input.search-input',
       wordClasses: '.word-classes',
-      categories: '.categories',
       nextButton: '.next-button'
     },
     initialize: function () {
       this.initData();
+      this.initViews();
       this.bindUIElements();
       this.initUI();
     },
@@ -116,39 +95,38 @@ define([
         _this.filter.set('wordClass', wordClass);
       });
 
-
-      this.filter.on('change:category', function () {
-        _this.ui.categories.find('a').removeClass('active');
-        _this.ui.categories.find('a[data-category-id="' + _this.filter.get('category') + '"]').addClass('active');
-      });
-      this.ui.categories.find('a').on('click', function (ev) {
-        ev.preventDefault();
-        var category = undefined;
-        if (!$(this).hasClass('active'))
-          category = $(this).data('category-id');
-        _this.filter.set('category', category);
-      });
-
-      setInterval(function () {
-        _this.checkScroll(_this)
-      }, 100);
+      $(window).scroll(function () {
+        _this.checkScroll();
+      })
     },
     initData: function () {
 
       var _this = this;
-      this.fullCollection = new WordCollection();
-      this.sliceCollection = new WordCollection();
-      this.filterCollection = new WordCollection();
+      this.categoryCollection = new categoryModels.CategoryCollection();
+      this.fullCollection = new wordModels.WordCollection();
+      this.sliceCollection = new wordModels.WordCollection();
+      this.filterCollection = new wordModels.WordCollection();
       this.filter = new Filter();
       this.filter.on('change', this.doFilter, this);
-      this.fullCollection.on('sync', this.doFilter, this)
+      this.fullCollection.on('sync', this.doFilter, this);
 
-      this.mainRegion.show(new WordsView({
+      this.mainRegion.show(new wordViews.WordsView({
         collection: _this.sliceCollection
       }));
 
       this.fullCollection.fetch();
+      this.categoryCollection.fetch();
 
+    },
+    initViews:function(){
+      var _this = this;
+      var categoriesView = new categoryViews.CategoriesView({
+        collection: _this.categoryCollection
+      });
+      this.categoriesRegion.show(categoriesView);
+      this.listenTo(categoriesView, 'category:select', function(category){
+        _this.filter.set('category', category.get('id'));
+      });
     },
     getSlice: function () {
       var slice = this.filterCollection.slice(
@@ -180,13 +158,17 @@ define([
       this.endScroll = false;
     },
     checkScroll: function () {
-      if (!this.endScroll) {
-        var top = this.$el.height();
-        top -= $(window).scrollTop();
-        top -= $(window).height();
-        if (top < 100)
-          this.doScroll();
-      }
+      if (this.blockScroll) return;
+      var _this = this;
+      setTimeout(function () {
+        _this.blockScroll = false;
+      }, 500);
+      var top = this.$el.height();
+      top -= $(window).scrollTop();
+      top -= $(window).height();
+      if (top < 100)
+        this.doScroll();
+      this.blockScroll = true;
     },
     doScroll: function () {
       this.page += 1;
@@ -194,11 +176,12 @@ define([
       if (slice.length > 0) {
         this.sliceCollection.add(slice);
       } else {
-        this.endScroll = true;
+        this.blockScroll = true;
       }
     }
   });
 
   var appView = new AppView();
+  return appView
 
 });
