@@ -3,6 +3,8 @@
   name: "js/app",
   mainConfigFile: 'config.js',
   out: "app-build.js",
-  include: []
-
+  paths: {
+    'requireLib': 'bower_components/r.js/require'
+  },
+  include: ['requireLib']
 })
