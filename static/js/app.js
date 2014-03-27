@@ -1,7 +1,10 @@
 define([
   'hbs!templates/word-block',
+  'jquery',
+  'backbone',
+  'marionette',
   'backbone.dualstorage'
-], function (wordTemplate) {
+], function (wordTemplate, $, Backbone, Marionette) {
   var Word = Backbone.Model.extend({
     urlRoot: '/api/word/'
   });
@@ -197,6 +200,5 @@ define([
   });
 
   var appView = new AppView();
-  window.appView = appView;
 
 });
