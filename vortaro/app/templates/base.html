@@ -59,19 +59,15 @@
         </div>
     </div>
 </div>
-{% if DEBUG %}
-    <script>
-        window.debug = true;
-    </script>
-    <script type="text/javascript" data-main="/static/js/config.js"
-            src="/static/bower_components/r.js/require.js"></script>
+{% if not DEBUG %}
+    <script>window.debug = true;</script>
+    <script type="text/javascript" src="/static/bower_components/r.js/require.js"></script>
+    <script type="text/javascript" src="/static/js/config.js"></script>
 {% else %}
-    <script>
-        window.debug = false;
-    </script>
+    <script>window.debug = false;</script>
     <script type="text/javascript" src="/static/js/app-build.js"></script>
 {% endif %}
-<script>
+<script type="text/javascript">
     require([
         'marionette'
     ], function (Marionette) {
