@@ -1,12 +1,14 @@
 define([
-  'js/views/word', 'js/views/category',
+  'js/views/word', 'js/views/category', 'js/views/register',
 
   'js/models/word', 'js/models/category', 'js/models/user',
+
+  'js/regions/modal',
 
   'jquery', 'backbone', 'marionette',
 
   'backbone.dualstorage', 'bootstrap'
-], function (wordViews, categoryViews, wordModels, categoryModels, userModels, $, Backbone, Marionette) {
+], function (wordViews, categoryViews, registerView, wordModels, categoryModels, userModels, ModalRegion, $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -20,7 +22,8 @@ define([
     regions: {
       mainRegion: '.main-region',
       categoriesRegion: '.categories-region',
-      modalRegion:'.modal-region'
+      modalRegion: ModalRegion.ModalRegion,
+      plusRegion:'.plus-region'
     },
     page: 0,
     perPage: (function () {
@@ -39,9 +42,8 @@ define([
     el: 'body',
     ui: {
       search: 'input.search-input',
-      wordClasses: '.word-classes',
-      nextButton: '.next-button',
-      addWord: '.add-word'
+      wordClasses: '.word-classes-region',
+      nextButton: '.next-button'
     },
     initialize: function () {
       this.initData();
@@ -93,14 +95,6 @@ define([
       $(window).scroll(function () {
         _this.checkScroll();
       });
-
-      this.ui.addWord.on('click', function () {
-        if (_this.is_authenticated) {
-
-        } else {
-
-        }
-      });
     },
     initData: function () {
 
@@ -137,6 +131,15 @@ define([
       this.listenTo(categoriesView, 'category:empty', function () {
         _this.filter.set('category', null);
       });
+
+      if (!_this.is_authenticated) {
+        var registerPlusView = new registerView.RegisterPlusView();
+        _this.plusRegion.show(registerPlusView);
+        _this.listenTo(registerPlusView, 'click', function () {
+          _this.modalRegion.show(new registerView.RegisterView());
+        });
+      } else {
+      }
     },
     getSlice: function () {
       var slice = this.filterCollection.slice(0 + this.page * this.perPage, (1 + this.page ) * this.perPage);
