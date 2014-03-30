@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from sorl.thumbnail.shortcuts import get_thumbnail
-from vortaro.app.models import Word, WORD_CLASS_CHOICES
+from vortaro.app.models import Word, User
 
 
 class WordSerializer(serializers.ModelSerializer):
@@ -23,3 +23,14 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Word
         fields = ('name', 'id', 'thumb')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+        )

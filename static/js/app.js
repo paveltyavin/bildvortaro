@@ -1,19 +1,12 @@
 define([
-  'js/views/word',
-  'js/views/category',
+  'js/views/word', 'js/views/category',
 
-  'js/models/word',
-  'js/models/category',
+  'js/models/word', 'js/models/category', 'js/models/user',
 
-  'jquery',
-  'backbone',
-  'marionette',
+  'jquery', 'backbone', 'marionette',
 
-  'backbone.dualstorage'
-], function (
-  wordViews, categoryViews,
-  wordModels, categoryModels,
-  $, Backbone, Marionette) {
+  'backbone.dualstorage', 'bootstrap'
+], function (wordViews, categoryViews, wordModels, categoryModels, userModels, $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -26,7 +19,8 @@ define([
   var AppView = Marionette.Layout.extend({
     regions: {
       mainRegion: '.main-region',
-      categoriesRegion: '.categories-region'
+      categoriesRegion: '.categories-region',
+      modalRegion:'.modal-region'
     },
     page: 0,
     perPage: (function () {
@@ -46,7 +40,8 @@ define([
     ui: {
       search: 'input.search-input',
       wordClasses: '.word-classes',
-      nextButton: '.next-button'
+      nextButton: '.next-button',
+      addWord: '.add-word'
     },
     initialize: function () {
       this.initData();
@@ -97,11 +92,21 @@ define([
 
       $(window).scroll(function () {
         _this.checkScroll();
-      })
+      });
+
+      this.ui.addWord.on('click', function () {
+        if (_this.is_authenticated) {
+
+        } else {
+
+        }
+      });
     },
     initData: function () {
 
       var _this = this;
+      this.is_authenticated = $('meta[name="is_authenticated"]').attr('content') == 'True';
+      this.me = new userModels.Me();
       this.categoryCollection = new categoryModels.CategoryCollection();
       this.fullCollection = new wordModels.WordCollection();
       this.sliceCollection = new wordModels.WordCollection();
@@ -116,23 +121,25 @@ define([
 
       this.fullCollection.fetch();
       this.categoryCollection.fetch();
+      if (this.is_authenticated)
+        this.me.fetch();
 
     },
-    initViews:function(){
+    initViews: function () {
       var _this = this;
       var categoriesView = new categoryViews.CategoriesView({
         collection: _this.categoryCollection
       });
       this.categoriesRegion.show(categoriesView);
-      this.listenTo(categoriesView, 'category:select', function(category){
+      this.listenTo(categoriesView, 'category:select', function (category) {
         _this.filter.set('category', category.get('id'));
+      });
+      this.listenTo(categoriesView, 'category:empty', function () {
+        _this.filter.set('category', null);
       });
     },
     getSlice: function () {
-      var slice = this.filterCollection.slice(
-        0 + this.page * this.perPage,
-        (1 + this.page ) * this.perPage
-      );
+      var slice = this.filterCollection.slice(0 + this.page * this.perPage, (1 + this.page ) * this.perPage);
       return slice;
     },
     doFilter: function () {
@@ -182,6 +189,6 @@ define([
   });
 
   var appView = new AppView();
-  return appView
+  return appView;
 
 });

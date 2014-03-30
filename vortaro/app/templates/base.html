@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="is_authenticated" content="{{ request.user.is_authenticated }}">
 </head>
 <body>
 
@@ -18,26 +19,16 @@
             </div>
             <div class="col-sm-6 col-xs-12">
                 <div class="navbar-r ">
-                    <div class="row">
-                        <div class="col-xs-7 col-sm-8">
-                            <div class="input-group">
+                    <div class="input-group">
                     <span class="btn input-group-addon">
                         <i class="fa fa-search"></i>
                     </span>
-                                <input type="text" class="search-input form-control" placeholder="...">
-                            </div>
-                        </div>
-                        <div class="col-xs-5 col-sm-4">
-                            <div class="btn-toolbar  pull-right">
-                                <div class="btn-group">
-                                    <a class="btn btn-default" href="{% url 'socialauth_begin' 'vk-oauth' %}">
-                                        <i class="fa fa-vk"></i>
-                                    </a>
-                                    <a class="btn btn-default" href="{% url 'socialauth_begin' 'facebook' %}">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </div>
-                            </div>
+                        <input type="text" class="search-input form-control" placeholder="...">
+
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default add-word">
+                                <i class="fa fa-plus"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -57,6 +48,28 @@
             <p class=""><i class="fa fa-rights"></i> {{ now.year }}</p>
         </div>
     </div>
+</div>
+<div class="modal-region">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 </div>
 {% if DEBUG %}
     <script>window.debug = true;</script>

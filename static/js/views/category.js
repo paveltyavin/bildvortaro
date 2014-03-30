@@ -25,6 +25,9 @@ define([
     },
     deselect: function () {
       this.$el.removeClass('active');
+    },
+    isSelected: function () {
+      return this.$el.hasClass('active');
     }
   });
 
@@ -35,11 +38,16 @@ define([
       this.listenTo(this, 'itemview:click', this.onClick)
     },
     onClick: function (itemView) {
-      this.children.each(function (v) {
-        v.deselect();
-      });
-      this.trigger('category:select', itemView.model);
-      itemView.select();
+      if (itemView.isSelected()) {
+        itemView.deselect();
+        this.trigger('category:empty');
+      } else {
+        this.children.each(function (v) {
+          v.deselect();
+        });
+        itemView.select();
+        this.trigger('category:select', itemView.model);
+      }
     }
   });
 
