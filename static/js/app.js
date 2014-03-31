@@ -5,10 +5,12 @@ define([
 
   'js/regions/modal',
 
+  'json!/../api/auth',
+
   'jquery', 'backbone', 'marionette',
 
   'backbone.dualstorage', 'bootstrap'
-], function (wordViews, categoryViews, registerView, wordModels, categoryModels, userModels, ModalRegion, $, Backbone, Marionette) {
+], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion, isAuthenticated, $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -23,7 +25,7 @@ define([
       mainRegion: '.main-region',
       categoriesRegion: '.categories-region',
       modalRegion: ModalRegion.ModalRegion,
-      plusRegion:'.plus-region'
+      plusRegion: '.plus-region'
     },
     page: 0,
     perPage: (function () {
@@ -99,8 +101,7 @@ define([
     initData: function () {
 
       var _this = this;
-      this.is_authenticated = $('meta[name="is_authenticated"]').attr('content') == 'True';
-      this.me = new userModels.Me();
+      this.is_authenticated = isAuthenticated;
       this.categoryCollection = new categoryModels.CategoryCollection();
       this.fullCollection = new wordModels.WordCollection();
       this.sliceCollection = new wordModels.WordCollection();
@@ -115,10 +116,12 @@ define([
 
       this.fullCollection.fetch();
       this.categoryCollection.fetch();
-      if (this.is_authenticated)
+      if (this.is_authenticated) {
+        this.me = new userModels.Me();
         this.me.fetch();
-
+      }
     },
+
     initViews: function () {
       var _this = this;
       var categoriesView = new categoryViews.CategoriesView({
@@ -133,14 +136,21 @@ define([
       });
 
       if (!_this.is_authenticated) {
-        var registerPlusView = new registerView.RegisterPlusView();
+        var registerPlusView = new registerViews.RegisterPlusView();
         _this.plusRegion.show(registerPlusView);
         _this.listenTo(registerPlusView, 'click', function () {
-          _this.modalRegion.show(new registerView.RegisterView());
+          _this.modalRegion.show(new registerViews.RegisterView());
         });
       } else {
+        var wordPlusView = new wordViews.WordPlusView();
+        _this.plusRegion.show(wordPlusView);
+        _this.listenTo(wordPlusView, 'click', function () {
+          var newWords = new wordModels.WordCollection();
+          _this.modalRegion.show(new wordViews.AddWordsView({collection: newWords}));
+        });
       }
     },
+
     getSlice: function () {
       var slice = this.filterCollection.slice(0 + this.page * this.perPage, (1 + this.page ) * this.perPage);
       return slice;

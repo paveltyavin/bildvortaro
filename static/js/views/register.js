@@ -1,6 +1,6 @@
 define([
-  'hbs!templates/register', 'hbs!templates/register-plus', 'jquery', 'backbone', 'marionette'
-], function (registerTemplate, registerPlusTemplate, $, Backbone, Marionette) {
+  'hbs!templates/register', 'hbs!templates/plus', 'jquery', 'backbone', 'marionette'
+], function (registerTemplate, plusTemplate, $, Backbone, Marionette) {
 
   var RegisterView = Marionette.ItemView.extend({
     template: registerTemplate,
@@ -10,7 +10,7 @@ define([
   });
 
   var RegisterPlusView = Marionette.ItemView.extend({
-    template: registerPlusTemplate,
+    template: plusTemplate,
     events:{
       'click a':'click'
     },

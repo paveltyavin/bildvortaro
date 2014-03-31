@@ -48,3 +48,8 @@ class Me(generics.RetrieveAPIView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class Auth(APIView):
+    def get(self, request, *args, **kwargs):
+        return Response(self.request.user.is_authenticated())

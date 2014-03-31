@@ -1,9 +1,8 @@
 define([
   'js/models/word',
-  'hbs!templates/word-block',
-  'jquery',
-  'marionette'
-], function (wordModels, wordTemplate, $, Marionette) {
+  'hbs!templates/addWords', 'hbs!templates/word-block', 'hbs!templates/plus',
+  'jquery', 'marionette'
+], function (wordModels, addWordsTemplate, wordTemplate, plusTemplate, $, Marionette) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -19,8 +18,31 @@ define([
     }
   });
 
+  var WordPlusView = Marionette.ItemView.extend({
+    template: plusTemplate,
+    events: {
+      'click a': 'click'
+    },
+    click: function (ev) {
+      ev.preventDefault();
+      this.trigger('click');
+    }
+  });
+
+  var AddWordView = Marionette.ItemView.extend({
+    template: wordTemplate
+  });
+
+  var AddWordsView = Marionette.CompositeView.extend({
+    template: addWordsTemplate,
+    itemView: AddWordView
+  });
+
   return {
+    AddWordsView: AddWordsView,
+    AddWordView: AddWordView,
     WordView: WordView,
-    WordsView: WordsView
+    WordsView: WordsView,
+    WordPlusView: WordPlusView
   };
 });
