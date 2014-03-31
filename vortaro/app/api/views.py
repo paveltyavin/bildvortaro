@@ -2,14 +2,22 @@ from rest_framework import generics, status
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.parsers import FileUploadParser
+
 from vortaro.app.api import serializers
 from vortaro.app.models import Word, Category, User
 
 
-class WordList(generics.ListCreateAPIView):
+class WordList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     model = Word
     serializer_class = serializers.WordSerializer
+
+
+class WordAdd(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    parser_classes = (FileUploadParser,)
+    model = Word
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -53,3 +61,11 @@ class Me(generics.RetrieveAPIView):
 class Auth(APIView):
     def get(self, request, *args, **kwargs):
         return Response(self.request.user.is_authenticated())
+
+
+class CSRF(APIView):
+    def get(self, request, *args, **kwargs):
+        from django.middleware.csrf import get_token
+
+        token = get_token(request)
+        return Response(token)

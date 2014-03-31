@@ -1,8 +1,6 @@
 define([
-  'js/models/word',
-  'hbs!templates/addWords', 'hbs!templates/word-block', 'hbs!templates/plus',
-  'jquery', 'marionette'
-], function (wordModels, addWordsTemplate, wordTemplate, plusTemplate, $, Marionette) {
+  'js/models/word', 'hbs!templates/plusWords', 'hbs!templates/word-block', 'jquery', 'marionette', 'js/config/csrf'
+], function (wordModels, plusWordsTemplate, wordTemplate, $, Marionette) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -18,31 +16,32 @@ define([
     }
   });
 
-  var WordPlusView = Marionette.ItemView.extend({
-    template: plusTemplate,
-    events: {
-      'click a': 'click'
+  var AddWordsView = Marionette.ItemView.extend({
+    template: plusWordsTemplate,
+    ui: {
+      'fileupload': '.fileupload'
     },
-    click: function (ev) {
-      ev.preventDefault();
-      this.trigger('click');
+    events: {
+      'fileuploadsend @ui.fileupload': 'fileuploadSend'
+    },
+    fileuploadSend: function () {
+      this.trigger('words:added');
+    },
+    onRender: function () {
+      this.ui.fileupload.fileupload({
+        url: '/api/word/add'
+//        ,
+//        singleFileUploads: false
+      });
+    },
+    initialize: function (options) {
+      this.collection = options.collection;
     }
-  });
-
-  var AddWordView = Marionette.ItemView.extend({
-    template: wordTemplate
-  });
-
-  var AddWordsView = Marionette.CompositeView.extend({
-    template: addWordsTemplate,
-    itemView: AddWordView
   });
 
   return {
     AddWordsView: AddWordsView,
-    AddWordView: AddWordView,
     WordView: WordView,
-    WordsView: WordsView,
-    WordPlusView: WordPlusView
+    WordsView: WordsView
   };
 });

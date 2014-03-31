@@ -14,6 +14,12 @@ class WordSerializer(serializers.ModelSerializer):
         fields = ('name', 'category', 'thumb', 'word_class', 'order')
 
 
+class WordAddSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ('image',)
+
+
 class CategorySerializer(serializers.ModelSerializer):
     thumb = serializers.SerializerMethodField('get_thumb')
 

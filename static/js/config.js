@@ -6,8 +6,11 @@ require.config({
     'backbone.dualstorage': 'bower_components/Backbone.dualStorage/backbone.dualstorage.amd',
     'bootstrap.dropdown': 'bower_components/bootstrap/js/dropdown',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
+    'css': 'bower_components/require-css/css',
     'hbs': 'bower_components/hbs/hbs',
     'jquery': 'bower_components/jquery/dist/jquery',
+    'jquery.fileupload': 'bower_components/jquery-file-upload/js/jquery.fileupload',
+    'jquery.ui.widget':'bower_components/jquery-file-upload/js/vendor/jquery.ui.widget',
     'json': 'bower_components/requirejs-json/json',
     'marionette': 'bower_components/marionette/lib/core/amd/backbone.marionette',
     'requireLib': 'bower_components/r.js/require',
@@ -25,6 +28,7 @@ require.config({
     'jquery': {
       exports:'$'
     },
+    'jquery.fileupload':['css!bower_components/jquery-file-upload/css/jquery.fileupload'],
     'marionette': {exports: 'Marionette', deps: ['jquery', 'underscore', 'backbone']},
     'underscore': {exports: '_'}
   },
@@ -34,5 +38,6 @@ require.config({
       return 'templates/helpers/' + name;
     }
   },
-  waitSeconds: 15
+  waitSeconds: 15,
+  deps:['js/config/csrf']
 });
