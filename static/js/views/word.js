@@ -29,9 +29,8 @@ define([
     },
     onRender: function () {
       this.ui.fileupload.fileupload({
-        url: '/api/word/add'
-//        ,
-//        singleFileUploads: false
+        url: '/api/word/add',
+        dataType: 'json'
       });
     },
     initialize: function (options) {

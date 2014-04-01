@@ -58,7 +58,7 @@ class Word(OwnerModel):
 
     order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
 
-    name = models.CharField(max_length=128, verbose_name=u'Имя', unique=True, null=True, blank=True )
+    name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True )
     category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None, )
     image = models.ImageField(
         verbose_name=u'Изображение',

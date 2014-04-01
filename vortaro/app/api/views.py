@@ -14,10 +14,10 @@ class WordList(generics.ListAPIView):
     serializer_class = serializers.WordSerializer
 
 
-class WordAdd(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+class WordAdd(generics.CreateAPIView):
     parser_classes = (FileUploadParser,)
     model = Word
+    serializer_class = serializers.WordAddSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -30,6 +30,9 @@ class WordDetail(generics.RetrieveUpdateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     model = Word
     serializer_class = serializers.WordSerializer
+
+    def pre_save(self, obj):
+        obj.user_modified = self.request.user
 
 
 class CategoryDetail(generics.RetrieveAPIView):
