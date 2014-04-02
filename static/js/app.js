@@ -9,7 +9,7 @@ define([
 
   'jquery', 'backbone', 'marionette',
 
-  'backbone.dualstorage', 'bootstrap', 'jquery.fileupload'
+  'backbone.dualstorage', 'bootstrap'
 ], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion, isAuthenticated, $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
@@ -144,12 +144,16 @@ define([
           _this.modalRegion.show(new registerViews.RegisterView());
         });
       } else {
-        var addWordsView = new wordViews.AddWordsView({collection:_this.fullCollection});
-        _this.plusRegion.show(addWordsView);
-//        _this.listenTo(addWordsView, 'click', function () {
-//          var newWords = new wordModels.WordCollection();
-//          _this.modalRegion.show(new wordViews.AddWordsView({collection: newWords}));
-//        });
+        var wordPlusView = new wordViews.WordPlusView();
+        _this.plusRegion.show(wordPlusView);
+        _this.listenTo(wordPlusView, 'click', function () {
+          var addWordView = new wordViews.AddWordView({collection: _this.fullCollection});
+//          _this.listenTo(addWordView, 'word:added', function (word) {
+//            _this.fullCollection.add(word, {at: 0});
+//            _this.doFilter()
+//          });
+          _this.modalRegion.show(addWordView);
+        });
       }
     },
 
@@ -173,7 +177,8 @@ define([
       if (Object.keys(whereParams).length !== 0) {
         newArray = newCollection.where(whereParams);
       } else {
-        newArray = _.shuffle(newCollection.toArray());
+        newArray = newCollection.toArray();
+//        newArray = _.shuffle(newArray);
       }
       this.filterCollection.reset(newArray);
       this.sliceCollection.reset(this.getSlice());

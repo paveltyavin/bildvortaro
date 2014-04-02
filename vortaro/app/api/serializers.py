@@ -15,25 +15,29 @@ class WordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Word
-        fields = ('name', 'category', 'thumb', 'word_class', 'order', 'user_created', 'user_modified',)
+        fields = (
+            'id', 'name', 'category', 'thumb', 'word_class', 'order', 'user_created', 'user_modified',
+        )
 
 
-class UserCreated(serializers.Field):
+class UserField(serializers.Field):
     def field_from_native(self, *args, **kwargs):
         request = self.context.get('request', None)
         return request.user
 
+    def to_native(self, value):
+        return value.id
 
-class WordAddSerializer(serializers.ModelSerializer):
-    user_created = UserCreated()
-    user_modified = UserCreated()
+
+class WordAddSerializer(WordSerializer):
+    user_created = UserField()
+    user_modified = UserField()
 
     class Meta:
         model = Word
         fields = (
+            'id', 'name', 'category', 'thumb', 'word_class', 'order', 'user_created', 'user_modified',
             'image',
-            'user_created',
-            'user_modified'
         )
 
 

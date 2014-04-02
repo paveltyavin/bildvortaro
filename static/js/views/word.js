@@ -1,6 +1,7 @@
 define([
-  'js/models/word', 'hbs!templates/plusWords', 'hbs!templates/word-block', 'jquery', 'marionette', 'js/config/csrf'
-], function (wordModels, plusWordsTemplate, wordTemplate, $, Marionette) {
+  'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
+  'marionette', 'js/config/csrf', 'jquery.fileupload-image', 'jquery.fileupload'
+], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -16,22 +17,59 @@ define([
     }
   });
 
-  var AddWordsView = Marionette.ItemView.extend({
-    template: plusWordsTemplate,
-    ui: {
-      'fileupload': '.fileupload'
-    },
+
+  var WordPlusView = Marionette.ItemView.extend({
+    template: plusTemplate,
     events: {
-      'fileuploadsend @ui.fileupload': 'fileuploadSend'
+      'click a': 'click'
     },
-    fileuploadSend: function () {
-      this.trigger('words:added');
+    click: function (ev) {
+      ev.preventDefault();
+      this.trigger('click');
+    }
+  });
+
+  var AddWordView = Marionette.ItemView.extend({
+    template: addWordTemplate,
+    ui: {
+      'fileupload': '.fileupload',
+      'image': '.word-image'
     },
     onRender: function () {
+      var _this = this;
       this.ui.fileupload.fileupload({
         url: '/api/word/add',
-        dataType: 'json'
+        dataType: 'json',
+        autoUpload: false,
+        singleFileUploads: true,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+        maxFileSize: 5000000, // 5 MB
+        disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
+        previewMaxWidth: 100,
+        previewMaxHeight: 100,
+        previewCrop: true,
+        done: function (e, data) {
+          _this.trigger('word:uploaded', data.response().result);
+        },
+        add: function (e, data) {
+          _this.triggerMethod('image:add', data)
+        },
+        processalways: function (e, data) {
+          debugger
+          _this.triggerMethod('image:processalways', data)
+
+        }
       });
+    },
+    onImageAdd: function (data) {
+      var file = data.files[0];
+      var node = $('<p/>').append($('<span/>').text(file.name));
+      this.ui.image.html(node);
+
+    },
+    onImageProcesslways: function (data) {
+      var file = data.files[0];
+      debugger
     },
     initialize: function (options) {
       this.collection = options.collection;
@@ -39,7 +77,8 @@ define([
   });
 
   return {
-    AddWordsView: AddWordsView,
+    WordPlusView: WordPlusView,
+    AddWordView: AddWordView,
     WordView: WordView,
     WordsView: WordsView
   };
