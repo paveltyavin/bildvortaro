@@ -1,7 +1,8 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
-  'marionette', 'js/config/csrf', 'jquery.fileupload-image', 'jquery.fileupload'
-], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette) {
+  'marionette', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload-image' , 'canvas-to-blob', 'jquery.fileupload', 'jquery.fileupload-process',
+  'jquery.fileupload-image'
+  ], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -52,13 +53,15 @@ define([
           _this.trigger('word:uploaded', data.response().result);
         },
         add: function (e, data) {
+          debugger
+          data.context = $('<div/>');
           _this.triggerMethod('image:add', data)
         },
         processalways: function (e, data) {
           debugger
-          _this.triggerMethod('image:processalways', data)
-
         }
+      }).on('fileuploadprocessalways', function (e, data) {
+        debugger
       });
     },
     onImageAdd: function (data) {
