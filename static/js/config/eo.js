@@ -22,5 +22,6 @@ define(['jquery'], function($){
         return v;
       });
     });
+    return this;
   };
 });

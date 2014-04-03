@@ -1,7 +1,7 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
   'marionette', 'underscore', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
-  'jquery.fileupload-image', 'select2-amd'
+  'jquery.fileupload-image', 'select2-amd', 'js/config/select2'
 ], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _) {
 
   var WordView = Marionette.ItemView.extend({
@@ -62,34 +62,23 @@ define([
           _this.ui.image.html(file.preview);
       }).on('fileuploadadd',function (e, data) {
         _this.fileuploadData = data;
-      }).on('fileuploaddone',function (e, data) {
+      }).on('fileuploaddone', function (e, data) {
         _this.trigger('word:uploaded', data.response().result);
-      }).click();
+      });
 
-      this.ui.category.select2({
-        minimumInputLength: 2,
+      this.ui.category.eo().select2({
         placeholder: '...',
-        initSelection: function ($el, callback) {
-          if ($el.val()) {
-            $.ajax('/api/category/' + $el.val()).done(function (data) {
-              data.text = data.name;
-              callback(data);
-            });
-          }
-        },
-        ajax: {
-          url: '/api/category',
-          results: function (data) {
-            debugger
-            return {results: _.map(data, function (obj) {
-              obj.text = obj.name;
-              return obj;
-            })};
-          }
+        query: function (query) {
+          var data = {results: []};
+          _this.categoryCollection.search(query.term).each(function (category) {
+            data.results.push({id: category.get('id'), text: category.get('name')});
+          });
+          query.callback(data);
         }
       });
     },
-    submit: function () {
+    submit: function (ev) {
+      ev.preventDefault();
       var _this = this;
       var data = _this.fileuploadData;
       if (data) {
@@ -98,8 +87,18 @@ define([
           word_class: _this.ui.wordClass.val(),
           category: _this.ui.category.val()
         };
-        data.submit();
+        data.submit().complete(function(){
+          _this.close();
+        });
       }
+    },
+    serializeData: function () {
+      return {
+        id: this.cid
+      }
+    },
+    initialize: function (options) {
+      this.categoryCollection = options.categoryCollection;
     }
   });
 

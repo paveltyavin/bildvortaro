@@ -1,9 +1,7 @@
 define([
   'hbs!templates/category',
 
-  'jquery',
-  'backbone',
-  'marionette',
+  'jquery', 'backbone', 'marionette',
 
   'backbone.dualstorage'
 ], function (categoryTemplate, $, Backbone, Marionette) {
@@ -15,7 +13,14 @@ define([
 //    local: function() { return true; },
     model: Category,
     url: '/api/category',
-    comparator: 'order'
+    comparator: 'order',
+    search: function (letters) {
+      if (letters == "") return this;
+      var pattern = new RegExp(letters, "gi");
+      return _(this.filter(function (data) {
+        return pattern.test(data.get("name"));
+      }));
+    }
   });
 
   return {

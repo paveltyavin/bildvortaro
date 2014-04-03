@@ -9,8 +9,7 @@ define([
 
   'jquery', 'backbone', 'marionette',
 
-  'backbone.dualstorage', 'bootstrap',
-  'js/config/eo'
+  'backbone.dualstorage', 'bootstrap', 'js/config/eo'
 ], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion,
   isAuthenticated, $, Backbone, Marionette) {
 
@@ -130,7 +129,7 @@ define([
         var wordPlusView = new wordViews.WordPlusView();
         _this.plusRegion.show(wordPlusView);
         _this.listenTo(wordPlusView, 'click', function () {
-          var addWordView = new wordViews.AddWordView();
+          var addWordView = new wordViews.AddWordView({categoryCollection: _this.categoryCollection});
           _this.listenTo(addWordView, 'word:uploaded', function (word) {
             _this.fullCollection.add(word, {at: 0});
             _this.doFilter()
