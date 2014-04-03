@@ -9,8 +9,10 @@ define([
 
   'jquery', 'backbone', 'marionette',
 
-  'backbone.dualstorage', 'bootstrap'
-], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion, isAuthenticated, $, Backbone, Marionette) {
+  'backbone.dualstorage', 'bootstrap',
+  'js/config/eo'
+], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion,
+  isAuthenticated, $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -55,27 +57,8 @@ define([
     },
     initUI: function () {
       var _this = this;
+      this.ui.search.eo();
       this.ui.search.on('keyup', function () {
-        $(this).val(function (i, v) {
-          v = v.replace(/c[xX]/, 'ĉ');
-          v = v.replace(/C[xX]/, 'Ĉ');
-
-          v = v.replace(/j[xX]/, 'ĵ');
-          v = v.replace(/J[xX]/, 'Ĵ');
-
-          v = v.replace(/u[xX]/, 'ŭ');
-          v = v.replace(/U[xX]/, 'Ŭ');
-
-          v = v.replace(/g[xX]/, 'ĝ');
-          v = v.replace(/G[xX]/, 'Ĝ');
-
-          v = v.replace(/s[xX]/, 'ŝ');
-          v = v.replace(/S[xX]/, 'Ŝ');
-
-          v = v.replace(/h[xX]/, 'ĥ');
-          v = v.replace(/H[xX]/, 'Ĥ');
-          return v;
-        });
         var search = this.value;
         _this.filter.set('search', search);
         _this.filter.set('category', undefined);
@@ -147,11 +130,11 @@ define([
         var wordPlusView = new wordViews.WordPlusView();
         _this.plusRegion.show(wordPlusView);
         _this.listenTo(wordPlusView, 'click', function () {
-          var addWordView = new wordViews.AddWordView({collection: _this.fullCollection});
-//          _this.listenTo(addWordView, 'word:added', function (word) {
-//            _this.fullCollection.add(word, {at: 0});
-//            _this.doFilter()
-//          });
+          var addWordView = new wordViews.AddWordView();
+          _this.listenTo(addWordView, 'word:uploaded', function (word) {
+            _this.fullCollection.add(word, {at: 0});
+            _this.doFilter()
+          });
           _this.modalRegion.show(addWordView);
         });
       }

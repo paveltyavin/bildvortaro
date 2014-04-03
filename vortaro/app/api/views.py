@@ -8,16 +8,11 @@ from vortaro.app.api import serializers
 from vortaro.app.models import Word, Category, User
 
 
-class WordList(generics.ListAPIView):
+class WordList(generics.ListCreateAPIView):
+    parser_classes = (FileUploadParser,)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     model = Word
     serializer_class = serializers.WordSerializer
-
-
-class WordAdd(generics.CreateAPIView):
-    parser_classes = (FileUploadParser,)
-    model = Word
-    serializer_class = serializers.WordAddSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):

@@ -4,22 +4,6 @@ from sorl.thumbnail.shortcuts import get_thumbnail
 from vortaro.app.models import Word, User
 
 
-class WordSerializer(serializers.ModelSerializer):
-    thumb = serializers.SerializerMethodField('get_thumb')
-
-    def get_thumb(self, obj):
-        try:
-            return get_thumbnail(obj.image, '150x150', upscale=True, background="#fff").url
-        except ThumbnailError:
-            return ''
-
-    class Meta:
-        model = Word
-        fields = (
-            'id', 'name', 'category', 'thumb', 'word_class', 'order', 'user_created', 'user_modified',
-        )
-
-
 class UserField(serializers.Field):
     def field_from_native(self, *args, **kwargs):
         request = self.context.get('request', None)
@@ -29,9 +13,25 @@ class UserField(serializers.Field):
         return value.id
 
 
-class WordAddSerializer(WordSerializer):
+class WordImageField(serializers.ImageField):
+    def to_native(self, value):
+        try:
+            return value.url
+        except ValueError:
+            return ''
+
+
+class WordSerializer(serializers.ModelSerializer):
+    thumb = serializers.SerializerMethodField('get_thumb')
     user_created = UserField()
     user_modified = UserField()
+    image = WordImageField()
+
+    def get_thumb(self, obj):
+        try:
+            return get_thumbnail(obj.image, '150x150', upscale=True, background="#fff").url
+        except ThumbnailError:
+            return ''
 
     class Meta:
         model = Word

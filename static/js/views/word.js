@@ -1,8 +1,8 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
-  'marionette', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload-image' , 'canvas-to-blob', 'jquery.fileupload', 'jquery.fileupload-process',
+  'marionette', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
   'jquery.fileupload-image'
-  ], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette) {
+], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -34,48 +34,41 @@ define([
     template: addWordTemplate,
     ui: {
       'fileupload': '.fileupload',
-      'image': '.word-image'
+      'image': '.word-image',
+      'submit': '.word-add-submit'
+    },
+    events: {
+      'click @ui.submit': 'submit'
     },
     onRender: function () {
       var _this = this;
       this.ui.fileupload.fileupload({
-        url: '/api/word/add',
+        url: '/api/word',
         dataType: 'json',
         autoUpload: false,
         singleFileUploads: true,
         acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
         maxFileSize: 5000000, // 5 MB
         disableImageResize: /Android(?!.*Chrome)|Opera/.test(window.navigator.userAgent),
-        previewMaxWidth: 100,
-        previewMaxHeight: 100,
-        previewCrop: true,
-        done: function (e, data) {
-          _this.trigger('word:uploaded', data.response().result);
-        },
-        add: function (e, data) {
-          debugger
-          data.context = $('<div/>');
-          _this.triggerMethod('image:add', data)
-        },
-        processalways: function (e, data) {
-          debugger
-        }
-      }).on('fileuploadprocessalways', function (e, data) {
-        debugger
-      });
+        previewMaxWidth: 150,
+        previewMaxHeight: 150
+      }).on('fileuploadprocessalways',function (e, data) {
+        var file = data.files[0];
+        if (file)
+          _this.ui.image.html(file.preview);
+      }).on('fileuploadadd',function (e, data) {
+        _this.fileuploadData = data;
+      }).on('fileuploaddone',function (e, data) {
+        _this.trigger('word:uploaded', data.response().result);
+      }).click();
     },
-    onImageAdd: function (data) {
-      var file = data.files[0];
-      var node = $('<p/>').append($('<span/>').text(file.name));
-      this.ui.image.html(node);
-
-    },
-    onImageProcesslways: function (data) {
-      var file = data.files[0];
-      debugger
-    },
-    initialize: function (options) {
-      this.collection = options.collection;
+    submit: function () {
+      var _this = this;
+      var data = _this.fileuploadData;
+      if (data) {
+        data.formData = {example: '123'};
+        data.submit();
+      }
     }
   });
 
