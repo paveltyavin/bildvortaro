@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
 
         <div class="word-block">
             <div class="word-image-container fileinput-button">
@@ -12,14 +12,30 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-8">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="word-name" class="col-sm-2 control-label">Vorto</label>
 
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-6">
-    </div>
-    <div class="col-sm-6 pull-right">
-        <div class="btn btn-primary word-add-submit">Ok</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control word-name" id="word-name" placeholder="...">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="word-category" class="col-sm-2 control-label">Kategoro</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control word-category" id="word-category" placeholder="...">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary word-add-submit">Ok</button>
+                </div>
+            </div>
+
+        </form>
     </div>
 </div>

@@ -12,6 +12,7 @@
     "require-css":"0.1.2",
     "requirejs-json":"0.0.3",
     "requirejs-text":"2.0.10",
+    "select2-amd":"3.4.5",
     "spin.js":"2.0.0",
     "jquery-file-upload":""
   },

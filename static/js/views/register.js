@@ -4,9 +4,7 @@ define([
 
   var RegisterView = Marionette.ItemView.extend({
     template: registerTemplate,
-    initialize:function(){
-      this.title = 'Registrado';
-    }
+    title: 'Registrado'
   });
 
   var RegisterPlusView = Marionette.ItemView.extend({

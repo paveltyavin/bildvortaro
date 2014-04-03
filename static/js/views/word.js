@@ -1,8 +1,8 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
-  'marionette', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
-  'jquery.fileupload-image'
-], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette) {
+  'marionette', 'underscore', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
+  'jquery.fileupload-image', 'select2-amd'
+], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -31,11 +31,15 @@ define([
   });
 
   var AddWordView = Marionette.ItemView.extend({
+    title: 'Nova vorto',
     template: addWordTemplate,
     ui: {
       'fileupload': '.fileupload',
       'image': '.word-image',
-      'submit': '.word-add-submit'
+      'submit': '.word-add-submit',
+      'name': '.word-name',
+      'category': '.word-category',
+      'wordClass': '.word-class'
     },
     events: {
       'click @ui.submit': 'submit'
@@ -61,12 +65,39 @@ define([
       }).on('fileuploaddone',function (e, data) {
         _this.trigger('word:uploaded', data.response().result);
       }).click();
+
+      this.ui.category.select2({
+        minimumInputLength: 2,
+        placeholder: '...',
+        initSelection: function ($el, callback) {
+          if ($el.val()) {
+            $.ajax('/api/category/' + $el.val()).done(function (data) {
+              data.text = data.name;
+              callback(data);
+            });
+          }
+        },
+        ajax: {
+          url: '/api/category',
+          results: function (data) {
+            debugger
+            return {results: _.map(data, function (obj) {
+              obj.text = obj.name;
+              return obj;
+            })};
+          }
+        }
+      });
     },
     submit: function () {
       var _this = this;
       var data = _this.fileuploadData;
       if (data) {
-        data.formData = {example: '123'};
+        data.formData = {
+          name: _this.ui.name.val(),
+          word_class: _this.ui.wordClass.val(),
+          category: _this.ui.category.val()
+        };
         data.submit();
       }
     }

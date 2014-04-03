@@ -23,22 +23,14 @@ require.config({
     'requireLib': 'bower_components/r.js/require',
     'backbone.wreqr': 'bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
     'backbone.babysitter': 'bower_components/backbone.babysitter/lib/amd/backbone.babysitter',
+    'select2-amd': 'bower_components/select2-amd/select2',
     'spin': 'bower_components/spinjs/spin',
     'text': 'bower_components/requirejs-text/text',
     'underscore': 'bower_components/underscore/underscore'
   },
   shim: {
-    'jquery.fileupload': ['css!bower_components/jquery-file-upload/css/jquery.fileupload']
-
-//    'backbone': {exports: 'Backbone', deps: ['jquery', 'underscore']},
-//    'backbone.paginator': ['backbone'],
-//    'bootstrap.dropdown': ['jquery'],
-//    'bootstrap': ['jquery'],
-//    'jquery': {
-//      exports: '$'
-//    },
-//    'marionette': {exports: 'Marionette', deps: ['jquery', 'underscore', 'backbone']},
-//    'underscore': {exports: '_'}
+    'jquery.fileupload': ['css!bower_components/jquery-file-upload/css/jquery.fileupload'],
+    'select2-amd': ['css!bower_components/select2-amd/select2-bootstrap']
   },
   hbs: {
     disableI18n: true,
