@@ -13,11 +13,16 @@ define([
       this.me = options.me;
       if (this.me) {
         this.listenTo(this.me, 'sync', _this.checkMe);
-        this.checkMe();
       }
     },
+    onRender: function () {
+      if (this.me)
+        this.checkMe();
+    },
     addEditButton: function () {
-      this.$el.addClass('my');
+      var editButton = $('<div>').addClass('fa fa-edit word-edit');
+
+      this.$('.word-image-container').append(editButton);
     },
     checkMe: function () {
       var _this = this;
