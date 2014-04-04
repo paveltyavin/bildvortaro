@@ -113,9 +113,9 @@ define([
         _this.filter.set('category', null);
       });
 
-
       this.mainRegion.show(new wordViews.WordsView({
-        collection: _this.sliceCollection
+        collection: _this.sliceCollection,
+        me: _this.me
       }));
 
 

@@ -7,14 +7,36 @@ define([
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
     template: wordTemplate,
-    model: wordModels.Word
+    model: wordModels.Word,
+    initialize: function (options) {
+      var _this = this;
+      this.me = options.me;
+      if (this.me) {
+        this.listenTo(this.me, 'sync', _this.checkMe);
+        this.checkMe();
+      }
+    },
+    addEditButton: function () {
+      this.$el.addClass('my');
+    },
+    checkMe: function () {
+      var _this = this;
+      if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
+        this.addEditButton();
+      }
+    }
   });
 
   var WordsView = Marionette.CollectionView.extend({
     className: 'words',
     itemView: WordView,
-    initialize: function () {
-      this.listenTo(this.collection, 'reset', this.render);
+    initialize: function (options) {
+      this.me = options.me;
+    },
+    itemViewOptions: function (model, index) {
+      return {
+        me: this.me
+      }
     }
   });
 
@@ -87,7 +109,7 @@ define([
           word_class: _this.ui.wordClass.val(),
           category: _this.ui.category.val()
         };
-        data.submit().complete(function(){
+        data.submit().complete(function () {
           _this.close();
         });
       }
