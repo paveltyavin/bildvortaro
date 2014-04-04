@@ -20,8 +20,9 @@ define([
         this.checkMe();
     },
     addEditButton: function () {
-      var editButton = $('<div>').addClass('fa fa-edit word-edit');
-
+      var editButton = [
+        '<div class="word-edit-container">', '<div class="fa fa-edit word-edit">', '</div>', '</div>'
+      ].join('');
       this.$('.word-image-container').append(editButton);
     },
     checkMe: function () {
