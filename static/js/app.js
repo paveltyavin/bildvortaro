@@ -113,10 +113,20 @@ define([
         _this.filter.set('category', null);
       });
 
-      this.mainRegion.show(new wordViews.WordsView({
+      var wordsView = new wordViews.WordsView({
         collection: _this.sliceCollection,
         me: _this.me
-      }));
+      });
+
+      this.mainRegion.show(wordsView);
+
+      this.listenTo(wordsView, 'itemview:word:edit', function (view) {
+        var editWordView = new wordViews.EditWordView({
+          model: view.model,
+          categoryCollection: _this.categoryCollection
+        });
+        _this.modalRegion.show(editWordView);
+      });
 
 
       if (!_this.is_authenticated) {
@@ -130,9 +140,9 @@ define([
         _this.plusRegion.show(wordPlusView);
         _this.listenTo(wordPlusView, 'click', function () {
           var addWordView = new wordViews.AddWordView({categoryCollection: _this.categoryCollection});
-          _this.listenTo(addWordView, 'word:uploaded', function (word) {
-            _this.fullCollection.add(word, {at: 0});
-            _this.doFilter()
+          _this.listenTo(addWordView, 'word:save', function (view) {
+            _this.fullCollection.add(view.model, {at: 0});
+            _this.doFilter();
           });
           _this.modalRegion.show(addWordView);
         });

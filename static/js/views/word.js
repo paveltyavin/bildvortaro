@@ -1,8 +1,8 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
-  'marionette', 'underscore', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
+  'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
   'jquery.fileupload-image', 'select2-amd', 'js/config/select2'
-], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _) {
+], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -20,10 +20,12 @@ define([
         this.checkMe();
     },
     addEditButton: function () {
-      var editButton = [
-        '<div class="word-edit-container">', '<div class="fa fa-edit word-edit">', '</div>', '</div>'
-      ].join('');
+      var _this = this;
+      var editButton = '<div class="word-edit-container"><div class="fa fa-edit word-edit"></div></div>';
       this.$('.word-image-container').append(editButton);
+      this.$('.word-edit').on('click', function () {
+        _this.trigger('word:edit');
+      });
     },
     checkMe: function () {
       var _this = this;
@@ -61,6 +63,7 @@ define([
   var AddWordView = Marionette.ItemView.extend({
     title: 'Nova vorto',
     template: addWordTemplate,
+    modelBinder: new ModelBinder(),
     ui: {
       'fileupload': '.fileupload',
       'image': '.word-image',
@@ -71,6 +74,12 @@ define([
     },
     events: {
       'click @ui.submit': 'submit'
+    },
+
+    modelBindings: {
+      category: ".word-category",
+      word_class: ".word-class",
+      name: ".word-name"
     },
     onRender: function () {
       var _this = this;
@@ -89,9 +98,12 @@ define([
         if (file)
           _this.ui.image.html(file.preview);
       }).on('fileuploadadd',function (e, data) {
+        debugger
         _this.fileuploadData = data;
       }).on('fileuploaddone', function (e, data) {
-        _this.trigger('word:uploaded', data.response().result);
+        _this.model.set(data.response().result);
+        _this.model.trigger('sync');
+        _this.trigger('word:save', this);
       });
 
       this.ui.category.eo().select2({
@@ -104,6 +116,11 @@ define([
           query.callback(data);
         }
       });
+
+      this.modelBinder.bind(this.model, this.el, this.modelBindings);
+      if (this.model.get('image')){
+        _this.ui.fileupload.trigger('fileuploadadd');
+      }
     },
     submit: function (ev) {
       ev.preventDefault();
@@ -122,17 +139,26 @@ define([
     },
     serializeData: function () {
       return {
-        id: this.cid
+        cid: this.cid,
+        word: this.model.toJSON()
       }
     },
     initialize: function (options) {
       this.categoryCollection = options.categoryCollection;
+      if (!this.model) {
+        this.model = new wordModels.Word();
+      }
     }
   });
 
+  var EditWordView = AddWordView.extend({
+    title:'Redaktu Vorto'
+  });
+
   return {
-    WordPlusView: WordPlusView,
     AddWordView: AddWordView,
+    EditWordView: EditWordView,
+    WordPlusView: WordPlusView,
     WordView: WordView,
     WordsView: WordsView
   };
