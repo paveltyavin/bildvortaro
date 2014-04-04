@@ -98,7 +98,6 @@ define([
         if (file)
           _this.ui.image.html(file.preview);
       }).on('fileuploadadd',function (e, data) {
-        debugger
         _this.fileuploadData = data;
       }).on('fileuploaddone', function (e, data) {
         _this.model.set(data.response().result);
@@ -127,14 +126,17 @@ define([
       var _this = this;
       var data = _this.fileuploadData;
       if (data) {
-        data.formData = {
-          name: _this.ui.name.val(),
-          word_class: _this.ui.wordClass.val(),
-          category: _this.ui.category.val()
-        };
+        data.formData = this.model.toJSON();
         data.submit().complete(function () {
           _this.close();
         });
+      } else if (this.model.has('id')){
+        _this.model.save(_this.model.omit('image'),{
+          patch: true,
+          success:function(){
+            _this.close();
+          }
+        })
       }
     },
     serializeData: function () {
