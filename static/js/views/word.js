@@ -114,8 +114,14 @@ define([
         _this.trigger('word:save', _this);
       });
 
+      this.modelBinder.bind(this.model, this.el, this.modelBindings);
       this.ui.category.eo().select2({
         placeholder: '...',
+        initSelection: function (element, callback) {
+          var id = parseInt($(element).val());
+          var category = _this.categoryCollection.findWhere({id:id});
+          callback({id:category.get('id'), text:category.get('name')});
+        },
         query: function (query) {
           var data = {results: []};
           _this.categoryCollection.search(query.term).each(function (category) {
@@ -125,7 +131,6 @@ define([
         }
       });
 
-      this.modelBinder.bind(this.model, this.el, this.modelBindings);
       if (this.model.get('image')) {
         _this.ui.fileupload.trigger('fileuploadadd');
       }
