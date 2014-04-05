@@ -9,7 +9,7 @@ require.config({
   },
   paths: {
     'backbone': 'bower_components/backbone/backbone',
-    'backbone.modelbinder': 'bower_components/backbone.modelbinder/backbone.ModelBinder',
+    'backbone.modelbinder': 'bower_components/backbone.modelbinder/Backbone.ModelBinder',
     'backbone.paginator': 'bower_components/backbone.paginator/dist/backbone.paginator',
     'backbone.dualstorage': 'bower_components/Backbone.dualStorage/backbone.dualstorage.amd',
     'bootstrap.dropdown': 'bower_components/bootstrap/js/dropdown',
