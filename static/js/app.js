@@ -5,14 +5,12 @@ define([
 
   'js/regions/modal',
 
-  'json!/../api/auth',
-
   'jquery', 'backbone', 'marionette',
 
-   'bootstrap', 'js/config/eo'
+  'bootstrap', 'js/config/eo'
 //  'backbone.dualstorage',
-], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion,
-  isAuthenticated, $, Backbone, Marionette) {
+], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion, $, Backbone,
+  Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -50,10 +48,14 @@ define([
       nextButton: '.next-button'
     },
     initialize: function () {
-      this.initData();
-      this.initViews();
-      this.bindUIElements();
-      this.initUI();
+      var _this = this;
+      require('json!/api/auth', function (is_authenticated) {
+        _this.is_authenticated = is_authenticated;
+        _this.initData();
+        _this.initViews();
+        _this.bindUIElements();
+        _this.initUI();
+      });
     },
     initUI: function () {
       var _this = this;

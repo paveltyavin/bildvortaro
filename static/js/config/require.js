@@ -1,5 +1,12 @@
 require.config({
   baseUrl: '/static',
+  map: {
+    '*': {
+      'css': 'bower_components/require-css/css',
+      'json': 'bower_components/requirejs-plugins/src/json',
+      'hbs': 'bower_components/hbs/hbs'
+    }
+  },
   paths: {
     'backbone': 'bower_components/backbone/backbone',
     'backbone.modelbinder': 'bower_components/backbone.modelbinder/backbone.ModelBinder',
@@ -15,7 +22,7 @@ require.config({
     'jquery.fileupload-image': 'bower_components/jquery-file-upload/js/jquery.fileupload-image',
     'jquery.fileupload-process': 'bower_components/jquery-file-upload/js/jquery.fileupload-process',
     'jquery.ui.widget': 'bower_components/jquery-file-upload/js/vendor/jquery.ui.widget',
-    'json': 'bower_components/requirejs-json/json',
+    'json': 'bower_components/requirejs-plugins/src/json',
     'load-image': 'bower_components/blueimp-load-image/js/load-image',
     'load-image-meta': 'bower_components/blueimp-load-image/js/load-image-meta',
     'load-image-exif': 'bower_components/blueimp-load-image/js/load-image-exif',
@@ -32,8 +39,7 @@ require.config({
   shim: {
     'jquery.fileupload': ['css!bower_components/jquery-file-upload/css/jquery.fileupload'],
     'select2-amd': [
-      'css!bower_components/select2-amd/select2',
-      'css!bower_components/select2-bootstrap-css/select2-bootstrap'
+      'css!bower_components/select2-amd/select2', 'css!bower_components/select2-bootstrap-css/select2-bootstrap'
     ]
   },
   hbs: {
