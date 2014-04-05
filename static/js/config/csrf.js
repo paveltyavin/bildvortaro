@@ -1,5 +1,5 @@
 define(['jquery'], function ($) {
-  require('json!/api/csrf', function (token) {
+  require(['json!/api/csrf'], function (token) {
     var ajaxCSRF = {
       csrfSafeMethod: function (method) {
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

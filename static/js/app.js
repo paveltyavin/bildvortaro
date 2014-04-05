@@ -49,7 +49,7 @@ define([
     },
     initialize: function () {
       var _this = this;
-      require('json!/api/auth', function (is_authenticated) {
+      require(['json!/api/auth'], function (is_authenticated) {
         _this.is_authenticated = is_authenticated;
         _this.initData();
         _this.initViews();
@@ -86,7 +86,6 @@ define([
     initData: function () {
 
       var _this = this;
-      this.is_authenticated = isAuthenticated;
       this.categoryCollection = new categoryModels.CategoryCollection();
       this.fullCollection = new wordModels.WordCollection();
       this.sliceCollection = new wordModels.WordCollection();
