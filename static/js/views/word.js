@@ -1,7 +1,7 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
-  'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload', 'jquery.fileupload-process',
-  'jquery.fileupload-image', 'select2-amd', 'js/config/select2'
+  'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload',
+  'jquery.fileupload-process', 'jquery.fileupload-image', 'select2-amd', 'js/config/select2'
 ], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
   var WordView = Marionette.ItemView.extend({
@@ -83,8 +83,16 @@ define([
     },
     onRender: function () {
       var _this = this;
+      var url = '/api/word';
+      var type = 'PUT';
+      if (this.model.has('id')){
+        url += '/'+ _this.model.get('id');
+      }
+
+
       this.ui.fileupload.fileupload({
-        url: '/api/word',
+        url: url,
+        type:type,
         dataType: 'json',
         autoUpload: false,
         singleFileUploads: true,
@@ -117,7 +125,7 @@ define([
       });
 
       this.modelBinder.bind(this.model, this.el, this.modelBindings);
-      if (this.model.get('image')){
+      if (this.model.get('image')) {
         _this.ui.fileupload.trigger('fileuploadadd');
       }
     },
@@ -130,10 +138,9 @@ define([
         data.submit().complete(function () {
           _this.close();
         });
-      } else if (this.model.has('id')){
-        _this.model.save(_this.model.omit('image'),{
-          patch: true,
-          success:function(){
+      } else if (this.model.has('id')) {
+        _this.model.save(null,{
+          success: function () {
             _this.close();
           }
         })
@@ -154,7 +161,7 @@ define([
   });
 
   var EditWordView = AddWordView.extend({
-    title:'Redaktu Vorto'
+    title: 'Redaktu Vorto'
   });
 
   return {

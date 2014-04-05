@@ -4,15 +4,6 @@ from sorl.thumbnail.shortcuts import get_thumbnail
 from vortaro.app.models import Word, User
 
 
-class UserField(serializers.Field):
-    def field_from_native(self, *args, **kwargs):
-        request = self.context.get('request', None)
-        return request.user
-
-    def to_native(self, value):
-        return value.id
-
-
 class WordImageField(serializers.ImageField):
     def to_native(self, value):
         try:
@@ -23,9 +14,7 @@ class WordImageField(serializers.ImageField):
 
 class WordSerializer(serializers.ModelSerializer):
     thumb = serializers.SerializerMethodField('get_thumb')
-    user_created = UserField()
-    user_modified = UserField()
-    image = WordImageField()
+    image = WordImageField(required=False)
 
     def get_thumb(self, obj):
         try:
@@ -33,10 +22,30 @@ class WordSerializer(serializers.ModelSerializer):
         except ThumbnailError:
             return ''
 
+    def __init__(self, instance, **kwargs):
+        request = kwargs['context']['request']
+        data = kwargs['data']
+
+        if instance.user_created:
+            data['user_created'] = instance.user_created.id
+        else:
+            data['user_created'] = request.user.id
+
+        data['user_modified'] = request.user.id
+
+        if isinstance(data['image'], basestring):
+            del data['image']
+
+        super(WordSerializer, self).__init__(instance, **kwargs)
+
     class Meta:
         model = Word
         fields = (
-            'id', 'name', 'category', 'thumb', 'word_class', 'order', 'user_created', 'user_modified',
+            'id',
+            'name', 'category', 'word_class',
+            'order',
+            'user_created', 'user_modified',
+            'thumb',
             'image',
         )
 
