@@ -84,15 +84,16 @@ define([
     onRender: function () {
       var _this = this;
       var url = '/api/word';
-      var type = 'PUT';
-      if (this.model.has('id')){
-        url += '/'+ _this.model.get('id');
+      var type = 'POST';
+      if (this.model.has('id')) {
+        url += '/' + _this.model.get('id');
+        type = 'PUT';
       }
 
 
       this.ui.fileupload.fileupload({
         url: url,
-        type:type,
+        type: type,
         dataType: 'json',
         autoUpload: false,
         singleFileUploads: true,
@@ -110,7 +111,7 @@ define([
       }).on('fileuploaddone', function (e, data) {
         _this.model.set(data.response().result);
         _this.model.trigger('sync');
-        _this.trigger('word:save', this);
+        _this.trigger('word:save', _this);
       });
 
       this.ui.category.eo().select2({
@@ -139,7 +140,7 @@ define([
           _this.close();
         });
       } else if (this.model.has('id')) {
-        _this.model.save(null,{
+        _this.model.save(null, {
           success: function () {
             _this.close();
           }

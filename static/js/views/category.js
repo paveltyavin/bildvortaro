@@ -3,9 +3,7 @@ define([
   'js/models/category',
   'jquery',
   'backbone',
-  'marionette',
-
-  'backbone.dualstorage'
+  'marionette'
 ], function (categoryTemplate, categoryModels, $, Backbone, Marionette) {
 
 

@@ -1,8 +1,8 @@
 define([
   'jquery',
-  'backbone',
+  'backbone'
 
-  'backbone.dualstorage'
+//  'backbone.dualstorage'
 ], function ($, Backbone) {
 
   var Word = Backbone.Model.extend({

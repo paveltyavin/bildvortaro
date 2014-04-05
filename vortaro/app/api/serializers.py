@@ -24,17 +24,17 @@ class WordSerializer(serializers.ModelSerializer):
 
     def __init__(self, instance, **kwargs):
         request = kwargs['context']['request']
-        data = kwargs['data']
+        data = kwargs.get('data')
+        if data:
+            if instance and instance.user_created:
+                data['user_created'] = instance.user_created.id
+            else:
+                data['user_created'] = request.user.id
 
-        if instance.user_created:
-            data['user_created'] = instance.user_created.id
-        else:
-            data['user_created'] = request.user.id
+            data['user_modified'] = request.user.id
 
-        data['user_modified'] = request.user.id
-
-        if isinstance(data['image'], basestring):
-            del data['image']
+            if 'image' in data and isinstance(data['image'], basestring):
+                del data['image']
 
         super(WordSerializer, self).__init__(instance, **kwargs)
 

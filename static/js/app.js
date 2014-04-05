@@ -9,7 +9,8 @@ define([
 
   'jquery', 'backbone', 'marionette',
 
-  'backbone.dualstorage', 'bootstrap', 'js/config/eo'
+   'bootstrap', 'js/config/eo'
+//  'backbone.dualstorage',
 ], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion,
   isAuthenticated, $, Backbone, Marionette) {
 
@@ -141,6 +142,7 @@ define([
         _this.listenTo(wordPlusView, 'click', function () {
           var addWordView = new wordViews.AddWordView({categoryCollection: _this.categoryCollection});
           _this.listenTo(addWordView, 'word:save', function (view) {
+            debugger
             _this.fullCollection.add(view.model, {at: 0});
             _this.doFilter();
           });

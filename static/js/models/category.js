@@ -1,9 +1,9 @@
 define([
   'hbs!templates/category',
 
-  'jquery', 'backbone', 'marionette',
+  'jquery', 'backbone', 'marionette'
 
-  'backbone.dualstorage'
+//  'backbone.dualstorage'
 ], function (categoryTemplate, $, Backbone, Marionette) {
 
   var Category = Backbone.Model.extend({
