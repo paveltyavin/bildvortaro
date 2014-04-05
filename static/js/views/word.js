@@ -70,7 +70,8 @@ define([
       'submit': '.word-add-submit',
       'name': '.word-name',
       'category': '.word-category',
-      'wordClass': '.word-class'
+      'wordClass': '.word-class',
+      'delete': '.word-delete'
     },
     events: {
       'click @ui.submit': 'submit'
@@ -81,7 +82,8 @@ define([
       word_class: ".word-class",
       name: ".word-name"
     },
-    onRender: function () {
+
+    fileuploadInit: function () {
       var _this = this;
       var url = '/api/word';
       var type = 'POST';
@@ -89,8 +91,6 @@ define([
         url += '/' + _this.model.get('id');
         type = 'PUT';
       }
-
-
       this.ui.fileupload.fileupload({
         url: url,
         type: type,
@@ -114,13 +114,20 @@ define([
         _this.trigger('word:save', _this);
       });
 
-      this.modelBinder.bind(this.model, this.el, this.modelBindings);
+      if (this.model.get('image')) {
+        _this.ui.fileupload.trigger('fileuploadadd');
+      }
+
+    },
+
+    categoryInit: function () {
+      var _this = this;
       this.ui.category.eo().select2({
         placeholder: '...',
         initSelection: function (element, callback) {
           var id = parseInt($(element).val());
-          var category = _this.categoryCollection.findWhere({id:id});
-          callback({id:category.get('id'), text:category.get('name')});
+          var category = _this.categoryCollection.findWhere({id: id});
+          callback({id: category.get('id'), text: category.get('name')});
         },
         query: function (query) {
           var data = {results: []};
@@ -130,10 +137,27 @@ define([
           query.callback(data);
         }
       });
-
-      if (this.model.get('image')) {
-        _this.ui.fileupload.trigger('fileuploadadd');
+    },
+    deleteInit: function () {
+      var _this = this;
+      if (this.model.has('id')) {
+        _this.ui.delete.removeClass('hide').on('click', function () {
+          if (confirm('Delete ?')) {
+            _this.model.destroy();
+            _this.close();
+          }
+        })
       }
+    },
+
+    onRender: function () {
+      var _this = this;
+
+      this.modelBinder.bind(this.model, this.el, this.modelBindings);
+      this.fileuploadInit();
+      this.categoryInit();
+      this.deleteInit();
+
     },
     submit: function (ev) {
       ev.preventDefault();

@@ -4,29 +4,27 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 
 from vortaro.app.api import serializers
+from vortaro.app.api.permissions import OwnerPermisson
 from vortaro.app.models import Word, Category, User
 
 
 class WordList(generics.ListCreateAPIView):
     parser_classes = (FileUploadParser,)
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (OwnerPermisson,)
     model = Word
     serializer_class = serializers.WordSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (OwnerPermisson,)
     model = Category
     serializer_class = serializers.CategorySerializer
 
 
-class WordDetail(generics.RetrieveUpdateAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class WordDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (OwnerPermisson,)
     model = Word
     serializer_class = serializers.WordSerializer
-
-    def pre_save(self, obj):
-        obj.user_modified = self.request.user
 
 
 class CategoryDetail(generics.RetrieveAPIView):

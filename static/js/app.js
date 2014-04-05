@@ -143,7 +143,6 @@ define([
         _this.listenTo(wordPlusView, 'click', function () {
           var addWordView = new wordViews.AddWordView({categoryCollection: _this.categoryCollection});
           _this.listenTo(addWordView, 'word:save', function (view) {
-            debugger
             _this.fullCollection.add(view.model, {at: 0});
             _this.doFilter();
           });
