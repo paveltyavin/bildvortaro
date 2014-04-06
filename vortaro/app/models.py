@@ -12,18 +12,6 @@ class User(AbstractUser):
     pass
 
 
-class OwnerModel(models.Model):
-    class Meta:
-        abstract = True
-
-    user_created = models.ForeignKey('User', verbose_name=u'Создатель', default=1,
-                                     related_name="%(class)s_created")
-    user_modified = models.ForeignKey('User', verbose_name=u'Последний изменивший', default=1,
-                                      related_name="%(class)s_modified")
-    date_created = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
-    date_modified = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
-
-
 def get_image_wrap(model):
     def f(instance, filename, **kwargs):
         ar = filename.split('.')
@@ -50,37 +38,32 @@ WORD_CLASS_CHOICES = (
 )
 
 
-class Word(OwnerModel):
+class Word(models.Model):
     class Meta:
         ordering = ('order',)
         verbose_name = u'Слово'
         verbose_name_plural = u'Слова'
 
+
+    user_created = models.ForeignKey('User', verbose_name=u'Создатель', default=1,
+                                     related_name="%(class)s_created")
+    user_modified = models.ForeignKey('User', verbose_name=u'Последний изменивший', default=1,
+                                      related_name="%(class)s_modified")
+    date_created = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
+    date_modified = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
+
     order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
 
-    name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True )
-    category = models.ForeignKey('Category', verbose_name=u'Категория', blank=True, null=True, default=None, )
+    name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True)
+    categories = models.ManyToManyField('Word', verbose_name=u'Категории', blank=True, )
     image = models.ImageField(
         verbose_name=u'Изображение',
         upload_to=get_image_wrap('word'),
         default='',
     )
     word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'S', max_length=10)
-
-    def __unicode__(self):
-        return self.name
-
-
-class Category(OwnerModel):
-    class Meta:
-        ordering = ('order',)
-        verbose_name = u'Категория'
-        verbose_name_plural = u'Категории'
-
-    order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
-    name = models.CharField(max_length=128, verbose_name=u'Имя')
-    image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image_wrap('category'))
-
+    show_main = models.BooleanField(verbose_name=u'Показывать в главном регионе', default=True)
+    show_top = models.BooleanField(verbose_name=u'Показывать в верхнем регионе', default=False)
 
     def __unicode__(self):
         return self.name
@@ -91,7 +74,7 @@ def delete_image(instance, **kwargs):
         delete(instance.image)
 
 
-def post_OwnerModel_save(instance, created, *args, **kwargs):
+def post_word_save(instance, created, *args, **kwargs):
     if hasattr(instance, 'saved'):
         return
     if created:
@@ -103,5 +86,4 @@ def post_OwnerModel_save(instance, created, *args, **kwargs):
 
 
 post_delete.connect(delete_image, sender=Word)
-post_save.connect(post_OwnerModel_save, sender=Word)
-post_save.connect(post_OwnerModel_save, sender=Category)
+post_save.connect(post_word_save, sender=Word)

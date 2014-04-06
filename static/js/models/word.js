@@ -1,6 +1,5 @@
 define([
-  'jquery',
-  'backbone'
+  'jquery', 'backbone'
 
 //  'backbone.dualstorage'
 ], function ($, Backbone) {
@@ -22,8 +21,23 @@ define([
     }
   });
 
+  var Category = Word.extend({
+    url: function () {
+      var base = getValue(this, 'urlRoot') || getValue(this.collection, 'url') || urlError();
+      if (this.isNew()) return base;
+      return base + (base.charAt(base.length - 1) == '/' ? '' : '/') + encodeURIComponent(this.id) + '?show_top=1';
+    }
+
+  });
+
+  var CategoryCollection = WordCollection.extend({
+    model: Category
+  });
+
   return {
     Word: Word,
-    WordCollection: WordCollection
+    WordCollection: WordCollection,
+    Category: Category,
+    CategoryCollection: CategoryCollection
   };
 });

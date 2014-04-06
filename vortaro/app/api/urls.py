@@ -9,6 +9,4 @@ urlpatterns = patterns(
     url(r'^user/me$', views.Me.as_view()),
     url(r'^word$', views.WordList.as_view()),
     url(r'^word/(?P<pk>\d+)$', views.WordDetail.as_view()),
-    url(r'^category$', views.CategoryList.as_view()),
-    url(r'^category$/(?P<pk>\d+)$', views.CategoryDetail.as_view()),
 )

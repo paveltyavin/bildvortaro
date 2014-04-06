@@ -5,7 +5,7 @@ from rest_framework.parsers import FileUploadParser
 
 from vortaro.app.api import serializers
 from vortaro.app.api.permissions import OwnerPermisson
-from vortaro.app.models import Word, Category, User
+from vortaro.app.models import Word, User
 
 
 class WordList(generics.ListCreateAPIView):
@@ -15,22 +15,10 @@ class WordList(generics.ListCreateAPIView):
     serializer_class = serializers.WordSerializer
 
 
-class CategoryList(generics.ListCreateAPIView):
-    permission_classes = (OwnerPermisson,)
-    model = Category
-    serializer_class = serializers.CategorySerializer
-
-
 class WordDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (OwnerPermisson,)
     model = Word
     serializer_class = serializers.WordSerializer
-
-
-class CategoryDetail(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-    model = Category
-    serializer_class = serializers.CategorySerializer
 
 
 class UserList(generics.ListAPIView):

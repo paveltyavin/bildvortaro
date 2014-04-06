@@ -83,19 +83,23 @@ define([
         _this.checkScroll();
       });
     },
+
+    getCategoryCollection: function () {
+      this.categoryCollection.reset(this.filterCollection.where({show_top: true}))
+    },
     initData: function () {
 
       var _this = this;
-      this.categoryCollection = new categoryModels.CategoryCollection();
+      this.categoryCollection = new wordModels.WordCollection();
       this.fullCollection = new wordModels.WordCollection();
       this.sliceCollection = new wordModels.WordCollection();
       this.filterCollection = new wordModels.WordCollection();
       this.filter = new Filter();
       this.filter.on('change', this.doFilter, this);
       this.fullCollection.on('sync', this.doFilter, this);
+      this.fullCollection.on('sync', this.getCategoryCollection, this);
 
       this.fullCollection.fetch();
-      this.categoryCollection.fetch();
       if (this.is_authenticated) {
         this.me = new userModels.Me();
         this.me.fetch();
@@ -107,7 +111,7 @@ define([
       var categoriesView = new categoryViews.CategoriesView({
         collection: _this.categoryCollection
       });
-      this.categoriesRegion.show(categoriesView);
+//      this.categoriesRegion.show(categoriesView);
       this.listenTo(categoriesView, 'category:select', function (category) {
         _this.filter.set('category', category.get('id'));
       });
@@ -167,6 +171,7 @@ define([
 
       if (filter.get('category'))
         whereParams.category = filter.get('category');
+      // Todo: сделать поиск по категории
 
       if (Object.keys(whereParams).length !== 0) {
         newArray = newCollection.where(whereParams);

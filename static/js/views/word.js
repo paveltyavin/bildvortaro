@@ -155,7 +155,7 @@ define([
 
       this.modelBinder.bind(this.model, this.el, this.modelBindings);
       this.fileuploadInit();
-      this.categoryInit();
+//      this.categoryInit();
       this.deleteInit();
 
     },
@@ -183,7 +183,6 @@ define([
       }
     },
     initialize: function (options) {
-      this.categoryCollection = options.categoryCollection;
       if (!this.model) {
         this.model = new wordModels.Word();
       }

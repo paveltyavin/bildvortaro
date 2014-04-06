@@ -1,15 +1,15 @@
 define([
   'hbs!templates/category',
-  'js/models/category',
+  'js/models/word',
   'jquery',
   'backbone',
   'marionette'
-], function (categoryTemplate, categoryModels, $, Backbone, Marionette) {
+], function (categoryTemplate, wordModels, $, Backbone, Marionette) {
 
 
   var CategoryView = Marionette.ItemView.extend({
     template: categoryTemplate,
-    model: categoryModels.Category,
+    model: wordModels.Category,
     tagName: 'a',
     className: 'list-group-item',
     events: {
