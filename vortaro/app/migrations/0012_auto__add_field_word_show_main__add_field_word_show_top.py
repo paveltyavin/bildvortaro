@@ -8,23 +8,42 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Category.order'
-        db.add_column(u'app_category', 'order',
-                      self.gf('django.db.models.fields.IntegerField')(default=0),
+        # Adding field 'Word.show_main'
+        db.add_column(u'app_word', 'show_main',
+                      self.gf('django.db.models.fields.BooleanField')(default=True),
                       keep_default=False)
 
+        # Adding field 'Word.show_top'
+        db.add_column(u'app_word', 'show_top',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
+
+        # Adding M2M table for field categories on 'Word'
+        m2m_table_name = db.shorten_name(u'app_word_categories')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('from_word', models.ForeignKey(orm[u'app.word'], null=False)),
+            ('to_word', models.ForeignKey(orm[u'app.word'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['from_word_id', 'to_word_id'])
 
 
     def backwards(self, orm):
-        # Deleting field 'Category.order'
-        db.delete_column(u'app_category', 'order')
+        # Deleting field 'Word.show_main'
+        db.delete_column(u'app_word', 'show_main')
+
+        # Deleting field 'Word.show_top'
+        db.delete_column(u'app_word', 'show_top')
+
+        # Removing M2M table for field categories on 'Word'
+        db.delete_table(db.shorten_name(u'app_word_categories'))
 
 
     models = {
         u'app.category': {
             'Meta': {'ordering': "('order',)", 'object_name': 'Category'},
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 3, 25, 0, 0)'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 3, 25, 0, 0)'}),
+            'date_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 6, 0, 0)'}),
+            'date_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 6, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
@@ -51,15 +70,18 @@ class Migration(SchemaMigration):
         u'app.word': {
             'Meta': {'ordering': "('order',)", 'object_name': 'Word'},
             'category': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': u"orm['app.Category']", 'null': 'True', 'blank': 'True'}),
-            'date_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 3, 25, 0, 0)'}),
-            'date_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 3, 25, 0, 0)'}),
+            'date_created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 6, 0, 0)'}),
+            'date_modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 6, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'default': "''", 'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '128'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '128', 'blank': 'True'}),
             'order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'show_main': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'show_top': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'user_created': ('django.db.models.fields.related.ForeignKey', [], {'default': '1', 'related_name': "'word_created'", 'to': u"orm['app.User']"}),
             'user_modified': ('django.db.models.fields.related.ForeignKey', [], {'default': '1', 'related_name': "'word_modified'", 'to': u"orm['app.User']"}),
-            'word_class': ('django.db.models.fields.CharField', [], {'default': "u'S'", 'max_length': '10'})
+            'word_class': ('django.db.models.fields.CharField', [], {'default': "u'S'", 'max_length': '10'}),
+            'categories': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['app.Word']", 'symmetrical': 'False', 'blank': 'True'})
         },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
