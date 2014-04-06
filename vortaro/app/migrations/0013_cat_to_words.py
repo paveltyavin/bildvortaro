@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+from django.conf import settings
 from django.core.files.base import File
 from south.utils import datetime_utils as datetime
 from south.db import db
@@ -20,9 +22,14 @@ class Migration(DataMigration):
                 show_top=True,
                 image=category.image,
             )
-            f = File(open(category.image.url, "w"))
-            new_word.image.save(f)
+            f = File(open(category.image.path, "rw+"))
+            name = category.image.name.rsplit('/')[-1]
+            image = new_word.image
+            image.field.upload_to = 'word'
+            image.save(name, f)
             new_word.save()
+
+            f.close()
 
             for word in category.word_set.all():
                 word.categories.add(new_word)
@@ -42,6 +49,17 @@ class Migration(DataMigration):
             for child_word in word.word_set.all():
                 child_word.category = category
                 child_word.save()
+
+
+            f = File(open(word.image.path, "rw+"))
+            name = word.image.name.rsplit('/')[-1]
+
+            image = category.image
+            image.field.upload_to = 'category'
+            image.save(name, f)
+            category.save()
+            f.close()
+
             word.delete()
 
     models = {
