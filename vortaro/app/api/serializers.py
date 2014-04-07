@@ -45,6 +45,7 @@ class WordSerializer(serializers.ModelSerializer):
             'name', 'categories', 'word_class',
             'order',
             'user_created', 'user_modified',
+            'show_top', "show_main",
             'thumb',
             'image',
         )

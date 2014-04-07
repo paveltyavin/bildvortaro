@@ -1,7 +1,7 @@
 define([
   'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
   'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload',
-  'jquery.fileupload-process', 'jquery.fileupload-image', 'select2-amd', 'js/config/select2'
+  'jquery.fileupload-process', 'jquery.fileupload-image', 'js/config/select2'
 ], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
   var WordView = Marionette.ItemView.extend({
@@ -125,7 +125,7 @@ define([
       this.ui.category.eo().select2({
         placeholder: '...',
         initSelection: function (element, callback) {
-          var id = parseInt($(element).val());
+          debugger
           var category = _this.categoryCollection.findWhere({id: id});
           callback({id: category.get('id'), text: category.get('name')});
         },
@@ -155,7 +155,7 @@ define([
 
       this.modelBinder.bind(this.model, this.el, this.modelBindings);
       this.fileuploadInit();
-//      this.categoryInit();
+      this.categoryInit();
       this.deleteInit();
 
     },

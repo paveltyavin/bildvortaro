@@ -1,22 +1,13 @@
 {% extends 'base.html' %}
-{% load vortaro_tags %}
-{% load thumbnail %}
 {% block content %}
     <div class="row">
         <div class="col-md-2 sidebar hidden-sm hidden-xs">
-            <div class="list-group word-classes-region">
-                <a class="list-group-item" href="#" data-word-class="S">substantivoj</a>
-                <a class="list-group-item" href="#" data-word-class="A">adjektivoj</a>
-                <a class="list-group-item" href="#" data-word-class="V">verboj</a>
-                <a class="list-group-item" href="#" data-word-class="N">numeraloj</a>
-            </div>
-            <div class="list-group categories-region">
-            </div>
+            <div class="word-classes-region"></div>
+            <div class="categories-region"></div>
         </div>
         <div class="col-md-10">
             <div class="plus-region"></div>
             <div class="main-region"></div>
         </div>
     </div>
-    <div class="next-button"></div>
 {% endblock %}

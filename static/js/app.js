@@ -1,5 +1,5 @@
 define([
-  'js/views/word', 'js/views/category', 'js/views/register',
+  'js/views/word', 'js/views/category', 'js/views/register',  'js/views/word-class',
 
   'js/models/word', 'js/models/category', 'js/models/user',
 
@@ -9,9 +9,8 @@ define([
 
   'bootstrap', 'js/config/eo'
 //  'backbone.dualstorage',
-], function (wordViews, categoryViews, registerViews, wordModels, categoryModels, userModels, ModalRegion, $, Backbone,
+], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels, ModalRegion, $, Backbone,
   Marionette) {
-
   var Filter = Backbone.Model.extend({
     defaults: {
       search: '',
@@ -25,19 +24,20 @@ define([
       mainRegion: '.main-region',
       categoriesRegion: '.categories-region',
       modalRegion: ModalRegion.ModalRegion,
-      plusRegion: '.plus-region'
+      plusRegion: '.plus-region',
+      wordClassesRegion: '.word-classes-region'
     },
     page: 0,
     perPage: (function () {
       var w = $(window).width();
       if (w > 1200)
-        return 5 * 3;
+        return 5 * 4 - 1;
       if (w > 992)
-        return 4 * 3;
+        return 4 * 4 - 1;
       if (w > 768)
-        return 3 * 3;
+        return 3 * 4 - 1;
       if (w > 480)
-        return 2 * 3;
+        return 2 * 4 - 1;
       return 3;
     })(),
     endScroll: false,
@@ -67,18 +67,6 @@ define([
         _this.filter.set('wordClass', undefined);
       });
 
-      this.filter.on('change:wordClass', function () {
-        _this.ui.wordClasses.find('a').removeClass('active');
-        _this.ui.wordClasses.find('a[data-word-class="' + _this.filter.get('wordClass') + '"]').addClass('active');
-      });
-      this.ui.wordClasses.find('a').on('click', function (ev) {
-        ev.preventDefault();
-        var wordClass = undefined;
-        if (!$(this).hasClass('active'))
-          wordClass = $(this).data('word-class');
-        _this.filter.set('wordClass', wordClass);
-      });
-
       $(window).scroll(function () {
         _this.checkScroll();
       });
@@ -88,8 +76,6 @@ define([
       this.categoryCollection.reset(this.filterCollection.where({show_top: true}))
     },
     initData: function () {
-
-      var _this = this;
       this.categoryCollection = new wordModels.WordCollection();
       this.fullCollection = new wordModels.WordCollection();
       this.sliceCollection = new wordModels.WordCollection();
@@ -117,6 +103,14 @@ define([
       });
       this.listenTo(categoriesView, 'category:empty', function () {
         _this.filter.set('category', null);
+      });
+      var wordClassesView = new wordClassViews.WordClassesView();
+      this.wordClassesRegion.show(wordClassesView);
+      this.listenTo(wordClassesView, 'wordClass:select', function (wordClass) {
+        _this.filter.set('wordClass', wordClass.get('value'));
+      });
+      this.listenTo(wordClassesView, 'wordClass:empty', function () {
+        _this.filter.set('wordClass', null);
       });
 
       var wordsView = new wordViews.WordsView({
