@@ -11,7 +11,7 @@ define([
     template: categoryTemplate,
     model: wordModels.Category,
     tagName: 'a',
-    className: 'list-group-item',
+    className: 'category-block',
     events: {
       click: 'onClick'
     },

@@ -1,5 +1,5 @@
 define([
-  'js/views/word', 'js/views/category', 'js/views/register',  'js/views/word-class',
+  'js/views/word', 'js/views/category', 'js/views/register', 'js/views/word-class',
 
   'js/models/word', 'js/models/category', 'js/models/user',
 
@@ -9,8 +9,8 @@ define([
 
   'bootstrap', 'js/config/eo'
 //  'backbone.dualstorage',
-], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels, ModalRegion, $, Backbone,
-  Marionette) {
+], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels,
+  ModalRegion, $, Backbone, Marionette) {
   var Filter = Backbone.Model.extend({
     defaults: {
       search: '',
@@ -28,18 +28,21 @@ define([
       wordClassesRegion: '.word-classes-region'
     },
     page: 0,
-    perPage: (function () {
+    columns: function () {
       var w = $(window).width();
       if (w > 1200)
-        return 5 * 4 - 1;
+        return 5;
       if (w > 992)
-        return 4 * 4 - 1;
+        return 4;
       if (w > 768)
-        return 3 * 4 - 1;
+        return 3;
       if (w > 480)
-        return 2 * 4 - 1;
-      return 3;
-    })(),
+        return 2;
+      return 1;
+    },
+    perPage: function () {
+      return this.columns() * 3;
+    },
     endScroll: false,
     el: 'body',
     ui: {
@@ -97,21 +100,22 @@ define([
       var categoriesView = new categoryViews.CategoriesView({
         collection: _this.categoryCollection
       });
-//      this.categoriesRegion.show(categoriesView);
+      this.categoriesRegion.show(categoriesView);
       this.listenTo(categoriesView, 'category:select', function (category) {
         _this.filter.set('category', category.get('id'));
       });
       this.listenTo(categoriesView, 'category:empty', function () {
         _this.filter.set('category', null);
       });
-      var wordClassesView = new wordClassViews.WordClassesView();
-      this.wordClassesRegion.show(wordClassesView);
-      this.listenTo(wordClassesView, 'wordClass:select', function (wordClass) {
-        _this.filter.set('wordClass', wordClass.get('value'));
-      });
-      this.listenTo(wordClassesView, 'wordClass:empty', function () {
-        _this.filter.set('wordClass', null);
-      });
+
+//      var wordClassesView = new wordClassViews.WordClassesView();
+//      this.wordClassesRegion.show(wordClassesView);
+//      this.listenTo(wordClassesView, 'wordClass:select', function (wordClass) {
+//        _this.filter.set('wordClass', wordClass.get('value'));
+//      });
+//      this.listenTo(wordClassesView, 'wordClass:empty', function () {
+//        _this.filter.set('wordClass', null);
+//      });
 
       var wordsView = new wordViews.WordsView({
         collection: _this.sliceCollection,
@@ -150,7 +154,7 @@ define([
     },
 
     getSlice: function () {
-      var slice = this.filterCollection.slice(0 + this.page * this.perPage, (1 + this.page ) * this.perPage);
+      var slice = this.filterCollection.slice(0 + this.page * this.perPage(), (1 + this.page ) * this.perPage());
       return slice;
     },
     doFilter: function () {
@@ -186,7 +190,9 @@ define([
       var top = this.$el.height();
       top -= $(window).scrollTop();
       top -= $(window).height();
-      if (top < 100)
+      top -= 150; // ширина одного ряда
+      top -= 50; // ширина футера
+      if (top < 0)
         this.doScroll();
       this.blockScroll = true;
     },

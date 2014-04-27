@@ -54,7 +54,7 @@ define([
   });
 
   var WordClassesView = Marionette.CollectionView.extend({
-    className: 'word-class list-group',
+    className: 'word-class list-inline',
     itemView: WordClassView,
     initialize: function (options) {
       this.collection = wordClassCollection;
