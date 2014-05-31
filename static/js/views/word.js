@@ -123,15 +123,17 @@ define([
     categoryInit: function () {
       var _this = this;
       this.ui.category.eo().select2({
+        multiple:true,
+        minimumInputLength:1,
+//        maximumSelectionSize:1,
         placeholder: '...',
         initSelection: function (element, callback) {
-          debugger
-          var category = _this.categoryCollection.findWhere({id: id});
+          var category = _this.options.categoryCollection.findWhere({id: id});
           callback({id: category.get('id'), text: category.get('name')});
         },
         query: function (query) {
           var data = {results: []};
-          _this.categoryCollection.search(query.term).each(function (category) {
+          _(_this.options.categoryCollection.search(query.term)).each(function (category) {
             data.results.push({id: category.get('id'), text: category.get('name')});
           });
           query.callback(data);

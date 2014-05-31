@@ -1,18 +1,9 @@
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView, View
-from django.views.generic.list import ListView
-from vortaro.app.models import Word
 
 
 class HomeView(TemplateView):
-    template_name = 'home.html'
-
-
-class ErrorView(View):
-    def get(self, request, *args, **kwargs):
-        if 1 / 0 == 0:
-            pass
-        return HttpResponse('ok')
+    template_name = 'base.html'
 
 
 class LogView(View):

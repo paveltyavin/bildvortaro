@@ -44,19 +44,22 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'vortaro',
         'USER': 'vortaro',
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD',''),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
         'HOST': '127.0.0.1',
         'PORT': '',
     },
 }
 
 RAVEN_CONFIG = {
-    'dsn': 'http://{}@sentry.tyavin.name/2'.format(os.environ.get('SENTRY_KEY','')),
+    'dsn': 'http://{}@sentry.tyavin.name/2'.format(os.environ.get('SENTRY_KEY', '')),
 }
 
 STATIC_ROOT = '/static/vortaro/static/'
 MEDIA_ROOT = '/static/vortaro/media/'
 
-
 STATICFILES_DIRS += (
+)
+
+TEMPLATE_DIRS += (
+    os.path.abspath(os.path.join(SRC_ROOT, 'templates')),
 )

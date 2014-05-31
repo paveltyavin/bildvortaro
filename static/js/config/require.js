@@ -2,7 +2,6 @@ require.config({
   baseUrl: '/static',
   map: {
     '*': {
-      'css': 'bower_components/require-css/css',
       'json': 'bower_components/requirejs-plugins/src/json',
       'hbs': 'bower_components/hbs/hbs'
     }
@@ -15,7 +14,6 @@ require.config({
     'bootstrap.dropdown': 'bower_components/bootstrap/js/dropdown',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
     'canvas-to-blob': 'bower_components/blueimp-canvas-to-blob/js/canvas-to-blob',
-    'css': 'bower_components/require-css/css',
     'hbs': 'bower_components/hbs/hbs',
     'jquery': 'bower_components/jquery/dist/jquery',
     'jquery.fileupload': 'bower_components/jquery-file-upload/js/jquery.fileupload',
@@ -32,15 +30,19 @@ require.config({
     'backbone.wreqr': 'bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
     'backbone.babysitter': 'bower_components/backbone.babysitter/lib/amd/backbone.babysitter',
     'select2-amd': 'bower_components/select2-amd/select2',
+    'select2': 'bower_components/select2/select2',
     'spin': 'bower_components/spinjs/spin',
     'text': 'bower_components/requirejs-text/text',
     'underscore': 'bower_components/underscore/underscore'
   },
   shim: {
-    'jquery.fileupload': ['css!bower_components/jquery-file-upload/css/jquery.fileupload'],
+    'jquery.fileupload': [
+//      'css!bower_components/jquery-file-upload/css/jquery.fileupload'
+    ],
     'select2-amd': [
-      'css!bower_components/select2-amd/select2', 'css!bower_components/select2-bootstrap-css/select2-bootstrap'
-    ]
+//      'css!bower_components/select2-amd/select2', 'css!bower_components/select2-bootstrap-css/select2-bootstrap'
+    ],
+    'select2': ['jquery']
   },
   hbs: {
     disableI18n: true,

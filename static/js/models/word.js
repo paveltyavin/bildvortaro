@@ -12,12 +12,13 @@ define([
     model: Word,
     url: '/api/word',
     comparator: 'order',
+    // search возвращает массив моделей
     search: function (letters) {
-      if (letters == "") return this;
+      if (letters == "") return this.toArray();
       var pattern = new RegExp(letters, "gi");
-      return _(this.filter(function (data) {
+      return this.filter(function (data) {
         return pattern.test(data.get("name"));
-      }));
+      });
     }
   });
 

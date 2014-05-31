@@ -5,6 +5,5 @@ urlpatterns = patterns(
     '',
     url(r'^api/', include('vortaro.app.api.urls')),
     url(r'^$', views.HomeView.as_view()),
-    url(r'^error$', views.ErrorView.as_view()),
     url(r'^log$', views.LogView.as_view()),
 )

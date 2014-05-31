@@ -1,6 +1,12 @@
-vortaro/main/settings/local.py
-vortaro/main/settings/local_test.py
+local.py
+local_test.py
 
 manage_local.py
 manage_local_test.py
 *.pyc
+
+node_modules
+bower_components
+
+static/css/*
+templates/*

@@ -147,6 +147,7 @@ define([
           _this.listenTo(addWordView, 'word:save', function (view) {
             _this.fullCollection.add(view.model, {at: 0});
             _this.doFilter();
+            _this.getCategoryCollection();
           });
           _this.modalRegion.show(addWordView);
         });
@@ -154,29 +155,26 @@ define([
     },
 
     getSlice: function () {
-      var slice = this.filterCollection.slice(0 + this.page * this.perPage(), (1 + this.page ) * this.perPage());
+      var slice = this.filterCollection.slice((0 + this.page) * this.perPage(), (1 + this.page ) * this.perPage());
       return slice;
     },
     doFilter: function () {
       var filter = this.filter;
       this.page = 0;
-      var newArray = [];
-      var newCollection = this.fullCollection.search(filter.get('search'));
-
+      var newArray = this.fullCollection.search(filter.get('search'));
       var whereParams = {};
       if (filter.get('wordClass'))
         whereParams.word_class = filter.get('wordClass');
-
       if (filter.get('category'))
         whereParams.category = filter.get('category');
       // Todo: сделать поиск по категории
 
       if (Object.keys(whereParams).length !== 0) {
-        newArray = newCollection.where(whereParams);
+        newArray = _(newArray).filter(whereParams);
       } else {
-        newArray = newCollection.toArray();
-//        newArray = _.shuffle(newArray);
+        newArray = _.shuffle(newArray);
       }
+
       this.filterCollection.reset(newArray);
       this.sliceCollection.reset(this.getSlice());
       this.endScroll = false;
