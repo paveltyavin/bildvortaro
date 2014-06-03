@@ -1,11 +1,12 @@
 module.exports = function (grunt) {
 
-  var revision = grunt.option('revision') || 'revision';
-  var staticdir = grunt.option('staticdir') || './../static';
-
+  var revision = grunt.option('revision');
+  var staticDir = grunt.option('staticDir');
+  var buildDir = grunt.option('buildDir');
+  var srcDir = grunt.option('srcDir');
 
   var productionLessFiles = {};
-  productionLessFiles[staticdir + "/css/style.css"] = 'less/style.less';
+  productionLessFiles[staticDir + "/css/style.css"] = 'less/style.less';
   var developmentLessFiles = {};
   developmentLessFiles["static/css/style.css"] = 'less/style.less';
 
@@ -21,7 +22,7 @@ module.exports = function (grunt) {
             'js/app'
           ],
           mainConfigFile: './static/js/config/require.js',
-          out: staticdir + "/js/app.js",
+          out: staticDir + "/js/app.js",
           optimizeAllPluginResources: true,
           preserveLicenseComments: true,
           inlineText: false,
@@ -35,7 +36,7 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'static', src: ['fonts/**'], dest: staticdir}
+          {expand: true, cwd: 'static', src: ['fonts/**'], dest: staticDir}
         ]
       }
     },
@@ -52,7 +53,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          'templates/base.html': ['vortaro/app/templates/base.html']
+          '<%= buildDir %>/templates/base.html': ['vortaro/app/templates/base.html']
         }
       }
     }

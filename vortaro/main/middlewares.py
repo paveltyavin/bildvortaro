@@ -16,6 +16,7 @@ def _is_valid_path(path, urlconf=None):
     except urlresolvers.Resolver404:
         return False
 
+
 class RemoveSlashMiddleware(object):
     """
     This middleware works like django's built in APPEND_SLASH, but in reverse. Eg

@@ -9,4 +9,5 @@ node_modules
 bower_components
 
 static/css/*
-templates/*
+
+fabfile

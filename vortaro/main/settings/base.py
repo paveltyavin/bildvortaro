@@ -6,6 +6,7 @@ from django.conf import global_settings
 DJANGO_ROOT = os.path.abspath(os.path.join(__file__, '..', '..', '..'))
 SRC_ROOT = os.path.dirname(DJANGO_ROOT)
 PROJECT_ROOT = os.path.dirname(SRC_ROOT)
+BUILD_DIR = os.path.join(PROJECT_ROOT, 'build')
 
 SECRET_KEY = 'change_me_in_your_derived_settings'
 
@@ -34,7 +35,7 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'vortaro.main.storage.VortaroStaticFilesStorage'
+# STATICFILES_STORAGE = 'vortaro.main.storage.VortaroStaticFilesStorage'
 
 STATICFILES_DIRS = ()
 
