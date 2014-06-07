@@ -1,28 +1,22 @@
 module.exports = function (grunt) {
 
-  var revision = grunt.option('revision');
-  var staticDir = grunt.option('staticDir');
-  var buildDir = grunt.option('buildDir');
+  var revision = grunt.option('revision') || '12345';
+  var staticRoot = grunt.option('staticRoot');
   var srcDir = grunt.option('srcDir');
-
-  var productionLessFiles = {};
-  productionLessFiles[staticDir + "/css/style.css"] = 'less/style.less';
-  var developmentLessFiles = {};
-  developmentLessFiles["static/css/style.css"] = 'less/style.less';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     requirejs: {
       compile: {
         options: {
-          baseUrl: "./static/",
+          baseUrl: "./",
           name: "bower_components/almond/almond",
           include: [
             'js/config/require.js',
             'js/app'
           ],
-          mainConfigFile: './static/js/config/require.js',
-          out: staticDir + "/js/app.js",
+          mainConfigFile: './js/config/require.js',
+          out: staticRoot + "js/app.js",
           optimizeAllPluginResources: true,
           preserveLicenseComments: true,
           inlineText: false,
@@ -36,16 +30,15 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'static', src: ['fonts/**'], dest: staticDir}
+          {expand: true, cwd: 'static', src: ['fonts/**'], dest: staticRoot}
         ]
       }
     },
     less: {
       production: {
-        files: productionLessFiles
-      },
-      development: {
-        files: developmentLessFiles
+        files: {
+          "css/style.css": 'less/style.less'
+        }
       }
     },
     processhtml: {
@@ -53,7 +46,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '<%= buildDir %>/templates/base.html': ['vortaro/app/templates/base.html']
+          '<%= srcDir %>templates/base.html': ['vortaro/app/templates/base.html']
         }
       }
     }
@@ -63,6 +56,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-processhtml');
-  grunt.registerTask('default', ['copy', 'requirejs', 'less']);
+  grunt.registerTask('default', [
+    'requirejs'
+  ]);
 
 };

@@ -35,9 +35,8 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-# STATICFILES_STORAGE = 'vortaro.main.storage.VortaroStaticFilesStorage'
-
-STATICFILES_DIRS = ()
+STATICFILES_DIRS = (
+)
 
 TEMPLATE_DIRS = (
 )
@@ -118,6 +117,5 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/'
-
 
 THUMBNAIL_ENGINE = 'vortaro.app.pil_engine.Engine'

@@ -57,9 +57,6 @@ RAVEN_CONFIG = {
 STATIC_ROOT = '/static/vortaro/static/'
 MEDIA_ROOT = '/static/vortaro/media/'
 
-STATICFILES_DIRS += (
-)
-
 TEMPLATE_DIRS += (
     os.path.abspath(os.path.join(SRC_ROOT, 'templates')),
 )

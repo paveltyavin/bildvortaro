@@ -1,3 +1,4 @@
+import os
 from django.conf.urls import patterns, url, include
 from django.contrib import admin
 from django.conf import settings
@@ -11,10 +12,6 @@ if settings.DEBUG:
         'django.views.static',
         url(r'^media/(?P<path>.*)$', 'serve', kwargs={'document_root': settings.MEDIA_ROOT}),
     )
-    # urlpatterns += patterns(
-    #     'django.views.static',
-    #     url(r'^static/(?P<path>.*)$', 'serve', kwargs={'document_root': settings.STATIC_ROOT}),
-    # )
 
 urlpatterns += patterns(
     '',
