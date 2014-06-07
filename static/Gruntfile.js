@@ -12,11 +12,10 @@ module.exports = function (grunt) {
           baseUrl: "./",
           name: "bower_components/almond/almond",
           include: [
-            'js/config/require.js',
-            'js/app'
+            'js/config/require.js', 'js/app'
           ],
           mainConfigFile: './js/config/require.js',
-          out: staticRoot + "js/app.js",
+          out: staticRoot + "js/app-" + revision + ".js",
           optimizeAllPluginResources: true,
           preserveLicenseComments: true,
           inlineText: false,
@@ -43,6 +42,9 @@ module.exports = function (grunt) {
     },
     processhtml: {
       options: {
+        data: {
+          revision: revision
+        }
       },
       dist: {
         files: {
@@ -57,7 +59,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.registerTask('default', [
-    'requirejs'
+    'requirejs', 'processhtml'
   ]);
 
 };
