@@ -53,10 +53,17 @@ module.exports = function (grunt) {
         dest: 'css/style-' + revision + ".css"
       }
     },
-    clean: [
-      staticRoot+"css/",
-      staticRoot+"js/"
-    ],
+    clean: {
+      options: {
+        force: true
+      },
+      js: [
+        staticRoot + "js/"
+      ],
+      css: [
+        staticRoot + "css/"
+      ]
+    },
     processhtml: {
       options: {
         data: {
@@ -76,7 +83,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.registerTask('default', [
-    'clean','requirejs', 'processhtml', 'less', 'cssmin', 'copy'
+    'clean', 'requirejs', 'processhtml', 'less', 'cssmin', 'copy'
   ]);
 
 };
