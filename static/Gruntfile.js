@@ -10,9 +10,8 @@ module.exports = function (grunt) {
   var cssminFiles = {};
 
   cssminFiles[staticRoot + 'css/style-' + revision + '.css'] = [
-    'css/from-less.css', 'bower_components/jquery-file-upload/css/jquery.fileupload.css',
-    'bower_components/select2-amd/select2', 'bower_components/select2-bootstrap-css/select2-bootstrap.css'
-  ];
+    'bower_components/jquery-file-upload/css/jquery.fileupload.css', 'bower_components/select2-amd/select2',
+    'bower_components/select2-bootstrap-css/select2-bootstrap.css', 'css/from-less.css'];
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     requirejs: {

@@ -128,7 +128,8 @@ define([
 //        maximumSelectionSize:1,
         placeholder: '...',
         initSelection: function (element, callback) {
-          var category = _this.options.categoryCollection.findWhere({id: id});
+          var category_id = _this.model.get('category');
+          var category = _this.options.categoryCollection.findWhere({id: category_id});
           callback({id: category.get('id'), text: category.get('name')});
         },
         query: function (query) {
