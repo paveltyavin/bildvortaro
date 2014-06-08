@@ -3,10 +3,11 @@ module.exports = function (grunt) {
   var revision = grunt.option('revision') || '12345';
   var staticRoot = grunt.option('staticRoot');
   var srcDir = grunt.option('srcDir');
+
   var lessFiles = {};
   lessFiles[staticRoot + 'css/style-' + revision + ".css"] = 'less/style.less';
   var processhtmlFiles = {};
-  processhtmlFiles[srcDir+'templates/base.html'] = [srcDir+'vortaro/app/templates/base.html'];
+  processhtmlFiles[srcDir + 'templates/base.html'] = [srcDir + 'vortaro/app/templates/base.html'];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -33,7 +34,7 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: 'static', src: ['fonts/**'], dest: staticRoot}
+          {expand: true, cwd: srcDir + 'static/bower_components/fone-awesome', src: ['fonts/**'], dest: staticRoot + 'static'}
         ]
       }
     },
@@ -59,7 +60,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.registerTask('default', [
-    'requirejs', 'processhtml', 'less'
+    'requirejs', 'processhtml', 'less', 'copy'
   ]);
 
 };
