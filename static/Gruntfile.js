@@ -6,7 +6,7 @@ module.exports = function (grunt) {
   var lessFiles = {};
   lessFiles[staticRoot + 'css/style-' + revision + ".css"] = 'less/style.less';
   var processhtmlFiles = {};
-  processhtmlFiles[srcDir+'templates/base.html'] = ['vortaro/app/templates/base.html'];
+  processhtmlFiles[srcDir+'templates/base.html'] = [srcDir+'vortaro/app/templates/base.html'];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
