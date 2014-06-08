@@ -52,7 +52,8 @@ define([
     },
     initialize: function () {
       var _this = this;
-      require(['json!/api/auth'], function (is_authenticated) {
+      $.ajax('/api/auth').success(function(is_authenticated){
+        debugger
         _this.is_authenticated = is_authenticated;
         _this.initData();
         _this.initViews();
@@ -205,7 +206,6 @@ define([
     }
   });
 
-  var appView = new AppView();
-  return appView;
+  return new AppView()
 
 });

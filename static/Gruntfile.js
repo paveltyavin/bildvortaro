@@ -15,8 +15,8 @@ module.exports = function (grunt) {
       compile: {
         options: {
           baseUrl: "./",
-//          name: "bower_components/almond/almond",
-          name: "bower_components/requirejs/require",
+          name: "bower_components/almond/almond",
+//          name: "bower_components/requirejs/require",
           include: [
             'js/config/require.js',
             'js/app',
