@@ -61,6 +61,9 @@ module.exports = function (grunt) {
       ],
       css: [
         staticRoot + "css/"
+      ],
+      templates :[
+        srcDir + 'templates/'
       ]
     },
     processhtml: {
