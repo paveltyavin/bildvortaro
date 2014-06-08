@@ -15,9 +15,13 @@ module.exports = function (grunt) {
       compile: {
         options: {
           baseUrl: "./",
-          name: "bower_components/almond/almond",
+//          name: "bower_components/almond/almond",
+          name: "bower_components/requirejs/require",
           include: [
-            'js/config/require.js', 'js/app'
+            'js/config/require.js',
+            'js/app',
+            'json',
+            'hbs'
           ],
           mainConfigFile: './js/config/require.js',
           out: staticRoot + "js/app-" + revision + ".js",
@@ -34,7 +38,7 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: srcDir + 'static/bower_components/fone-awesome', src: ['fonts/**'], dest: staticRoot + 'static'}
+          {expand: true, cwd: srcDir+'static', src: ['fonts/**'], dest: staticRoot }
         ]
       }
     },

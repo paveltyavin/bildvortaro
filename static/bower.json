@@ -12,6 +12,7 @@
     "jquery": "1.11.0",
     "marionette": "1.6.4",
     "r.js": "2.1.11",
+    "requirejs": "latest",
     "require-css": "0.1.2",
     "requirejs-json": "0.0.3",
     "requirejs-text": "2.0.10",
