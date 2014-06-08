@@ -4,13 +4,6 @@ module.exports = function (grunt) {
   var staticRoot = grunt.option('staticRoot');
   var srcDir = grunt.option('srcDir');
 
-  var cssFiles = {};
-  cssFiles[staticRoot + 'css/style-' + revision + ".css"] = [
-    srcDir + 'css/from-less.css', srcDir + 'bower_components/jquery-file-upload/css/jquery.fileupload.css',
-    srcDir + 'bower_components/select2-amd/select2',
-    srcDir + 'bower_components/select2-bootstrap-css/select2-bootstrap.css'
-  ];
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     requirejs: {
@@ -49,7 +42,14 @@ module.exports = function (grunt) {
     },
     cssmin: {
       minify: {
-        files: cssFiles
+        files: {
+          '<%= staticRoot %>css/style-<%= revision %>.css':[
+            'css/from-less.css',
+            'bower_components/jquery-file-upload/css/jquery.fileupload.css',
+            'bower_components/select2-amd/select2',
+            'bower_components/select2-bootstrap-css/select2-bootstrap.css'
+          ]
+        }
       }
     },
     clean: {
@@ -71,7 +71,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          'templates/base.html':'vortaro/app/templates/base.html'
+          '<%= srcDir %>templates/base.html':'<%= srcDir %>vortaro/app/templates/base.html'
         }
       }
     }
