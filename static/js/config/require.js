@@ -34,12 +34,6 @@ require.config({
     'underscore': 'bower_components/underscore/underscore'
   },
   shim: {
-    'jquery.fileupload': [
-//      'css!bower_components/jquery-file-upload/css/jquery.fileupload'
-    ],
-    'select2-amd': [
-//      'css!bower_components/select2-amd/select2', 'css!bower_components/select2-bootstrap-css/select2-bootstrap'
-    ],
     'select2': ['jquery']
   },
   hbs: {

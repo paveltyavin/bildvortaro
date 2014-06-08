@@ -46,11 +46,12 @@ module.exports = function (grunt) {
     cssmin: {
       minify: {
         expand: true,
-        cwd: srcDir + 'static/',
         src: [
-          'css/from-less.css'
+          staticRoot + 'css/from-less.css', srcDir + 'bower_components/jquery-file-upload/css/jquery.fileupload.css',
+          srcDir + 'bower_components/select2-amd/select2',
+          srcDir + 'bower_components/select2-bootstrap-css/select2-bootstrap.css'
         ],
-        dest: staticRoot+'css/style-' + revision + ".css"
+        dest: staticRoot + 'css/style-' + revision + ".css"
       }
     },
     clean: {
