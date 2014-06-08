@@ -50,7 +50,7 @@ module.exports = function (grunt) {
         src: [
           'css/from-less.css'
         ],
-        dest: 'css/style-' + revision + ".css"
+        dest: staticRoot+'css/style-' + revision + ".css"
       }
     },
     clean: {
