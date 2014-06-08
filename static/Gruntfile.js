@@ -5,6 +5,8 @@ module.exports = function (grunt) {
   var srcDir = grunt.option('srcDir');
   var lessFiles = {};
   lessFiles[staticRoot + 'css/style-' + revision + ".css"] = 'less/style.less';
+  var processhtmlFiles = {};
+  processhtmlFiles[srcDir+'templates/base.html'] = ['vortaro/app/templates/base.html'];
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -47,9 +49,7 @@ module.exports = function (grunt) {
         }
       },
       dist: {
-        files: {
-          '<%= srcDir %>templates/base.html': ['vortaro/app/templates/base.html']
-        }
+        files: processhtmlFiles
       }
     }
   });
