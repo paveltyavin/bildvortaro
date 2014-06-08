@@ -3,6 +3,8 @@ module.exports = function (grunt) {
   var revision = grunt.option('revision') || '12345';
   var staticRoot = grunt.option('staticRoot');
   var srcDir = grunt.option('srcDir');
+  var lessFiles = {};
+  lessFiles[staticRoot + 'css/style-' + revision + ".css"] = 'less/style.less';
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -35,9 +37,7 @@ module.exports = function (grunt) {
     },
     less: {
       production: {
-        files: {
-          "<%= staticRoot %>css/style-<%= revision %>.css": 'less/style.less'
-        }
+        files: lessFiles
       }
     },
     processhtml: {
