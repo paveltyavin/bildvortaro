@@ -13,8 +13,6 @@ module.exports = function (grunt) {
     'css/from-less.css', 'bower_components/jquery-file-upload/css/jquery.fileupload.css',
     'bower_components/select2-amd/select2', 'bower_components/select2-bootstrap-css/select2-bootstrap.css'
   ];
-
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     requirejs: {
@@ -55,51 +53,39 @@ module.exports = function (grunt) {
       minify: {
         files: cssminFiles
       }
-    }
-  }, clean
-  :
-  {
-    options: {
-      force: true
-    }
-  ,
-    js: [
-      staticRoot + "js/"
-    ], css
-  :
-    [
-      staticRoot + "css/"
-    ], templates
-  :
-    [
-      srcDir + 'templates/'
-    ]
-  }
-  ,
-  processhtml: {
-    options: {
-      data: {
-        revision: revision
+    },
+    clean: {
+      options: {
+        force: true
+      },
+      js: [
+        staticRoot + "js/"
+      ], css: [
+        staticRoot + "css/"
+      ], templates: [
+        srcDir + 'templates/'
+      ]
+    },
+    processhtml: {
+      options: {
+        data: {
+          revision: revision
+        }
+      },
+      dist: {
+        files: processhtmlFiles
       }
     }
-  ,
-    dist: {
-      files: processhtmlFiles
-    }
-  }
-}
-)
-;
+  });
 
-grunt.loadNpmTasks('grunt-contrib-copy');
-grunt.loadNpmTasks('grunt-contrib-requirejs');
-grunt.loadNpmTasks('grunt-contrib-less');
-grunt.loadNpmTasks('grunt-contrib-cssmin');
-grunt.loadNpmTasks('grunt-contrib-clean');
-grunt.loadNpmTasks('grunt-processhtml');
-grunt.registerTask('default', [
-  'clean', 'requirejs', 'processhtml', 'less', 'cssmin', 'copy'
-]);
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-processhtml');
+  grunt.registerTask('default', [
+    'clean', 'requirejs', 'processhtml', 'less', 'cssmin', 'copy'
+  ]);
 
-}
-;
+};
