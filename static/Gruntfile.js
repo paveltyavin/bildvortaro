@@ -8,7 +8,12 @@ module.exports = function (grunt) {
   lessFiles[staticRoot + 'css/from-less.css'] = 'less/style.less';
   var processhtmlFiles = {};
   processhtmlFiles[srcDir + 'templates/base.html'] = [srcDir + 'vortaro/app/templates/base.html'];
-
+  var cssFiles = {};
+  cssFiles[staticRoot + 'css/style-' + revision + ".css"] = [
+    staticRoot + 'css/from-less.css', srcDir + 'bower_components/jquery-file-upload/css/jquery.fileupload.css',
+    srcDir + 'bower_components/select2-amd/select2',
+    srcDir + 'bower_components/select2-bootstrap-css/select2-bootstrap.css'
+  ];
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     requirejs: {
@@ -45,13 +50,7 @@ module.exports = function (grunt) {
     },
     cssmin: {
       minify: {
-        expand: true,
-        src: [
-          staticRoot + 'css/from-less.css', srcDir + 'bower_components/jquery-file-upload/css/jquery.fileupload.css',
-          srcDir + 'bower_components/select2-amd/select2',
-          srcDir + 'bower_components/select2-bootstrap-css/select2-bootstrap.css'
-        ],
-        dest: staticRoot + 'css/style-' + revision + ".css"
+        files: cssFiles
       }
     },
     clean: {
