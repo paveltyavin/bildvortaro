@@ -36,7 +36,7 @@ module.exports = function (grunt) {
     less: {
       production: {
         files: {
-          "css/style.css": 'less/style.less'
+          "<%= staticRoot %>css/style-<%= revision %>.css": 'less/style.less'
         }
       }
     },
@@ -59,7 +59,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.registerTask('default', [
-    'requirejs', 'processhtml'
+    'requirejs', 'processhtml', 'less'
   ]);
 
 };
