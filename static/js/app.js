@@ -53,7 +53,6 @@ define([
     initialize: function () {
       var _this = this;
       $.ajax('/api/auth').success(function(is_authenticated){
-        debugger
         _this.is_authenticated = is_authenticated;
         _this.initData();
         _this.initViews();

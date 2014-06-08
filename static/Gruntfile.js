@@ -5,7 +5,7 @@ module.exports = function (grunt) {
   var srcDir = grunt.option('srcDir');
 
   var lessFiles = {};
-  lessFiles[staticRoot + 'css/style-' + revision + ".css"] = 'less/style.less';
+  lessFiles[staticRoot + 'css/from-less.css'] = 'less/style.less';
   var processhtmlFiles = {};
   processhtmlFiles[srcDir + 'templates/base.html'] = [srcDir + 'vortaro/app/templates/base.html'];
 
@@ -16,12 +16,8 @@ module.exports = function (grunt) {
         options: {
           baseUrl: "./",
           name: "bower_components/almond/almond",
-//          name: "bower_components/requirejs/require",
           include: [
-            'js/config/require.js',
-            'js/app',
-            'json',
-            'hbs'
+            'js/config/require.js', 'js/app', 'json', 'hbs'
           ],
           mainConfigFile: './js/config/require.js',
           out: staticRoot + "js/app-" + revision + ".js",
@@ -38,13 +34,23 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: srcDir+'static', src: ['fonts/**'], dest: staticRoot }
+          {expand: true, cwd: srcDir + 'static', src: ['fonts/**'], dest: staticRoot }
         ]
       }
     },
     less: {
       production: {
         files: lessFiles
+      }
+    },
+    cssmin: {
+      minify: {
+        expand: true,
+        cwd: srcDir + 'static/',
+        src: [
+          'css/from-less.css'
+        ],
+        dest: 'css/style-' + revision + ".css"
       }
     },
     processhtml: {
@@ -64,7 +70,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.registerTask('default', [
-    'requirejs', 'processhtml', 'less', 'copy'
+    'requirejs', 'processhtml', 'less', 'cssmin', 'copy'
   ]);
 
 };

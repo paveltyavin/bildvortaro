@@ -2,7 +2,6 @@ require.config({
   baseUrl: '/static',
   map: {
     '*': {
-      'json': 'bower_components/requirejs-plugins/src/json',
       'hbs': 'bower_components/hbs/hbs'
     }
   },
@@ -20,7 +19,6 @@ require.config({
     'jquery.fileupload-image': 'bower_components/jquery-file-upload/js/jquery.fileupload-image',
     'jquery.fileupload-process': 'bower_components/jquery-file-upload/js/jquery.fileupload-process',
     'jquery.ui.widget': 'bower_components/jquery-file-upload/js/vendor/jquery.ui.widget',
-    'json': 'bower_components/requirejs-plugins/src/json',
     'load-image': 'bower_components/blueimp-load-image/js/load-image',
     'load-image-meta': 'bower_components/blueimp-load-image/js/load-image-meta',
     'load-image-exif': 'bower_components/blueimp-load-image/js/load-image-exif',
