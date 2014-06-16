@@ -70,7 +70,7 @@ module.exports = function (grunt) {
       options: {
         data: {
           revision: revision,
-          modified: now.getFullYear() + '-' + now.getMonth() + '-' + now.getDay()
+          modified: now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate()
         }
       },
       dist: {
