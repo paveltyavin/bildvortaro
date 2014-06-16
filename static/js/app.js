@@ -162,16 +162,21 @@ define([
       var filter = this.filter;
       this.page = 0;
       var newArray = this.fullCollection.search(filter.get('search'));
-      var whereParams = {};
-      if (filter.get('wordClass'))
-        whereParams.word_class = filter.get('wordClass');
-      if (filter.get('category'))
-        whereParams.category = filter.get('category');
-      // Todo: сделать поиск по категории
+      var doShuffle=true;
 
-      if (Object.keys(whereParams).length !== 0) {
-        newArray = _(newArray).filter(whereParams);
-      } else {
+      if (filter.get('wordClass')){
+        newArray = _.filter(newArray, function(model){
+          return model.get('word_class') == filter.get('wordClass')
+        });
+        doShuffle = false
+      }
+      if (filter.get('category')){
+        newArray = _.filter(newArray, function(model){
+          return _.contains(model.get('categories'), filter.get('category'))
+        });
+        doShuffle = false
+      }
+      if (doShuffle) {
         newArray = _.shuffle(newArray);
       }
 
