@@ -28,7 +28,6 @@ module.exports = function (grunt) {
           preserveLicenseComments: true,
           inlineText: false,
           findNestedDependencies: false,
-          optimize: "none",
           logLevel: 0
         }
       }
