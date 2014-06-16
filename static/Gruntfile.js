@@ -10,7 +10,7 @@ module.exports = function (grunt) {
   var cssminFiles = {};
 
   cssminFiles[staticRoot + 'css/style-' + revision + '.css'] = [
-    'bower_components/jquery-file-upload/css/jquery.fileupload.css', 'bower_components/select2-amd/select2',
+    'bower_components/jquery-file-upload/css/jquery.fileupload.css', 'bower_components/select2-amd/select2.css',
     'bower_components/select2-bootstrap-css/select2-bootstrap.css', 'css/from-less.css'];
 
   var now = new Date;
