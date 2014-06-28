@@ -54,17 +54,38 @@ define([
     }
   });
 
+  var categoriesConverter = function(direction, value, attributeName, model, els){
+    var $elem = $(els[0]),
+        result;
+    if (direction === 'ModelToView'){
+      result = value;
+      if ($elem.data("select2") !== undefined){
+        $elem.select2('val', value);
+      } else {
+        $elem.val(value);
+      }
+    }
+    if (direction === 'ViewToModel'){
+      if ($elem.data("select2") !== undefined){
+        result = $elem.select2('val');
+      } else {
+        result = $elem.val();
+      }
+    }
+    return result;
+  };
+
   var AddWordView = Marionette.ItemView.extend({
     title: 'Nova vorto',
     template: addWordTemplate,
     modelBinder: new ModelBinder(),
     ui: {
-      'fileupload': '.fileupload',
-      'image': '.word-image',
-      'submit': '.word-add-submit',
-      'name': '.word-name',
-      'category': '.word-category',
-      'wordClass': '.word-class',
+      fileupload: '.fileupload',
+      image: '.word-image',
+      submit: '.word-add-submit',
+      name: '.word-name',
+      categories: "input.word-categories",
+      wordClass: '.word-class',
       'delete': '.word-delete'
     },
     events: {
@@ -72,7 +93,10 @@ define([
     },
 
     modelBindings: {
-      category: ".word-category",
+      categories: {
+       selector: 'input.word-categories',
+       converter: categoriesConverter
+      },
       word_class: ".word-class",
       name: ".word-name"
     },
@@ -116,15 +140,22 @@ define([
 
     categoryInit: function () {
       var _this = this;
-      this.ui.category.eo().select2({
+      this.ui.categories.eo();
+      this.ui.categories.select2({
         multiple:true,
         minimumInputLength:1,
-//        maximumSelectionSize:1,
-        placeholder: '...',
+        maximumSelectionSize:5,
         initSelection: function (element, callback) {
-          var category_id = _this.model.get('category');
-          var category = _this.options.categoryCollection.findWhere({id: category_id});
-          callback({id: category.get('id'), text: category.get('name')});
+          var category_ids = element.select2('val');
+          var data = [];
+          for (var i = 0; i < category_ids.length; i++){
+            var category_id = parseInt(category_ids[i]);
+            var category = _this.options.categoryCollection.findWhere({id: category_id});
+            if (category){
+              data.push({id: category.get('id'), text: category.get('name')})
+            }
+          }
+          callback(data);
         },
         query: function (query) {
           var data = {results: []};
@@ -146,15 +177,11 @@ define([
         })
       }
     },
-
-    onRender: function () {
-      var _this = this;
-
+    onShow: function(){
       this.modelBinder.bind(this.model, this.el, this.modelBindings);
-      this.fileuploadInit();
       this.categoryInit();
+      this.fileuploadInit();
       this.deleteInit();
-
     },
     submit: function (ev) {
       ev.preventDefault();
