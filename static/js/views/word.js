@@ -19,18 +19,12 @@ define([
       if (this.me)
         this.checkMe();
     },
-    addEditButton: function () {
-      var _this = this;
-      var editButton = '<div class="word-edit-container"><div class="fa fa-edit word-edit"></div></div>';
-      this.$('.word-image-container').append(editButton);
-      this.$('.word-edit').on('click', function () {
-        _this.trigger('word:edit');
-      });
-    },
     checkMe: function () {
       var _this = this;
       if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
-        this.addEditButton();
+        _this.$('.word-image-container').on('dblclick', function () {
+          _this.trigger('word:edit');
+        });
       }
     }
   });

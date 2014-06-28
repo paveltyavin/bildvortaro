@@ -76,7 +76,7 @@ define([
     },
 
     getCategoryCollection: function () {
-      this.categoryCollection.reset(this.filterCollection.where({show_top: true}))
+      this.categoryCollection.reset(this.fullCollection.where({show_top: true}))
     },
     initData: function () {
       this.categoryCollection = new wordModels.WordCollection();
@@ -146,8 +146,8 @@ define([
           var addWordView = new wordViews.AddWordView({categoryCollection: _this.categoryCollection});
           _this.listenTo(addWordView, 'word:save', function (view) {
             _this.fullCollection.add(view.model, {at: 0});
-            _this.doFilter();
             _this.getCategoryCollection();
+            _this.doFilter();
           });
           _this.modalRegion.show(addWordView);
         });
@@ -162,6 +162,9 @@ define([
       var filter = this.filter;
       this.page = 0;
       var newArray = this.fullCollection.search(filter.get('search'));
+      newArray = _.filter(newArray, function(model){
+        return model.get('show_main') == true
+      });
       var doShuffle=true;
 
       if (filter.get('wordClass')){
