@@ -13,10 +13,14 @@ define([
     tagName: 'a',
     className: 'category-block',
     events: {
-      click: 'onClick'
+      click: 'onClick',
+      dblclick: 'onDblclick'
     },
     onClick: function () {
       this.trigger('click');
+    },
+    onDblclick: function(){
+      this.trigger('dblclick');
     },
     select: function () {
       this.$el.addClass('active');
@@ -33,7 +37,11 @@ define([
     className: 'categories',
     itemView: CategoryView,
     initialize: function () {
-      this.listenTo(this, 'itemview:click', this.onClick)
+      this.listenTo(this, 'itemview:click', this.onClick);
+      this.listenTo(this, 'itemview:dblclick', this.onDblClick);
+    },
+    onDblClick: function(itemView){
+      this.trigger('category:edit', itemView.model);
     },
     onClick: function (itemView) {
       if (itemView.isSelected()) {

@@ -52,7 +52,7 @@ define([
     },
     initialize: function () {
       var _this = this;
-      $.ajax('/api/auth').success(function(is_authenticated){
+      $.ajax('/api/auth').success(function (is_authenticated) {
         _this.is_authenticated = is_authenticated;
         _this.initData();
         _this.initViews();
@@ -103,6 +103,14 @@ define([
       this.categoriesRegion.show(categoriesView);
       this.listenTo(categoriesView, 'category:select', function (category) {
         _this.filter.set('category', category.get('id'));
+      });
+      this.listenTo(categoriesView, 'category:edit', function (category) {
+        var editCategoryView = new wordViews.EditWordView({
+          model: category,
+          categoryCollection: _this.categoryCollection
+        });
+        editCategoryView.title = 'Redaktu Kategoro'
+        _this.modalRegion.show(editCategoryView);
       });
       this.listenTo(categoriesView, 'category:empty', function () {
         _this.filter.set('category', null);
@@ -162,19 +170,19 @@ define([
       var filter = this.filter;
       this.page = 0;
       var newArray = this.fullCollection.search(filter.get('search'));
-      newArray = _.filter(newArray, function(model){
+      newArray = _.filter(newArray, function (model) {
         return model.get('show_main') == true
       });
-      var doShuffle=true;
+      var doShuffle = true;
 
-      if (filter.get('wordClass')){
-        newArray = _.filter(newArray, function(model){
+      if (filter.get('wordClass')) {
+        newArray = _.filter(newArray, function (model) {
           return model.get('word_class') == filter.get('wordClass')
         });
         doShuffle = false
       }
-      if (filter.get('category')){
-        newArray = _.filter(newArray, function(model){
+      if (filter.get('category')) {
+        newArray = _.filter(newArray, function (model) {
           return _.contains(model.get('categories'), filter.get('category'))
         });
         doShuffle = false
