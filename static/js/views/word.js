@@ -1,23 +1,18 @@
 define([
-  'js/models/word', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
+  'js/models/word', 'js/reqres', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
   'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload',
   'jquery.fileupload-process', 'jquery.fileupload-image', 'js/config/select2'
-], function (wordModels, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
+], function (wordModels, reqres,  addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
     template: wordTemplate,
     model: wordModels.Word,
-    initialize: function (options) {
-      var _this = this;
-      this.me = options.me;
-      if (this.me) {
-        this.listenTo(this.me, 'sync', _this.checkMe);
-      }
-    },
     onRender: function () {
-      if (this.me)
+      this.me = reqres.request('me');
+      if (this.me){
         this.checkMe();
+      }
     },
     checkMe: function () {
       var _this = this;
@@ -31,15 +26,7 @@ define([
 
   var WordsView = Marionette.CollectionView.extend({
     className: 'words',
-    itemView: WordView,
-    initialize: function (options) {
-      this.me = options.me;
-    },
-    itemViewOptions: function (model, index) {
-      return {
-        me: this.me
-      }
-    }
+    itemView: WordView
   });
 
 

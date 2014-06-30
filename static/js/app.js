@@ -4,13 +4,14 @@ define([
   'js/models/word', 'js/models/category', 'js/models/user',
 
   'js/regions/modal',
+  'js/reqres',
 
   'jquery', 'backbone', 'marionette',
 
   'bootstrap', 'js/config/eo'
 //  'backbone.dualstorage',
 ], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels,
-  ModalRegion, $, Backbone, Marionette) {
+  ModalRegion, reqres, $, Backbone, Marionette) {
   var Filter = Backbone.Model.extend({
     defaults: {
       search: '',
@@ -52,13 +53,27 @@ define([
     },
     initialize: function () {
       var _this = this;
-      $.ajax('/api/auth').success(function (is_authenticated) {
-        _this.is_authenticated = is_authenticated;
-        _this.initData();
-        _this.initViews();
-        _this.bindUIElements();
-        _this.initUI();
-      });
+      _this.is_authenticated =  $('meta[name="is_authenticated"]').attr('content') === 'True';
+      if (_this.is_authenticated) {
+        _this.me = new userModels.Me();
+        _this.me.fetch().done(function () {
+          _this.initMe();
+        });
+      } else {
+        _this.me = null;
+        _this.initMe();
+      }
+    },
+    initMe: function () {
+      var _this = this;
+      reqres.setHandler("me", function(){
+        return _this.me;
+      })
+
+      this.initData();
+      this.initViews();
+      this.bindUIElements();
+      this.initUI();
     },
     initUI: function () {
       var _this = this;
@@ -89,10 +104,6 @@ define([
       this.fullCollection.on('sync', this.getCategoryCollection, this);
 
       this.fullCollection.fetch();
-      if (this.is_authenticated) {
-        this.me = new userModels.Me();
-        this.me.fetch();
-      }
     },
 
     initViews: function () {
@@ -104,9 +115,9 @@ define([
       this.listenTo(categoriesView, 'category:select', function (category) {
         _this.filter.set('category', category.get('id'));
       });
-      this.listenTo(categoriesView, 'category:edit', function (category) {
+      this.listenTo(categoriesView, 'itemview:category:edit', function (itemView) {
         var editCategoryView = new wordViews.EditWordView({
-          model: category,
+          model: itemView.model,
           categoryCollection: _this.categoryCollection
         });
         editCategoryView.title = 'Redaktu Kategoro'
@@ -126,8 +137,7 @@ define([
 //      });
 
       var wordsView = new wordViews.WordsView({
-        collection: _this.sliceCollection,
-        me: _this.me
+        collection: _this.sliceCollection
       });
 
       this.mainRegion.show(wordsView);

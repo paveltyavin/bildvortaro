@@ -1,10 +1,11 @@
 define([
   'hbs!templates/category',
+  'js/reqres',
   'js/models/word',
   'jquery',
   'backbone',
   'marionette'
-], function (categoryTemplate, wordModels, $, Backbone, Marionette) {
+], function (categoryTemplate, reqres, wordModels, $, Backbone, Marionette) {
 
 
   var CategoryView = Marionette.ItemView.extend({
@@ -13,14 +14,17 @@ define([
     tagName: 'a',
     className: 'category-block',
     events: {
-      click: 'onClick',
-      dblclick: 'onDblclick'
+      click: 'onClick'
+    },
+    onRender: function () {
+      var _this = this;
+      this.me = reqres.request('me');
+      if (this.me) {
+        _this.checkMe();
+      }
     },
     onClick: function () {
       this.trigger('click');
-    },
-    onDblclick: function(){
-      this.trigger('dblclick');
     },
     select: function () {
       this.$el.addClass('active');
@@ -30,18 +34,22 @@ define([
     },
     isSelected: function () {
       return this.$el.hasClass('active');
+    },
+    checkMe: function () {
+      var _this = this;
+      if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
+        _this.$el.on('dblclick', function () {
+          _this.trigger('category:edit');
+        });
+      }
     }
   });
 
   var CategoriesView = Marionette.CollectionView.extend({
     className: 'categories',
     itemView: CategoryView,
-    initialize: function () {
+    initialize: function (options) {
       this.listenTo(this, 'itemview:click', this.onClick);
-      this.listenTo(this, 'itemview:dblclick', this.onDblClick);
-    },
-    onDblClick: function(itemView){
-      this.trigger('category:edit', itemView.model);
     },
     onClick: function (itemView) {
       if (itemView.isSelected()) {

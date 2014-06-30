@@ -73,6 +73,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
 
+    'django_extensions',
+
     'vortaro.app',
 
     # 3rd-party
