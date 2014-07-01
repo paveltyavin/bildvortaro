@@ -120,21 +120,21 @@ define([
           model: itemView.model,
           categoryCollection: _this.categoryCollection
         });
-        editCategoryView.title = 'Redaktu Kategoro'
+        editCategoryView.title = 'Redaktu Kategoro';
         _this.modalRegion.show(editCategoryView);
       });
       this.listenTo(categoriesView, 'category:empty', function () {
         _this.filter.set('category', null);
       });
 
-//      var wordClassesView = new wordClassViews.WordClassesView();
-//      this.wordClassesRegion.show(wordClassesView);
-//      this.listenTo(wordClassesView, 'wordClass:select', function (wordClass) {
-//        _this.filter.set('wordClass', wordClass.get('value'));
-//      });
-//      this.listenTo(wordClassesView, 'wordClass:empty', function () {
-//        _this.filter.set('wordClass', null);
-//      });
+      var wordClassesView = new wordClassViews.WordClassesView();
+      this.wordClassesRegion.show(wordClassesView);
+      this.listenTo(wordClassesView, 'wordClass:select', function (wordClass) {
+        _this.filter.set('wordClass', wordClass.get('value'));
+      });
+      this.listenTo(wordClassesView, 'wordClass:empty', function () {
+        _this.filter.set('wordClass', null);
+      });
 
       var wordsView = new wordViews.WordsView({
         collection: _this.sliceCollection

@@ -22,11 +22,11 @@ define([
     {
       value: 'V',
       name:'verboj'
-    },
-    {
-      value: 'N',
-      name:'numeraloj'
     }
+//    ,{
+//      value: 'N',
+//      name:'numeraloj'
+//    }
   ]);
 
   var WordClassView = Marionette.ItemView.extend({
@@ -35,7 +35,7 @@ define([
       return obj.name;
     },
     tagName: 'a',
-    className: 'list-group-item',
+    className: 'word-class-block',
     events: {
       click: 'onClick'
     },
@@ -54,7 +54,7 @@ define([
   });
 
   var WordClassesView = Marionette.CollectionView.extend({
-    className: 'word-class list-inline',
+    className: 'word-class-blocks',
     itemView: WordClassView,
     initialize: function (options) {
       this.collection = wordClassCollection;
