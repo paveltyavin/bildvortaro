@@ -7,7 +7,8 @@ define([
 
   'jquery', 'backbone', 'marionette',
 
-  'bootstrap', 'js/config/eo'
+  'bootstrap.modal',
+  'js/config/eo'
 ], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels,
   ModalRegion, reqres, $, Backbone, Marionette) {
   var Filter = Backbone.Model.extend({

@@ -10,8 +10,9 @@ require.config({
     'backbone.modelbinder': 'bower_components/backbone.modelbinder/Backbone.ModelBinder',
     'backbone.paginator': 'bower_components/backbone.paginator/dist/backbone.paginator',
     'backbone.dualstorage': 'bower_components/Backbone.dualStorage/backbone.dualstorage.amd',
-    'bootstrap.dropdown': 'bower_components/bootstrap/js/dropdown',
     'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap',
+    'bootstrap.dropdown': 'bower_components/bootstrap/js/dropdown',
+    'bootstrap.modal': 'bower_components/bootstrap/js/modal',
     'canvas-to-blob': 'bower_components/blueimp-canvas-to-blob/js/canvas-to-blob',
     'hbs': 'bower_components/hbs/hbs',
     'jquery': 'bower_components/jquery/dist/jquery',
@@ -34,7 +35,11 @@ require.config({
     'underscore': 'bower_components/underscore/underscore'
   },
   shim: {
-    'select2': ['jquery']
+    'select2': ['jquery'],
+    'bootstrap.modal': {
+      deps: ["jquery"],
+      exports: "$.fn.modal"
+    }
   },
   hbs: {
     disableI18n: true,
