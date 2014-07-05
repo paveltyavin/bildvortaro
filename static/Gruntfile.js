@@ -38,7 +38,8 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          {expand: true, cwd: srcDir + 'static', src: ['fonts/**'], dest: staticRoot }
+          {expand: true, cwd: srcDir + 'static', src: ['fonts/**'], dest: staticRoot },
+          {expand: true, cwd: srcDir + 'static/bower_components/select2/', src: ['*.png', '*.gif'], dest: staticRoot + 'css/' }
         ]
       }
     },
