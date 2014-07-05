@@ -16,6 +16,9 @@ define([
     },
     checkMe: function () {
       var _this = this;
+      if (this.model.get('user_created') == this.me.get('id')){
+        _this.$el.addClass('my');
+      }
       if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
         _this.$('.word-image-container').on('dblclick', function () {
           _this.trigger('word:edit');
