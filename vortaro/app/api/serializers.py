@@ -14,7 +14,7 @@ class WordImageField(serializers.ImageField):
 
 class WordSerializer(serializers.ModelSerializer):
     thumb = serializers.SerializerMethodField('get_thumb')
-    image = WordImageField(required=False, read_only=True)
+    image = WordImageField(required=False)
 
     def get_thumb(self, obj):
         try:
@@ -45,10 +45,10 @@ class WordSerializer(serializers.ModelSerializer):
             'name', 'categories', 'word_class',
             'order',
             'user_created',
-            # 'user_modified',
+            'user_modified',
             'show_top', "show_main",
             'thumb',
-            # 'image',
+            'image',
         )
 
 
