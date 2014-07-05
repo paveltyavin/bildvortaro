@@ -3,13 +3,11 @@ define([
 
   'js/models/word', 'js/models/category', 'js/models/user',
 
-  'js/regions/modal',
-  'js/reqres',
+  'js/regions/modal', 'js/reqres',
 
   'jquery', 'backbone', 'marionette',
 
   'bootstrap', 'js/config/eo'
-//  'backbone.dualstorage',
 ], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels,
   ModalRegion, reqres, $, Backbone, Marionette) {
   var Filter = Backbone.Model.extend({
@@ -51,9 +49,12 @@ define([
       wordClasses: '.word-classes-region',
       nextButton: '.next-button'
     },
+    events: {
+      'click .btn-refresh': 'onRefresh'
+    },
     initialize: function () {
       var _this = this;
-      _this.is_authenticated =  $('meta[name="is_authenticated"]').attr('content') === 'True';
+      _this.is_authenticated = $('meta[name="is_authenticated"]').attr('content') === 'True';
       if (_this.is_authenticated) {
         _this.me = new userModels.Me();
         _this.me.fetch().done(function () {
@@ -66,9 +67,9 @@ define([
     },
     initMe: function () {
       var _this = this;
-      reqres.setHandler("me", function(){
+      reqres.setHandler("me", function () {
         return _this.me;
-      })
+      });
 
       this.initData();
       this.initViews();
@@ -89,7 +90,9 @@ define([
         _this.checkScroll();
       });
     },
-
+    onRefresh: function () {
+      this.fullCollection.fetch({data:{refresh:true}});
+    },
     getCategoryCollection: function () {
       this.categoryCollection.reset(this.fullCollection.where({show_top: true}))
     },

@@ -6,7 +6,7 @@ from vortaro.app.models import Word, User
 
 
 class WordAdmin(admin.ModelAdmin):
-    list_display = ('name', 'word_class', 'order')
+    list_display = ('name', 'word_class', 'order', 'date_modified')
     list_editable = ('order',)
     list_filter = ('word_class', 'show_top', 'show_main')
 

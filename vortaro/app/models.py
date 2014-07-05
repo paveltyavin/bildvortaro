@@ -40,7 +40,7 @@ WORD_CLASS_CHOICES = (
 
 class Word(models.Model):
     class Meta:
-        ordering = ('order',)
+        ordering = ('-date_modified',)
         verbose_name = u'Слово'
         verbose_name_plural = u'Слова'
 
@@ -50,7 +50,7 @@ class Word(models.Model):
     user_modified = models.ForeignKey('User', verbose_name=u'Последний изменивший', default=1,
                                       related_name="%(class)s_modified")
     date_created = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
-    date_modified = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
+    date_modified = models.DateTimeField(verbose_name=u'Время изменения', default=datetime.datetime.now())
 
     order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
 
@@ -75,14 +75,12 @@ def delete_image(instance, **kwargs):
 
 
 def post_word_save(instance, created, *args, **kwargs):
-    if hasattr(instance, 'saved'):
-        return
+    now = datetime.datetime.now()
+    qs = Word.objects.filter(pk=instance.pk)
     if created:
-        instance.date_created = datetime.datetime.now()
+        qs.update(date_created=now)
     else:
-        instance.date_modified = datetime.datetime.now()
-    instance.saved = True
-    instance.save()
+        qs.update(date_modified=now)
 
 
 post_delete.connect(delete_image, sender=Word)

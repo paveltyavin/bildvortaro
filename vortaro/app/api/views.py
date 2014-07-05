@@ -1,4 +1,5 @@
-from rest_framework import generics, status, filters, permissions
+import datetime
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
@@ -13,6 +14,18 @@ class WordList(generics.ListCreateAPIView):
     permission_classes = (OwnerPermisson,)
     model = Word
     serializer_class = serializers.WordSerializer
+
+    def get_queryset_(self):
+        if self.request.QUERY_PARAMS.get('refresh', None):
+            last_requested = None
+        else:
+            last_requested = self.request.session.get('last_requested', None)
+        if last_requested and isinstance(last_requested, datetime.datetime):
+            result = Word.objects.filter(date_modified__gt=last_requested)
+        else:
+            result = Word.objects.all()
+        self.request.session['last_requested'] = datetime.datetime.now()
+        return result
 
 
 class WordDetail(generics.RetrieveUpdateDestroyAPIView):

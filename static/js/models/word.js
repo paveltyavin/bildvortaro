@@ -1,14 +1,13 @@
 define([
-  'jquery', 'backbone'
-
-//  'backbone.dualstorage'
+  'jquery', 'backbone',
+  'backbone.dualstorage'
 ], function ($, Backbone) {
 
   var Word = Backbone.Model.extend({
     urlRoot: '/api/word/'
   });
   var WordCollection = Backbone.Collection.extend({
-//    local: function() { return true; },
+    remote: true,
     model: Word,
     url: '/api/word',
     comparator: 'order',
