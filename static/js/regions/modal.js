@@ -1,5 +1,5 @@
 define([
-  'jquery', 'backbone', 'marionette', 'bootstrap'
+  'jquery', 'backbone', 'marionette', 'bootstrap.modal'
 ], function ($, Backbone, Marionette) {
 
   var ModalRegion = Marionette.Region.extend({
