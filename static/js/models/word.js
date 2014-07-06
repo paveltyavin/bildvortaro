@@ -4,7 +4,10 @@ define([
 ], function ($, Backbone) {
 
   var Word = Backbone.Model.extend({
-    urlRoot: '/api/word/'
+    urlRoot: '/api/word/',
+    defaults:{
+      word_class:'S'
+    }
   });
   var WordCollection = Backbone.Collection.extend({
     remote: true,

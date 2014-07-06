@@ -11,6 +11,16 @@ define([
   'js/config/eo'
 ], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels,
   ModalRegion, reqres, $, Backbone, Marionette) {
+
+  var ua = navigator.userAgent;
+  var isChrome = /chrome/i.exec(ua),
+		isAndroid = /android/i.exec(ua),
+		hasTouch = 'ontouchstart' in window && !(isChrome && !isAndroid);
+
+  reqres.setHandler('hasTouch', function(){
+    return hasTouch;
+  });
+
   var Filter = Backbone.Model.extend({
     defaults: {
       search: '',
