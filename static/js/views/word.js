@@ -165,7 +165,7 @@ define([
       var _this = this;
       if (this.model.has('id')) {
         _this.ui.delete.removeClass('hide').on('click', function () {
-          if (confirm('Delete ?')) {
+          if (confirm('Forviŝi ?')) {
             _this.model.destroy();
             _this.close();
           }
