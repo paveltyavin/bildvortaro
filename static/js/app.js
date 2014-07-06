@@ -41,7 +41,7 @@ define([
       return 1;
     },
     perPage: function () {
-      return this.columns() * 3;
+      return this.columns() * 4;
     },
     endScroll: false,
     el: 'body',
@@ -218,7 +218,7 @@ define([
       var top = this.$el.height();
       top -= $(window).scrollTop();
       top -= $(window).height();
-      top -= 150; // ширина одного ряда
+      top -= 4*150; // ширина четырёх рядов
       top -= 50; // ширина футера
       if (top < 0)
         this.doScroll();
