@@ -5,7 +5,6 @@ define([
 ], function (wordModels, reqres, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
   var hasTouch = reqres.request('hasTouch');
-  alert(hasTouch.toString());
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
