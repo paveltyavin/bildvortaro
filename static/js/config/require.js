@@ -17,6 +17,7 @@ require.config({
     'hbs': 'bower_components/hbs/hbs',
     'jquery': 'bower_components/jquery/dist/jquery',
     'jquery.finger': 'bower_components/jquery.finger/dist/jquery.finger',
+    'jquery-mousewheel': 'bower_components/jquery-mousewheel/jquery.mousewheel',
     'jquery.fileupload': 'bower_components/jquery-file-upload/js/jquery.fileupload',
     'jquery.fileupload-image': 'bower_components/jquery-file-upload/js/jquery.fileupload-image',
     'jquery.fileupload-process': 'bower_components/jquery-file-upload/js/jquery.fileupload-process',

@@ -91,6 +91,9 @@ define([
       $(window).scroll(function () {
         _this.checkScroll();
       });
+      $(window).on('mousewheel', function(){
+        _this.checkScroll();
+      })
     },
     onRefresh: function () {
       this.fullCollection.fetch({data:{refresh:true}});
