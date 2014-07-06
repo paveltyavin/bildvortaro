@@ -52,7 +52,7 @@ class Word(models.Model):
     date_created = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
     date_modified = models.DateTimeField(verbose_name=u'Время изменения', default=datetime.datetime.now())
 
-    order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка')
+    order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка в группе')
 
     name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True)
     categories = models.ManyToManyField('Word', verbose_name=u'Категории', blank=True, )

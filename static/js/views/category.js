@@ -51,6 +51,17 @@ define([
     initialize: function (options) {
       this.listenTo(this, 'itemview:click', this.onClick);
     },
+    onRender:function(){
+      var filter = reqres.request('getFilter');
+      if (filter.get('category')) {
+        var category_id = filter.get('category');
+        this.children.each(function (v) {
+          if (v.model.id === category_id){
+            v.select();
+          }
+        });
+      }
+    },
     onClick: function (itemView) {
       if (itemView.isSelected()) {
         itemView.deselect();

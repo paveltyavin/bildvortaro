@@ -111,6 +111,11 @@ define([
       this.fullCollection.on('sync', this.doFilter, this);
       this.fullCollection.on('sync', this.getCategoryCollection, this);
 
+      var _this = this;
+      reqres.setHandler('getFilter', function(){
+        return _this.filter;
+      });
+
       this.fullCollection.fetch();
     },
 
