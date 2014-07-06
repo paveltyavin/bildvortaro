@@ -143,7 +143,6 @@ define([
       this.ui.categories.eo();
       this.ui.categories.select2({
         multiple: true,
-        minimumInputLength: 1,
         maximumSelectionSize: 5,
         initSelection: function (element, callback) {
           var category_ids = element.select2('val');
