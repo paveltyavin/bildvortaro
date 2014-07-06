@@ -3,24 +3,24 @@ define(['jquery', 'select2-amd'], function ($) {
   };
   $.extend($.fn.select2.defaults, {
     formatNoMatches: function () {
-      return "!No matches found";
+      return "koencidoj ne estas trovitaj";
     },
     formatInputTooShort: function (input, min) {
       var n = min - input.length;
-      return "!Please enter " + n + " more character" + (n == 1 ? "" : "s");
+      return "bonvolu enigi ankoraŭ " + n + " more simbolo" + (n == 1 ? "" : "j") +'n';
     },
     formatInputTooLong: function (input, max) {
       var n = input.length - max;
-      return "!Please delete " + n + " character" + (n == 1 ? "" : "s");
+      return "bonvolu forigi " + n + " simbolo" + (n == 1 ? "" : "j") + 'n';
     },
     formatSelectionTooBig: function (limit) {
-      return "!You can only select " + limit + " item" + (limit == 1 ? "" : "s");
+      return "vi rajtas elekti nur " + limit + " elemento" + (limit == 1 ? "" : "j")+ 'n';
     },
     formatLoadMore: function (pageNumber) {
-      return "!Loading more results...";
+      return "estas ŝargataj aliaj rezultoj...";
     },
     formatSearching: function () {
-      return "!Searching...";
+      return "pasas serĉado...";
     }
   });
 });

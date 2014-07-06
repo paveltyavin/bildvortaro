@@ -32,6 +32,7 @@ require.config({
     'backbone.babysitter': 'bower_components/backbone.babysitter/lib/amd/backbone.babysitter',
     'select2-amd': 'bower_components/select2-amd/select2',
     'select2': 'bower_components/select2/select2',
+    'sortable': 'bower_components/Sortable/Sortable',
     'spin': 'bower_components/spinjs/spin',
     'text': 'bower_components/requirejs-text/text',
     'underscore': 'bower_components/underscore/underscore'
