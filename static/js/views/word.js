@@ -1,8 +1,8 @@
 define([
-  'js/models/word', 'js/reqres', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block', 'jquery',
-  'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget', 'jquery.fileupload',
-  'jquery.fileupload-process', 'jquery.fileupload-image', 'js/config/select2'
-], function (wordModels, reqres,  addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
+  'js/models/word', 'js/reqres', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block',
+  'jquery', 'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget',
+  'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-image', 'js/config/select2', 'jquery.finger'
+], function (wordModels, reqres, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
@@ -10,18 +10,23 @@ define([
     model: wordModels.Word,
     onRender: function () {
       this.me = reqres.request('me');
-      if (this.me){
+      if (this.me) {
         this.checkMe();
       }
     },
     checkMe: function () {
       var _this = this;
-      if (this.model.get('user_created') == this.me.get('id')){
+      if (this.model.get('user_created') == this.me.get('id')) {
         _this.$el.addClass('my');
       }
       if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
         _this.$('.word-image-container').on('dblclick', function () {
           _this.trigger('word:edit');
+        });
+        _this.$('.word-image-container').on('flick', function (ev) {
+          if (ev.orientation === 'horizontal') {
+            _this.trigger('word:edit');
+          }
         });
       }
     }
