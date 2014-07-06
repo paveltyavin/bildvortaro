@@ -117,8 +117,16 @@
 
 <script type="text/javascript">
     require([
-        'marionette'
-    ], function (Marionette) {
+        'marionette',
+        'js/reqres'
+    ], function (Marionette, reqres) {
+        var ua = navigator.userAgent;
+        var isChrome = /chrome/i.exec(ua), isAndroid = /android/i.exec(ua), hasTouch = 'ontouchstart' in window &&
+                      !(isChrome && !isAndroid);
+        reqres.setHandler('hasTouch', function () {
+            return hasTouch;
+        });
+
         var Application = new Marionette.Application();
         Application.addInitializer(function () {
             require(['js/app']);

@@ -4,6 +4,9 @@ define([
   'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-image', 'js/config/select2', 'jquery.finger'
 ], function (wordModels, reqres, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
 
+  var hasTouch = reqres.request('hasTouch');
+  alert(hasTouch.toString());
+
   var WordView = Marionette.ItemView.extend({
     className: 'word-block',
     template: wordTemplate,
@@ -20,14 +23,17 @@ define([
         _this.$el.addClass('my');
       }
       if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
-        _this.$('.word-image-container').on('dblclick', function () {
-          _this.trigger('word:edit');
-        });
-        _this.$('.word-image-container').on('flick', function (ev) {
-          if (ev.orientation === 'horizontal') {
+        if (hasTouch){
+          _this.$('.word-image-container').on('flick', function (ev) {
+            if (ev.orientation === 'horizontal') {
+              _this.trigger('word:edit');
+            }
+          });
+        } else {
+          _this.$('.word-image-container').on('dblclick', function () {
             _this.trigger('word:edit');
-          }
-        });
+          });
+        }
       }
     }
   });
