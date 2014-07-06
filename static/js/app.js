@@ -169,7 +169,13 @@ define([
         var wordPlusView = new wordViews.WordPlusView();
         _this.plusRegion.show(wordPlusView);
         _this.listenTo(wordPlusView, 'click', function () {
-          var addWordView = new wordViews.AddWordView({categoryCollection: _this.categoryCollection});
+          var addWordContext = {
+            categoryCollection: _this.categoryCollection
+          };
+          if (_this.filter.get('category')){
+            addWordContext.category = _this.filter.get('category');
+          }
+          var addWordView = new wordViews.AddWordView(addWordContext);
           _this.listenTo(addWordView, 'word:save', function (view) {
             _this.fullCollection.add(view.model, {at: 0});
             _this.getCategoryCollection();

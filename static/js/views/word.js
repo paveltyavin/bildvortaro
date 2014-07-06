@@ -208,6 +208,9 @@ define([
     initialize: function (options) {
       if (!this.model) {
         this.model = new wordModels.Word();
+        if (this.options.category){
+          this.model.set('categories', [this.options.category]);
+        }
       }
     }
   });
