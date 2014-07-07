@@ -1,6 +1,6 @@
 define([
-  'hbs!templates/category', 'js/reqres', 'js/models/word', 'jquery', 'backbone', 'marionette', 'sortable'
-], function (categoryTemplate, reqres, wordModels, $, Backbone, Marionette, Sortable) {
+  'hbs!templates/category', 'js/reqres', 'js/models/word', 'jquery', 'backbone', 'marionette'
+], function (categoryTemplate, reqres, wordModels, $, Backbone, Marionette) {
 
 
   var CategoryView = Marionette.ItemView.extend({
@@ -11,7 +11,7 @@ define([
     events: {
       click: 'onClick'
     },
-    onRender: function () {
+    onShow: function () {
       var _this = this;
       this.me = reqres.request('me');
       if (this.me) {
@@ -56,26 +56,6 @@ define([
     },
     onShow: function () {
       this.listenTo(this, 'itemview:click', this.onClick);
-//      var filter = reqres.request('getFilter');
-//      this.listenTo(filter, 'change', this.initSortable);
-//      this.initSortable();
-    },
-    initSortable: function () {
-      var filter = reqres.request('getFilter');
-      var category_id = filter.get('category');
-      var wordClass = filter.get('wordClass');
-      if (category_id && !wordClass) {
-        if (!this.Sortable){
-          var element = $(".words")[0];
-
-          if (element.children.length>1){
-            debugger
-            this.Sortable = new Sortable(element);
-          }
-        }
-      } else if (this.Sortable) {
-        this.Sortable.destroy();
-      }
     },
     onClick: function (itemView) {
       if (itemView.isSelected()) {

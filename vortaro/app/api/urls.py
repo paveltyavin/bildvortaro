@@ -8,5 +8,6 @@ urlpatterns = patterns(
     url(r'^user$', views.UserList.as_view()),
     url(r'^user/me$', views.Me.as_view()),
     url(r'^word$', views.WordList.as_view()),
+    url(r'^orders', views.Orders.as_view()),
     url(r'^word/(?P<pk>\d+)$', views.WordDetail.as_view()),
 )

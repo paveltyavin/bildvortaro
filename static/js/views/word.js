@@ -1,8 +1,8 @@
 define([
   'js/models/word', 'js/reqres', 'hbs!templates/add-word', 'hbs!templates/word-block', 'hbs!templates/plus-block',
-  'jquery', 'marionette', 'underscore', 'backbone.modelbinder', 'js/config/csrf', 'jquery.ui.widget',
+  'jquery', 'marionette', 'underscore', 'backbone.modelbinder', 'sortable', 'js/config/csrf', 'jquery.ui.widget',
   'jquery.fileupload', 'jquery.fileupload-process', 'jquery.fileupload-image', 'js/config/select2', 'jquery.finger'
-], function (wordModels, reqres, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder) {
+], function (wordModels, reqres, addWordTemplate, wordTemplate, plusTemplate, $, Marionette, _, ModelBinder, Sortable) {
 
   var hasTouch = reqres.request('hasTouch');
 
@@ -10,7 +10,7 @@ define([
     className: 'word-block',
     template: wordTemplate,
     model: wordModels.Word,
-    onRender: function () {
+    onShow: function () {
       this.me = reqres.request('me');
       if (this.me) {
         this.checkMe();
@@ -22,7 +22,7 @@ define([
         _this.$el.addClass('my');
       }
       if ((this.model.get('user_created') == this.me.get('id')) || (this.me.get('is_staff'))) {
-        if (hasTouch){
+        if (hasTouch) {
           _this.$('.word-image-container').on('flick', function (ev) {
             if (ev.orientation === 'horizontal') {
               _this.trigger('word:edit');
@@ -39,7 +39,52 @@ define([
 
   var WordsView = Marionette.CollectionView.extend({
     className: 'words',
-    itemView: WordView
+    itemView: WordView,
+    comparator: 'order',
+    onShow: function () {
+      var filter = reqres.request('getFilter');
+      var me = reqres.request('me');
+      if (me.get('is_staff')){
+        this.listenTo(filter, 'change', this.initSortable);
+        this.initSortable();
+      }
+    },
+    initSortable: function () {
+      var filter = reqres.request('getFilter');
+      var category_id = filter.get('category');
+      var wordClass = filter.get('wordClass');
+      var _this = this;
+      if (category_id && !wordClass) {
+        if (!_this.sort) {
+          var element = _this.$el[0];
+          if (element.children.length > 1) {
+            _this.sort = new Sortable(element, {
+              draggable: ".word-block",
+              onUpdate: function () {
+                var orders = {};
+                _this.$el.children().each(function(index, el){
+                  $.data(el, 'order', index);
+                });
+                _this.children.each(function (v) {
+                  var order = v.$el.data('order');
+                  v.model.set('order', order);
+                  orders[v.model.id] = order;
+                });
+                $.ajax({
+                  type:'post',
+                  data:orders,
+                  dataType:'json',
+                  url:'/api/orders'
+                });
+              }
+            });
+          }
+        }
+      } else if (_this.sort) {
+        _this.sort.destroy();
+        delete _this.sort;
+      }
+    }
   });
 
 
@@ -208,7 +253,7 @@ define([
     initialize: function (options) {
       if (!this.model) {
         this.model = new wordModels.Word();
-        if (this.options.category){
+        if (this.options.category) {
           this.model.set('categories', [this.options.category]);
         }
       }
