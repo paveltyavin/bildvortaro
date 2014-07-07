@@ -1,11 +1,6 @@
 define([
-  'hbs!templates/category',
-  'js/reqres',
-  'js/models/word',
-  'jquery',
-  'backbone',
-  'marionette'
-], function (categoryTemplate, reqres, wordModels, $, Backbone, Marionette) {
+  'hbs!templates/category', 'js/reqres', 'js/models/word', 'jquery', 'backbone', 'marionette', 'sortable'
+], function (categoryTemplate, reqres, wordModels, $, Backbone, Marionette, Sortable) {
 
 
   var CategoryView = Marionette.ItemView.extend({
@@ -48,18 +43,38 @@ define([
   var CategoriesView = Marionette.CollectionView.extend({
     className: 'categories',
     itemView: CategoryView,
-    initialize: function (options) {
-      this.listenTo(this, 'itemview:click', this.onClick);
-    },
-    onRender:function(){
+    onRender: function () {
       var filter = reqres.request('getFilter');
-      if (filter.get('category')) {
-        var category_id = filter.get('category');
+      var category_id = filter.get('category');
+      if (category_id) {
         this.children.each(function (v) {
-          if (v.model.id === category_id){
+          if (v.model.id === category_id) {
             v.select();
           }
         });
+      }
+    },
+    onShow: function () {
+      this.listenTo(this, 'itemview:click', this.onClick);
+//      var filter = reqres.request('getFilter');
+//      this.listenTo(filter, 'change', this.initSortable);
+//      this.initSortable();
+    },
+    initSortable: function () {
+      var filter = reqres.request('getFilter');
+      var category_id = filter.get('category');
+      var wordClass = filter.get('wordClass');
+      if (category_id && !wordClass) {
+        if (!this.Sortable){
+          var element = $(".words")[0];
+
+          if (element.children.length>1){
+            debugger
+            this.Sortable = new Sortable(element);
+          }
+        }
+      } else if (this.Sortable) {
+        this.Sortable.destroy();
       }
     },
     onClick: function (itemView) {

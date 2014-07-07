@@ -1,7 +1,7 @@
 define([
   'js/views/word', 'js/views/category', 'js/views/register', 'js/views/word-class',
 
-  'js/models/word', 'js/models/category', 'js/models/user',
+  'js/models/word', 'js/models/user',
 
   'js/regions/modal', 'js/reqres',
 
@@ -9,7 +9,7 @@ define([
 
   'bootstrap.modal',
   'js/config/eo'
-], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, categoryModels, userModels,
+], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, userModels,
   ModalRegion, reqres, $, Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
