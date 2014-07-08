@@ -5,4 +5,3 @@ psycopg2==2.5.2
 sorl-thumbnail==11.12
 django-social-auth==0.7.28
 djangorestframework==2.3.13
-django-admin-sortable2==0.2.5
