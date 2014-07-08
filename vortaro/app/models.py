@@ -6,6 +6,7 @@ from django.utils.text import slugify
 
 from django.db.models.signals import post_delete, post_save, pre_save
 from sorl.thumbnail import delete
+from sorl.thumbnail.shortcuts import get_thumbnail
 
 
 class User(AbstractUser):
@@ -61,6 +62,11 @@ class Word(models.Model):
         upload_to=get_image_wrap('word'),
         default='',
     )
+    thumb_150 = models.ImageField(
+        verbose_name=u'Изображение',
+        upload_to=get_image_wrap('word'),
+        default='',
+    )
     word_class = models.CharField(choices=WORD_CLASS_CHOICES, default=u'S', max_length=10)
     show_main = models.BooleanField(verbose_name=u'Показывать в главном регионе', default=True)
     show_top = models.BooleanField(verbose_name=u'Показывать в верхнем регионе', default=False)
@@ -83,5 +89,12 @@ def post_word_save(instance, created, *args, **kwargs):
         qs.update(date_modified=now)
 
 
+def image_word(instance, *args, **kwargs):
+    if instance.image and not instance.thumb_150:
+        default_options = {'padding': True, 'quality': 65, 'upscale': False, 'background':"#fff"}
+        instance.thumb_150 = get_thumbnail(instance.image, '150x150', **default_options).name
+
+
 post_delete.connect(delete_image, sender=Word)
 post_save.connect(post_word_save, sender=Word)
+pre_save.connect(image_word, sender=Word)

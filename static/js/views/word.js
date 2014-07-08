@@ -44,7 +44,7 @@ define([
     onShow: function () {
       var filter = reqres.request('getFilter');
       var me = reqres.request('me');
-      if (me.get('is_staff')){
+      if (me && me.get('is_staff')){
         this.listenTo(filter, 'change', this.initSortable);
         this.initSortable();
       }

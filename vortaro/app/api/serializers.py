@@ -17,9 +17,9 @@ class WordSerializer(serializers.ModelSerializer):
     image = WordImageField(required=False)
 
     def get_thumb(self, obj):
-        try:
-            return get_thumbnail(obj.image, '150x150', upscale=True, background="#fff").url
-        except ThumbnailError:
+        if obj.thumb_150:
+            return obj.thumb_150.url
+        else:
             return ''
 
     def __init__(self, instance, **kwargs):

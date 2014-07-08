@@ -7,10 +7,9 @@ define([
 
   'jquery', 'backbone', 'marionette',
 
-  'bootstrap.modal',
-  'js/config/eo'
-], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, userModels,
-  ModalRegion, reqres, $, Backbone, Marionette) {
+  'bootstrap.modal', 'js/config/eo'
+], function (wordViews, categoryViews, registerViews, wordClassViews, wordModels, userModels, ModalRegion, reqres, $,
+  Backbone, Marionette) {
 
   var Filter = Backbone.Model.extend({
     defaults: {
@@ -42,7 +41,7 @@ define([
       return 1;
     },
     perPage: function () {
-      return this.columns() * 4;
+      return this.columns() * 5;
     },
     endScroll: false,
     el: 'body',
@@ -91,12 +90,12 @@ define([
       $(window).scroll(function () {
         _this.checkScroll();
       });
-      $(window).on('mousewheel', function(){
+      $(window).on('mousewheel', function () {
         _this.checkScroll();
       })
     },
     onRefresh: function () {
-      this.fullCollection.fetch({data:{refresh:true}});
+      this.fetchData({refresh:true});
     },
     getCategoryCollection: function () {
       this.categoryCollection.reset(this.fullCollection.where({show_top: true}))
@@ -112,11 +111,19 @@ define([
       this.fullCollection.on('sync', this.getCategoryCollection, this);
 
       var _this = this;
-      reqres.setHandler('getFilter', function(){
+      reqres.setHandler('getFilter', function () {
         return _this.filter;
       });
-
-      this.fullCollection.fetch();
+      this.fetchData();
+    },
+    fetchData: function (options) {
+      var _this = this;
+      options = _.extend({}, options);
+      _this.fullCollection.fetch({
+        success: function () {
+          _this.doFilter();
+        }
+      });
     },
 
     initViews: function () {
@@ -177,7 +184,7 @@ define([
           var addWordContext = {
             categoryCollection: _this.categoryCollection
           };
-          if (_this.filter.get('category')){
+          if (_this.filter.get('category')) {
             addWordContext.category = _this.filter.get('category');
           }
           var addWordView = new wordViews.AddWordView(addWordContext);
@@ -233,7 +240,7 @@ define([
       var top = this.$el.height();
       top -= $(window).scrollTop();
       top -= $(window).height();
-      top -= 4*150; // ширина четырёх рядов
+      top -= 5 * 150; // ширина 5 рядов
       top -= 50; // ширина футера
       if (top < 0)
         this.doScroll();

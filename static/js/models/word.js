@@ -1,6 +1,5 @@
 define([
-  'jquery', 'backbone',
-  'backbone.dualstorage'
+  'jquery', 'backbone'
 ], function ($, Backbone) {
 
   var Word = Backbone.Model.extend({
@@ -10,7 +9,6 @@ define([
     }
   });
   var WordCollection = Backbone.Collection.extend({
-    remote: true,
     model: Word,
     url: '/api/word',
     comparator: 'order',

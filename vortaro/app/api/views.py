@@ -17,17 +17,19 @@ class WordList(generics.ListCreateAPIView):
     model = Word
     serializer_class = serializers.WordSerializer
 
-    def get_queryset_(self):
-        if self.request.QUERY_PARAMS.get('refresh', None):
-            last_requested = None
-        else:
-            last_requested = self.request.session.get('last_requested', None)
-        if last_requested and isinstance(last_requested, datetime.datetime):
-            result = Word.objects.filter(date_modified__gt=last_requested)
-        else:
-            result = Word.objects.all()
-        self.request.session['last_requested'] = datetime.datetime.now()
-        return result
+    def get_queryset(self):
+        # if self.request.QUERY_PARAMS.get('refresh', None):
+        #     last_requested = None
+        # else:
+        #     last_requested = self.request.session.get('last_requested', None)
+        # if last_requested and isinstance(last_requested, datetime.datetime):
+        #     qs = Word.objects.filter(date_modified__gt=last_requested)
+        # else:
+        #     qs = Word.objects.all()
+        # self.request.session['last_requested'] = datetime.datetime.now()
+        qs = Word.objects.all()
+        qs = qs.select_related().prefetch_related('categories')
+        return qs
 
 
 class WordDetail(generics.RetrieveUpdateDestroyAPIView):
