@@ -11,7 +11,7 @@ class Command(BaseCommand):
         images_broken = 0
         images_ok = 0
         images_value_error = 0
-        default_options = {'padding': True, 'quality': 65, 'upscale': False}
+        default_options = {'padding': True, 'quality': 65, 'upscale': False, 'background': '#fff',}
         for w in Word.objects.filter(image__isnull=False):
             try:
                 w.thumb_150 = get_thumbnail(w.image, '150x150', **default_options).name
