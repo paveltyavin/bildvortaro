@@ -1,13 +1,18 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
-from vortaro.app.models import Word, User
+from vortaro.app.models import Word, User, WordCategory
+
+
+class WordCategoryAdmin(admin.TabularInline):
+    model = WordCategory
+    fk_name = 'word'
 
 
 class WordAdmin(admin.ModelAdmin):
-    list_display = ('name', 'word_class', 'order', 'date_modified')
-    list_editable = ('order',)
+    list_display = ('name', 'word_class', 'date_modified')
     list_filter = ('word_class', 'show_top', 'show_main')
+    inlines = (WordCategoryAdmin, )
 
 
 class UserAdmin(admin.ModelAdmin):

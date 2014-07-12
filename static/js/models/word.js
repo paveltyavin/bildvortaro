@@ -1,11 +1,15 @@
 define([
-  'jquery', 'backbone'
-], function ($, Backbone) {
+  'jquery', 'backbone', 'underscore'
+], function ($, Backbone, _) {
 
   var Word = Backbone.Model.extend({
     urlRoot: '/api/word/',
     defaults:{
       word_class:'S'
+    },
+    get_category_ids: function(){
+      this.category_ids = this.category_ids || _.map(_.keys(this.get('categories')), function(x){return parseInt(x)});
+      return this.category_ids;
     }
   });
   var WordCollection = Backbone.Collection.extend({

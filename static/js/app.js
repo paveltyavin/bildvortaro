@@ -72,6 +72,10 @@ define([
         return _this.me;
       });
 
+      reqres.setHandler("categoryCollection", function () {
+        return _this.categoryCollection;
+      });
+
       this.initData();
       this.initViews();
       this.bindUIElements();
@@ -95,7 +99,7 @@ define([
       })
     },
     onRefresh: function () {
-      this.fetchData({refresh:true});
+      this.fetchData({refresh: true});
     },
     getCategoryCollection: function () {
       this.categoryCollection.reset(this.fullCollection.where({show_top: true}))
@@ -181,13 +185,7 @@ define([
         var wordPlusView = new wordViews.WordPlusView();
         _this.plusRegion.show(wordPlusView);
         _this.listenTo(wordPlusView, 'click', function () {
-          var addWordContext = {
-            categoryCollection: _this.categoryCollection
-          };
-          if (_this.filter.get('category')) {
-            addWordContext.category = _this.filter.get('category');
-          }
-          var addWordView = new wordViews.AddWordView(addWordContext);
+          var addWordView = new wordViews.AddWordView();
           _this.listenTo(addWordView, 'word:save', function (view) {
             _this.fullCollection.add(view.model, {at: 0});
             _this.getCategoryCollection();
@@ -218,8 +216,12 @@ define([
         doShuffle = false
       }
       if (filter.get('category')) {
+        var category = filter.get('category');
         newArray = _.filter(newArray, function (model) {
-          return _.contains(model.get('categories'), filter.get('category'))
+          return _.contains(model.get_category_ids(), category);
+        });
+        newArray = _.sortBy(newArray, function (model) {
+          return model.get('categories')[category]
         });
         doShuffle = false
       }

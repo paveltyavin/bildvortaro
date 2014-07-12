@@ -53,10 +53,7 @@ class Word(models.Model):
     date_created = models.DateTimeField(verbose_name=u'Время создания', default=datetime.datetime.now())
     date_modified = models.DateTimeField(verbose_name=u'Время изменения', default=datetime.datetime.now())
 
-    order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка в группе')
-
     name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True)
-    categories = models.ManyToManyField('Word', verbose_name=u'Категории', blank=True, )
     image = models.ImageField(
         verbose_name=u'Изображение',
         upload_to=get_image_wrap('word'),
@@ -73,6 +70,21 @@ class Word(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class WordCategory(models.Model):
+    category = models.ForeignKey(Word, verbose_name=u'Категория', related_name='words')
+    word = models.ForeignKey(Word, verbose_name=u'Категория', related_name='categories')
+    word_order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка в группе')
+
+    def __unicode__(self):
+        return '{} {}'.format(self.word.name, self.category.name)
+
+    class Meta:
+        unique_together = ('category', 'word')
+        verbose_name = u'Связь слов'
+        verbose_name_plural = u'Связи слов'
+
 
 
 def delete_image(instance, **kwargs):

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from sorl.thumbnail.helpers import ThumbnailError
 from sorl.thumbnail.shortcuts import get_thumbnail
-from vortaro.app.models import Word, User
+from vortaro.app.models import Word, User, WordCategory
 
 
 class WordImageField(serializers.ImageField):
@@ -12,9 +12,15 @@ class WordImageField(serializers.ImageField):
             return ''
 
 
+class CategoriesField(serializers.Field):
+    def field_to_native(self, obj, field_name):
+        return {wc.category_id: wc.word_order for wc in obj.categories.all()}
+
+
 class WordSerializer(serializers.ModelSerializer):
     thumb = serializers.SerializerMethodField('get_thumb')
     image = WordImageField(required=False)
+    categories = CategoriesField()
 
     def get_thumb(self, obj):
         if obj.thumb_150:
@@ -43,13 +49,14 @@ class WordSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name', 'categories', 'word_class',
-            'order',
             'user_created',
             'user_modified',
             'show_top', "show_main",
             'thumb',
             'image',
         )
+
+    read_only = ('thumb','categories')
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -40,11 +40,10 @@ define([
   var WordsView = Marionette.CollectionView.extend({
     className: 'words',
     itemView: WordView,
-    comparator: 'order',
     onShow: function () {
       var filter = reqres.request('getFilter');
       var me = reqres.request('me');
-      if (me && me.get('is_staff')){
+      if (me && me.get('is_staff')) {
         this.listenTo(filter, 'change', this.initSortable);
         this.initSortable();
       }
@@ -54,6 +53,10 @@ define([
       var category_id = filter.get('category');
       var wordClass = filter.get('wordClass');
       var _this = this;
+      if (_this.sort) {
+        _this.sort.destroy();
+        delete _this.sort;
+      }
       if (category_id && !wordClass) {
         if (!_this.sort) {
           var element = _this.$el[0];
@@ -61,28 +64,33 @@ define([
             _this.sort = new Sortable(element, {
               draggable: ".word-block",
               onUpdate: function () {
-                var orders = {};
-                _this.$el.children().each(function(index, el){
+                var orders = {}; // { word_id: word_order }
+                _this.$el.children().each(function (index, el) {
                   $.data(el, 'order', index);
                 });
                 _this.children.each(function (v) {
                   var order = v.$el.data('order');
-                  v.model.set('order', order);
+                  v.$el.removeData('order');
+                  var wordCategories = v.model.get('categories');
+                  wordCategories[category_id] = order;
+                  v.model.set('categories', wordCategories);
                   orders[v.model.id] = order;
                 });
+                var data = {
+                  orders: orders,
+                  category: category_id
+                };
                 $.ajax({
-                  type:'post',
-                  data:orders,
-                  dataType:'json',
-                  url:'/api/orders'
+                  type: 'post',
+                  data: JSON.stringify(data),
+                  contentType: 'application/json',
+                  dataType: 'json',
+                  url: '/api/orders'
                 });
               }
             });
           }
         }
-      } else if (_this.sort) {
-        _this.sort.destroy();
-        delete _this.sort;
       }
     }
   });
@@ -100,23 +108,26 @@ define([
   });
 
   var categoriesConverter = function (direction, value, attributeName, model, els) {
-    var $elem = $(els[0]), result;
+    var $elem = $(els[0]);
+    var currentCategories = model.get('categories');
+    var category_ids = model.get_category_ids();
+
     if (direction === 'ModelToView') {
-      result = value;
-      if ($elem.data("select2") !== undefined) {
-        $elem.select2('val', value);
-      } else {
-        $elem.val(value);
-      }
+      return category_ids;
     }
+
     if (direction === 'ViewToModel') {
-      if ($elem.data("select2") !== undefined) {
-        result = $elem.select2('val');
-      } else {
-        result = $elem.val();
-      }
+      var selectCategories = $elem.select2('val');
+      var result = {};
+      _.each(selectCategories, function (category_id) {
+        category_id = parseInt(category_id);
+        result[category_id] = 0;
+        if (_.contains(category_ids, category_id)) {
+          result[category_id] = currentCategories[category_id]
+        }
+      });
+      return result
     }
-    return result;
   };
 
   var AddWordView = Marionette.ItemView.extend({
@@ -186,6 +197,7 @@ define([
     categoryInit: function () {
       var _this = this;
       this.ui.categories.eo();
+      var categoryCollection = reqres.request('categoryCollection');
       this.ui.categories.select2({
         multiple: true,
         maximumSelectionSize: 5,
@@ -194,7 +206,7 @@ define([
           var data = [];
           for (var i = 0; i < category_ids.length; i++) {
             var category_id = parseInt(category_ids[i]);
-            var category = _this.options.categoryCollection.findWhere({id: category_id});
+            var category = categoryCollection.findWhere({id: category_id});
             if (category) {
               data.push({id: category.get('id'), text: category.get('name')})
             }
@@ -203,7 +215,7 @@ define([
         },
         query: function (query) {
           var data = {results: []};
-          _(_this.options.categoryCollection.search(query.term)).each(function (category) {
+          _(categoryCollection.search(query.term)).each(function (category) {
             data.results.push({id: category.get('id'), text: category.get('name')});
           });
           query.callback(data);
@@ -253,8 +265,11 @@ define([
     initialize: function (options) {
       if (!this.model) {
         this.model = new wordModels.Word();
-        if (this.options.category) {
-          this.model.set('categories', [this.options.category]);
+        var category = reqres.request('getFilter').get('category');
+        if (category) {
+          this.model.set('categories', [
+            {category: category}
+          ]);
         }
       }
     }
