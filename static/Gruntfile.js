@@ -39,6 +39,7 @@ module.exports = function (grunt) {
       main: {
         files: [
           {expand: true, cwd: srcDir + 'static', src: ['svg/**'], dest: staticRoot },
+          {expand: true, cwd: srcDir + 'static', src: ['cache.manifest'], dest: staticRoot },
           {expand: true, cwd: srcDir + 'static/bower_components/select2/', src: ['*.png', '*.gif'], dest: staticRoot + 'css/' }
         ]
       }
