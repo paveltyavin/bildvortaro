@@ -51,7 +51,7 @@ DATABASES = {
 }
 
 RAVEN_CONFIG = {
-    'dsn': 'http://{}@sentry.tyavin.name/2'.format(os.environ.get('SENTRY_KEY', '')),
+    'dsn': os.environ.get('SENTRY_DSN', ''),
 }
 
 STATIC_ROOT = '/static/vortaro/static/'
