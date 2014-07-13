@@ -1,16 +1,17 @@
 module.exports = function (grunt) {
 
   var revision = grunt.option('revision') || '12345';
-  var staticRoot = grunt.option('staticRoot');
+  var staticRoot = grunt.option('staticRoot') || 'build/';
   var srcDir = grunt.option('srcDir');
 
   var processhtmlFiles = {};
   processhtmlFiles[srcDir + 'templates/base.html'] = srcDir + 'vortaro/app/templates/base.html';
+  processhtmlFiles[staticRoot + 'cache.manifest'] = srcDir + 'static/cache.manifest';
 
   var cssminFiles = {};
 
   cssminFiles[staticRoot + 'css/style-' + revision + '.css'] = [
-    'bower_components/jquery-file-upload/css/jquery.fileupload.css', 'bower_components/select2-amd/select2.css',
+    'bower_components/jquery-file-upload/css/jquery.fileupload.css', 'bower_components/select2/select2.css',
     'css/from-less.css'];
 
   var now = new Date;
@@ -39,8 +40,8 @@ module.exports = function (grunt) {
       main: {
         files: [
           {expand: true, cwd: srcDir + 'static', src: ['svg/**'], dest: staticRoot },
-          {expand: true, cwd: srcDir + 'static', src: ['cache.manifest'], dest: staticRoot },
-          {expand: true, cwd: srcDir + 'static/bower_components/select2/', src: ['*.png', '*.gif'], dest: staticRoot + 'css/' }
+          {expand: true, cwd: srcDir + 'static/bower_components/select2/', src: ['*.png', '*.gif'], dest: staticRoot +
+            'css/' }
         ]
       }
     },
@@ -61,9 +62,9 @@ module.exports = function (grunt) {
         force: true
       },
       js: [
-        staticRoot + "js/"
+        staticRoot + "js/**"
       ], css: [
-        staticRoot + "css/"
+        staticRoot + "css/**"
       ], templates: [
         srcDir + 'templates/'
       ]
@@ -72,7 +73,8 @@ module.exports = function (grunt) {
       options: {
         data: {
           revision: revision,
-          modified: now.getFullYear() + '-' + (now.getMonth()+1) + '-' + now.getDate()
+          modified: now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate(),
+          now: now
         }
       },
       dist: {

@@ -1,2 +1,11 @@
 CACHE MANIFEST
 /
+<!-- build:template
+/static/css/style-<%= revision %>.css
+/static/js/app-<%= revision %>.js
+<!-- /build -->
+
+NETWORK:
+/api/word
+/api/me
+/api/csrf

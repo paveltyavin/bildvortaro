@@ -1,6 +1,12 @@
 <!DOCTYPE html>
-{#<html manifest="/static/cache.manifest">#}
+<!-- build:template
+         <html manifest="/static/cache.manifest">
+    /build -->
+
+<!-- build:remove -->
 <html>
+<!-- /build -->
+
 <head>
     <title>BildVortaro</title>
     <!-- build:template
@@ -116,23 +122,6 @@
 <noscript><div><img src="//mc.yandex.ru/watch/25485071" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /build -->
 
-<script type="text/javascript">
-    require([
-        'marionette', 'js/reqres'
-    ], function (Marionette, reqres) {
-        var ua = navigator.userAgent;
-        var isChrome = /chrome/i.exec(ua), isAndroid = /android/i.exec(ua), hasTouch = 'ontouchstart' in window &&
-                !(isChrome && !isAndroid);
-        reqres.setHandler('hasTouch', function () {
-            return hasTouch;
-        });
-
-        var Application = new Marionette.Application();
-        Application.addInitializer(function () {
-            require(['js/app']);
-        });
-        Application.start();
-    });
-</script>
+<script type="text/javascript">require(['js/init']);</script>
 </body>
 </html>
