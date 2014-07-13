@@ -69,7 +69,7 @@ class Word(models.Model):
     show_top = models.BooleanField(verbose_name=u'Показывать в верхнем регионе', default=False)
 
     def __unicode__(self):
-        return self.name
+        return self.name or u''
 
 
 class WordCategory(models.Model):
@@ -78,7 +78,7 @@ class WordCategory(models.Model):
     word_order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка в группе')
 
     def __unicode__(self):
-        return '{} {}'.format(self.word.name, self.category.name)
+        return u'{} {}'.format(self.word.name, self.category.name)
 
     class Meta:
         unique_together = ('category', 'word')

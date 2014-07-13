@@ -1,3 +1,4 @@
+from reversion.admin import VersionAdmin
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
@@ -9,7 +10,7 @@ class WordCategoryAdmin(admin.TabularInline):
     fk_name = 'word'
 
 
-class WordAdmin(admin.ModelAdmin):
+class WordAdmin(VersionAdmin):
     list_display = ('name', 'word_class', 'date_modified')
     list_filter = ('word_class', 'show_top', 'show_main')
     inlines = (WordCategoryAdmin, )

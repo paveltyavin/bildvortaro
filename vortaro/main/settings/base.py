@@ -78,6 +78,7 @@ INSTALLED_APPS = (
     'vortaro.app',
 
     # 3rd-party
+    'reversion',
     'south',
     'sorl.thumbnail',
     'social_auth',
