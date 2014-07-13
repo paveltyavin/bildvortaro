@@ -7,5 +7,5 @@ CACHE MANIFEST
 
 NETWORK:
 /api/word
-/api/me
+/api/user/me
 /api/csrf

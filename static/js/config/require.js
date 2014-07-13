@@ -30,7 +30,6 @@ require.config({
     'requireLib': 'bower_components/r.js/require',
     'backbone.wreqr': 'bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
     'backbone.babysitter': 'bower_components/backbone.babysitter/lib/amd/backbone.babysitter',
-    'select2-amd': 'bower_components/select2-amd/select2',
     'select2': 'bower_components/select2/select2',
     'sortable': 'bower_components/Sortable/Sortable',
     'spin': 'bower_components/spinjs/spin',
@@ -38,7 +37,10 @@ require.config({
     'underscore': 'bower_components/underscore/underscore'
   },
   shim: {
-    'select2': ['jquery'],
+    'select2': {
+      deps: ["jquery"],
+      exports: "$.fn.select2"
+    },
     'bootstrap.modal': {
       deps: ["jquery"],
       exports: "$.fn.modal"

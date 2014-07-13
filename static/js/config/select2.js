@@ -1,4 +1,4 @@
-define(['jquery', 'select2-amd'], function ($) {
+define(['jquery', 'select2'], function ($) {
   $.fn.modal.Constructor.prototype.enforceFocus = function () {
   };
   $.extend($.fn.select2.defaults, {
