@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.http.response import HttpResponse
 from django.views.generic.base import TemplateView, View
 
@@ -9,8 +10,8 @@ class HomeView(TemplateView):
 class LogView(View):
     def get(self, request, *args, **kwargs):
         import logging
-        logger = logging.getLogger('raven')
-        logger.warn('Murr!', extra={
+        logger = logging.getLogger('vortaro.app')
+        logger.log(logging.WARN, 'Murr!', extra={
             'stack': True,
         })
-        return HttpResponse('ok')
+        return HttpResponse('ok!')
