@@ -102,6 +102,7 @@ define([
       'click a': 'click'
     },
     click: function (ev) {
+      r; //test for raven-js
       ev.preventDefault();
       this.trigger('click');
     }

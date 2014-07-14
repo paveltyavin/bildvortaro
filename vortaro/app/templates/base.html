@@ -120,6 +120,12 @@ Raven.config('http://9e438d06fcf7402588e4c6b2dc853f8c@sentry.tyavin.name/4', {
 <noscript><div><img src="//mc.yandex.ru/watch/25485071" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /build -->
 
-<script type="text/javascript">require(['js/init']);</script>
+<script type="text/javascript">
+    try {
+        require(['js/init']);
+    } catch (e) {
+        Raven.captureException(e)
+    }
+</script>
 </body>
 </html>
