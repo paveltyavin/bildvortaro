@@ -23,7 +23,7 @@ module.exports = function (grunt) {
           baseUrl: "./",
           name: "bower_components/almond/almond",
           include: [
-            'js/config/require.js', 'js/init', 'js/app'
+            'js/config/require.js', 'js/init', 'js/app', 'bower_components/raven-js/dist/raven'
           ],
           mainConfigFile: './js/config/require.js',
           out: staticRoot + "js/app-" + revision + ".js",

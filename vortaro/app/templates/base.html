@@ -91,6 +91,10 @@
 
 <!-- build:template
 <script type="text/javascript">
+Raven.config('http://9e438d06fcf7402588e4c6b2dc853f8c@sentry.tyavin.name/4', {
+    whitelistUrls: [/bildvortaro\.com/]
+}).install();
+
 (function (d, w, c) {
     (w[c] = w[c] || []).push(function() {
         try {
