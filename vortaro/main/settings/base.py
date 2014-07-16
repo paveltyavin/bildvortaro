@@ -94,16 +94,6 @@ AUTH_USER_MODEL = 'app.User'
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-JENKINS_TASKS = (
-    'django_jenkins.tasks.with_coverage',
-    'django_jenkins.tasks.run_pep8',
-    'django_jenkins.tasks.run_pyflakes',
-    'django_jenkins.tasks.run_jslint',
-    'django_jenkins.tasks.run_csslint',
-    'django_jenkins.tasks.run_sloccount',
-    'django_jenkins.tasks.lettuce_tests',
-)
-
 VK_APP_ID = os.environ.get('VK_APP_ID')
 VK_API_SECRET = os.environ.get('VK_API_SECRET')
 
