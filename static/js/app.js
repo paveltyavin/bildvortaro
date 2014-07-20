@@ -48,10 +48,16 @@ define([
     ui: {
       search: 'input.search-input',
       wordClasses: '.word-classes-region',
-      plusButton: '.navbar .btn-plus'
+      plusButton: '.navbar .btn-plus',
+      aboutButton: '.navbar .btn-about'
     },
     events: {
-      'click .btn-refresh': 'onRefresh'
+      'click .btn-refresh': 'onRefresh',
+      'click @ui.aboutButton': 'onAbout'
+    },
+    onAbout: function() {
+      var _this = this;
+      _this.modalRegion.show(new registerViews.AboutView());
     },
     initialize: function () {
       var _this = this;
