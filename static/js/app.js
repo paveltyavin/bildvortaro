@@ -48,7 +48,7 @@ define([
     ui: {
       search: 'input.search-input',
       wordClasses: '.word-classes-region',
-      nextButton: '.next-button'
+      plusButton: '.navbar .btn-plus'
     },
     events: {
       'click .btn-refresh': 'onRefresh'
@@ -89,6 +89,10 @@ define([
         _this.filter.set('search', search);
         _this.filter.set('category', undefined);
         _this.filter.set('wordClass', undefined);
+      });
+
+      this.ui.plusButton.on('click', function(){
+        _this.trigger('plus');
       });
 
       $(window).scroll(function () {
@@ -178,13 +182,15 @@ define([
       if (!_this.is_authenticated) {
         var registerPlusView = new registerViews.RegisterPlusView();
         _this.plusRegion.show(registerPlusView);
-        _this.listenTo(registerPlusView, 'click', function () {
+        var showRegister = function () {
           _this.modalRegion.show(new registerViews.RegisterView());
-        });
+        };
+        _this.listenTo(registerPlusView, 'click', showRegister);
+        _this.listenTo(_this, 'plus', showRegister);
       } else {
         var wordPlusView = new wordViews.WordPlusView();
         _this.plusRegion.show(wordPlusView);
-        _this.listenTo(wordPlusView, 'click', function () {
+        var showAddWord = function () {
           var addWordView = new wordViews.AddWordView();
           _this.listenTo(addWordView, 'word:save', function (view) {
             _this.fullCollection.add(view.model, {at: 0});
@@ -192,7 +198,9 @@ define([
             _this.doFilter();
           });
           _this.modalRegion.show(addWordView);
-        });
+        };
+        _this.listenTo(wordPlusView, 'click', showAddWord);
+        _this.listenTo(_this, 'plus', showAddWord);
       }
     },
 
