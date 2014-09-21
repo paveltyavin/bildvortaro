@@ -109,4 +109,4 @@ def image_word(instance, *args, **kwargs):
 
 post_delete.connect(delete_image, sender=Word)
 post_save.connect(post_word_save, sender=Word)
-pre_save.connect(image_word, sender=Word)
+post_save.connect(image_word, sender=Word)

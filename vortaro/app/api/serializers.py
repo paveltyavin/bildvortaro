@@ -56,7 +56,7 @@ class WordSerializer(serializers.ModelSerializer):
             'image',
         )
 
-    read_only = ('thumb','categories')
+    read_only = ('thumb', 'categories')
 
 
 class UserSerializer(serializers.ModelSerializer):
