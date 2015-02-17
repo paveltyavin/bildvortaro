@@ -39,8 +39,8 @@ class WordDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WordSerializer
 
     def post_save(self, obj, created=False):
-        categories_str = self.request.DATA['categories'].iteritems()
-        categories = {int(key): value for key, value in categories_str}
+        categories_str = self.request.DATA['categories']
+        categories = {int(key): value for key, value in categories_str.iteritems()}
         category_ids = categories.keys()
         word_id = self.request.DATA['id']
         wc_qs = WordCategory.objects.filter(category_id__in=category_ids, word_id=word_id)
