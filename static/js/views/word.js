@@ -245,6 +245,7 @@ define([
       var data = _this.fileuploadData;
       if (data) {
         data.formData = this.model.toJSON();
+//        data.formData = JSON.stringify(this.model.toJSON());
         data.submit().complete(function () {
           _this.close();
         });

@@ -19,15 +19,6 @@ class WordList(generics.ListCreateAPIView):
     serializer_class = serializers.WordSerializer
 
     def get_queryset(self):
-        # if self.request.QUERY_PARAMS.get('refresh', None):
-        #     last_requested = None
-        # else:
-        #     last_requested = self.request.session.get('last_requested', None)
-        # if last_requested and isinstance(last_requested, datetime.datetime):
-        #     qs = Word.objects.filter(date_modified__gt=last_requested)
-        # else:
-        #     qs = Word.objects.all()
-        # self.request.session['last_requested'] = datetime.datetime.now()
         qs = Word.objects.all()
         qs = qs.select_related().prefetch_related('categories')
         return qs
@@ -38,7 +29,7 @@ class WordDetail(generics.RetrieveUpdateDestroyAPIView):
     model = Word
     serializer_class = serializers.WordSerializer
 
-    def post_save(self, obj, created=False):
+    def _post_save(self, obj, created=False):
         categories_str = self.request.DATA['categories']
         categories = {int(key): value for key, value in categories_str.iteritems()}
         category_ids = categories.keys()
@@ -88,7 +79,7 @@ class Orders(APIView):
         cursor.execute(sql_query)
         rowcount = cursor.cursor.rowcount
         cursor.close()
-        return HttpResponse(json.dumps({'rowcount':rowcount}), mimetype='application/json')
+        return HttpResponse(json.dumps({'rowcount': rowcount}), mimetype='application/json')
 
 
 class UserList(generics.ListAPIView):
