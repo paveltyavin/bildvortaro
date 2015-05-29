@@ -1,0 +1,41 @@
+{
+  "name": "bildvortaro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "browserify": {
+    "transform": [
+      "coffeeify",
+      "hbsfy"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "browserify": "^8.1.1",
+    "coffeeify": "^1.0.0",
+    "gulp": "^3.8.10",
+    "gulp-less": "^3.0.2",
+    "gulp-livereload": "^3.7.0",
+    "gulp-size": "^1.2.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.3",
+    "handlebars": "^3.0.3",
+    "hbsfy": "^2.2.1",
+    "jquery": "^2.1.4",
+    "jquery.cookie": "^1.4.1",
+    "moment": "^2.10.2",
+    "require-dir": "^0.3.0",
+    "select2": "^3.5.2-browserify",
+    "stream-combiner2": "^1.0.2",
+    "uglifyify": "^3.0.1",
+    "underscore": "^1.7.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.4.0"
+  }
+}

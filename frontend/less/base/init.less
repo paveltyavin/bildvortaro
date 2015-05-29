@@ -1,0 +1,38 @@
+@import 'footer';
+@import 'navbar';
+@import 'svg_icons';
+
+.category-image-container {
+  text-align: center;
+}
+
+.sidebar .row {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+.sidebar .list-group {
+  padding-right: 0px;
+}
+
+.sidebar .nav > li > a {
+  padding: 10px;
+}
+
+@media (min-width: @screen-md-min) {
+  .sidebar {
+    padding-right: 0;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .nav-justified > li {
+    display: inherit;
+    width: inherit;
+  }
+}
+
+a.list-group-item {
+  cursor: pointer;
+}

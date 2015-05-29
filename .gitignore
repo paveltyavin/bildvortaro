@@ -1,13 +1,5 @@
-local.py
-local_test.py
-
-manage_local.py
-manage_local_test.py
+.idea/*
 *.pyc
+local.py
 
-node_modules
-bower_components
-
-static/css/*
-
-fabfile.py
+.DS_Store

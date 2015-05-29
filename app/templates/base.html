@@ -1,0 +1,91 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BildVortaro</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body class="{% block body_class %}{% endblock %}"
+      data-module_name="{% block module_name %}{% endblock %}">
+
+{% block navbar %}
+    <div class="container navbar-container">
+        <div class="row navbar">
+            <div class="col-sm-6 col-xs-12">
+                <div class="vortaro-logo">BildVortaro<span class="vortaro-logo-star">★</span>com</div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="navbar-r ">
+                    <div class="input-group">
+                    <span class="btn input-group-addon btn-plus">
+                        <i class="svg-icon svg-plus"></i>
+                    </span>
+                    <span class="btn input-group-addon btn-refresh">
+                        <i class="svg-icon svg-loop"></i>
+                    </span>
+                    <span class="btn input-group-addon btn-about"
+                          style="font-size: 18px;border-left: 0px; border-right: 0px;">
+                        ?
+                    </span>
+                        <input type="text" class="search-input form-control" placeholder="Serĉu...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 hidden-xs">
+            <div class="word-classes-region"></div>
+            <div class="categories-region"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="plus-region hidden-xs"></div>
+            <div class="main-region"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container footer">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">{{ now.year }}</div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+<div class="modal-region modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+</div>
+
+
+{% if DEBUG %}
+    <script>
+        window.debug = true;
+    </script>
+{% else %}
+    <script>
+        window.debug = false;
+    </script>
+    {% include 'counters.html' %}
+{% endif %}
+
+<script src="{% static 'js/vendor.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

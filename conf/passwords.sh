@@ -1,0 +1,15 @@
+#!/bin/bash -ex
+
+export DATABASE_PASSWORD='folly78';
+export SENTRY_DSN='http://16b16ce4679842acb00d09c8f04e9430:d1713061ce0f445984bb5dca1a689abc@sentry.tyavin.name/3';
+
+export VK_APP_ID='4447197';
+export VK_API_SECRET='Utmm0ZL7mpEw9RaRgzrA';
+
+export FACEBOOK_API_SECRET='56c8e8004e0964d94753cf7b738d0422';
+export FACEBOOK_APP_ID='679515035444381';
+
+export FLICKR_KEY='39db47c84a0cd4fa78874dd068813271';
+export FLICKR_SECRET='dc8e5992eb612cfe';
+
+export GOOGLE_KEY='AIzaSyCCqW_ouzQHPIF1TSy8LHC5pZkwZevUHac';
