@@ -45,6 +45,7 @@ class Word(models.Model):
     date_modified = models.DateTimeField(verbose_name=u'Время изменения', default=now)
 
     name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True)
+    slug = models.SlugField(max_length=128, verbose_name=u'Слаг', blank=True, default='')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image, default='', )
 
     @property
@@ -62,6 +63,8 @@ class Word(models.Model):
             self.date_created = now()
         else:
             self.date_modified = now()
+        if not self.slug and self.name:
+            self.slug = slugify(self.name)
         super(Word, self).save(*args, **kwargs)
 
     def __unicode__(self):

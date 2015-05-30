@@ -117,4 +117,4 @@ LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/'
 
-THUMBNAIL_ENGINE = 'app.pil_engine.Engine'
+THUMBNAIL_ENGINE = 'app.pil_engine.VortaroEngine'

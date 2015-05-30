@@ -1,10 +1,10 @@
 from PIL import Image, ImageColor
-from sorl.thumbnail.engines.pil_engine import Engine as SorlEngine
+from sorl.thumbnail.engines.pil_engine import Engine
 
 
-class Engine(SorlEngine):
+class VortaroEngine(Engine):
     def create(self, image, geometry, options):
-        thumb = super(Engine, self).create(image, geometry, options)
+        thumb = super(VortaroEngine, self).create(image, geometry, options)
         if options.get('background'):
             try:
                 background = Image.new('RGB', thumb.size, ImageColor.getcolor(options.get('background'), 'RGB'))

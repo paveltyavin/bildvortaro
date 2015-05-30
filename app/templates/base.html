@@ -15,23 +15,24 @@
     <div class="container navbar-container">
         <div class="row navbar">
             <div class="col-sm-6 col-xs-12">
-                <div class="vortaro-logo">BildVortaro<span class="vortaro-logo-star">★</span>com</div>
+                <a class="vortaro-logo" href="/">
+                    BildVortaro<span class="vortaro-logo-star">★</span>com
+                </a>
             </div>
-            <div class="col-sm-6 col-xs-12">
-                <div class="navbar-r ">
-                    <div class="input-group">
-                    <span class="btn input-group-addon btn-plus">
-                        <i class="svg-icon svg-plus"></i>
-                    </span>
-                    <span class="btn input-group-addon btn-refresh">
-                        <i class="svg-icon svg-loop"></i>
-                    </span>
-                    <span class="btn input-group-addon btn-about"
-                          style="font-size: 18px;border-left: 0px; border-right: 0px;">
-                        ?
-                    </span>
-                        <input type="text" class="search-input form-control" placeholder="Serĉu...">
-                    </div>
+            <div class="col-sm-3 col-xs-12">
+                <div class="navbar-r">
+                    <form action="/" class="search-form form form-inline">
+                        <input type="text" class="search-input form-control" name="search"
+                               placeholder="Serĉu...">
+                        <input class="btn btn-default form-control" type="submit" value="ok">
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="navbar-r">
+                    <p class="form-control-static">
+                        <a href="{% url 'add' %}" class="pull-right">aldoni vorto</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -39,9 +40,7 @@
 {% endblock %}
 
 <div class="container">
-    {% block content %}
-
-    {% endblock %}
+    {% block content %}{% endblock %}
 </div>
 
 {% block footer %}

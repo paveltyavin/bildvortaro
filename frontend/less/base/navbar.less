@@ -1,5 +1,4 @@
 
-
 .navbar-container {
   border-bottom: 3px double @eo;
   margin-bottom: 10px;
@@ -9,15 +8,21 @@
 .navbar-r {
   margin-bottom: 8px;
 }
+
 .vortaro-logo {
   display: none;
   color: @eo;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 @media (min-width: @screen-xs-min) {
   .navbar-r {
     margin-bottom: 8px;
   }
+
   .vortaro-logo {
     font-size: 2em;
     display: block;
@@ -44,11 +49,13 @@
   }
 
 }
+
 @media (min-width: @screen-lg-min) {
 
   .navbar-r {
     margin-top: 38px;
   }
+
   .vortaro-logo {
     font-size: 4em;
     display: block;
@@ -60,3 +67,8 @@
 
 }
 
+.btn-about {
+  font-size: 18px;
+  border-left: 0px;
+  border-right: 0px;
+}

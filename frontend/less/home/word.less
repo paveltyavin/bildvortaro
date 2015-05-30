@@ -2,33 +2,21 @@
   font-size: 1.5em;
   height: 1.5em;
   text-align: center;
+  display: block;
 }
 
 .word-block {
   text-align: center;
-  padding-top:15px;
-  padding-bottom: 25px;
-//  margin-bottom: 20px;
-}
-
-.word-block.my{
-  background-color: #efefef;
-}
-
-.word-block {
   position: relative;
   float: left;
   min-height: 1px;
-  padding-left: 0;
-  padding-right: 0;
-}
+  padding: 15px 0 25px;
 
-//@media (min-width: @screen-xs-min) {
-  .word-block {
-    //    text-align: right;
-    width: percentage(1 / 2);
+  width: percentage(1 / 2);
+  .my {
+    background-color: #efefef;
   }
-//}
+}
 
 @media (min-width: @screen-sm-min) {
   .word-block {
@@ -48,8 +36,15 @@
   }
 }
 
-.word-block {
-  padding-right: 0;
+.word-image {
+  vertical-align: middle;
+  display: inline-block;
+  float: none;
+  max-width: 100%;
+  max-height: 100%;
+  img, canvas {
+    display: block;
+  }
 }
 
 .square-image-container(@size) {
@@ -93,26 +88,4 @@
   .word-image-container {
     .square-image-container(160px)
   }
-}
-
-.word-image {
-  vertical-align: middle;
-  display: inline-block;
-  float: none;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.word-image img, .word-image canvas {
-  display: block;
-}
-
-.word-edit-container {
-  padding: 2px;
-  background-color: #fff;
-  line-height: 1;
-  font-size: 1.3em;
-  bottom: 0;
-  right: 0;
-  position: absolute;
 }
