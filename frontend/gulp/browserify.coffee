@@ -1,6 +1,7 @@
 gulp = require 'gulp'
 util = require "gulp-util"
 size = require "gulp-size"
+_ = require "underscore"
 
 require 'coffeeify'
 
@@ -15,12 +16,19 @@ fromArgs = require 'watchify/bin/args'
 is_prod = process.env.PRODUCTION
 
 EXTERNALS = [
+  { require: "backbone", expose: 'backbone' }
+  { require: "backbone.marionette", expose: 'backbone.marionette' }
+  { require: "backbone.wreqr", expose: 'backbone.wreqr' }
   { require: "bootstrap", expose: 'bootstrap' }
+  { require: "spin.js", expose: 'spin.js' }
   { require: "handlebars", expose: 'handlebars' }
   { require: "hbsfy", expose: 'hbsfy' }
   { require: "hbsfy/runtime", expose: 'hbsfy/runtime' }
   { require: "select2", expose: 'select2' }
+  { require: "underscore", expose: 'underscore' }
   { require: "jquery", expose: 'jquery' }
+  { require: "moment", expose: 'moment' }
+  { require: "moment/locale/ru", expose: 'moment/locale/ru' }
   {
     require: "./js/utils/raven.js"
     expose: 'raven-js'
