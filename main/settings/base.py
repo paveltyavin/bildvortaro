@@ -101,12 +101,6 @@ AUTH_USER_MODEL = 'app.User'
 DEBUG = True
 TEMPLATE_DEBUG = True
 
-VK_APP_ID = os.environ.get('VK_APP_ID')
-VK_API_SECRET = os.environ.get('VK_API_SECRET')
-
-FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
-FACEBOOK_API_SECRET = os.environ.get('FACEBOOK_API_SECRET')
-
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.vk.VKOAuth2',
@@ -118,3 +112,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/'
 
 THUMBNAIL_ENGINE = 'app.pil_engine.VortaroEngine'
+
+APPEND_SLASH = True
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
+    ),
+}

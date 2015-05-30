@@ -1,6 +1,6 @@
 require('./csrf');
 
-$ = require('jquery');
+var $ = require('jquery');
 require('select2');
 
 $.fn.select2.locales['ru'] = {

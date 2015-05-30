@@ -37,6 +37,10 @@ EXTERNALS = [
     require: "./js/utils/tracekit.js"
     expose: 'tracekit'
   }
+  {
+    require: "./js/utils/Backbone.ModelBinder.js"
+    expose: 'ModelBinder'
+  }
 ]
 
 w_app = browserify
