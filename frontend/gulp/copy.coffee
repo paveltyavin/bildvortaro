@@ -1,5 +1,5 @@
 gulp = require 'gulp'
 
 gulp.task 'copy', ->
-  gulp.src './copy/**'
-  .pipe gulp.dest "./public/"
+  gulp.src './public/**'
+  .pipe gulp.dest "./dist/"

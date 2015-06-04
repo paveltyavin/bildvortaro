@@ -36,8 +36,8 @@ WORD_CLASS_CHOICES = (
 class Word(models.Model):
     class Meta:
         ordering = ('-date_modified',)
-        verbose_name = u'Слово'
-        verbose_name_plural = u'Слова'
+        verbose_name = u'Vorto'
+        verbose_name_plural = u'Vorti'
 
     user_created = models.ForeignKey('User', verbose_name=u'Создатель', related_name="word_created")
     user_modified = models.ForeignKey('User', verbose_name=u'Последний изменивший', related_name="word_modified")
@@ -45,6 +45,7 @@ class Word(models.Model):
     date_modified = models.DateTimeField(verbose_name=u'Время изменения', default=now)
 
     name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True)
+    description = models.TextField(verbose_name=u'Описание', blank=True)
     slug = models.SlugField(max_length=128, verbose_name=u'Слаг', blank=True, default='')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image, default='', )
 
@@ -63,8 +64,7 @@ class Word(models.Model):
             self.date_created = now()
         else:
             self.date_modified = now()
-        if not self.slug and self.name:
-            self.slug = slugify(self.name)
+        self.slug = slugify(self.name)
         super(Word, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -72,8 +72,8 @@ class Word(models.Model):
 
 
 class WordCategory(models.Model):
-    category = models.ForeignKey(Word, verbose_name=u'Категория', related_name='words')
-    word = models.ForeignKey(Word, verbose_name=u'Категория', related_name='categories')
+    category = models.ForeignKey(Word, verbose_name=u'Категория', related_name='categoryword')
+    word = models.ForeignKey(Word, verbose_name=u'Категория', related_name='wordcategory')
     word_order = models.IntegerField(default=0, blank=False, null=False, verbose_name=u'Сортировка в группе')
 
     def __unicode__(self):

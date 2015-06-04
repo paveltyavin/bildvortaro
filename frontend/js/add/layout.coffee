@@ -3,7 +3,8 @@ _ = require 'underscore'
 marionette = require 'backbone.marionette'
 
 class Layout extends marionette.LayoutView
-  el: 'body'
+  template : require './templates/layout'
+  initialize: =>
+    null
 
-module.exports = ->
-  new Layout()
+module.exports = Layout

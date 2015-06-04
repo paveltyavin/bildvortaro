@@ -4,9 +4,9 @@ livereload = require 'gulp-livereload'
 task_browserify = require './browserify'
 
 watch = ->
-  livereload.listen()
+  livereload.listen(quiet:true)
 
-  gulp.watch './copy/**/*', ['copy']
+  gulp.watch './public/**/*', ['copy']
   gulp.watch './less/**/*.less', ['less']
   gulp.watch './package.json', ['browserify:vendor']
   task_browserify.b_app_dev()

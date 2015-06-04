@@ -13,6 +13,10 @@ class WordCollection extends backbone.Collection
 class WordItemView extends marionette.ItemView
   template: require './templates/word_item'
   className: 'word-block'
+  onRender: =>
+    @$el.on 'click', (event)=>
+      event.preventDefault()
+      backbone.history.navigate 'vorto/' + @model.get('slug'), trigger: true
 
 class WordListView extends marionette.CollectionView
   childView: WordItemView

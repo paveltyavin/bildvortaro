@@ -12,13 +12,15 @@
 .vortaro-logo {
   display: none;
   color: @eo;
-  text-decoration: none;
-  &:hover {
+  &, &:hover, &:visited, &:focus {
     text-decoration: none;
   }
 }
 
-@media (min-width: @screen-xs-min) {
+@media (max-width: @screen-xs-min) {
+}
+
+@media (min-width: @screen-xs-min) and (max-width: @screen-md-min) {
   .navbar-r {
     margin-bottom: 8px;
   }
@@ -31,9 +33,13 @@
   .vortaro-logo-star {
     font-size: 0.2em;
   }
+
+  .search-input {
+    width: 100px !important;
+  }
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-md-min) and (max-width: @screen-lg-min) {
 
   .navbar-r {
     margin-top: 18px;
@@ -48,6 +54,9 @@
     font-size: 0.3em;
   }
 
+  .search-input {
+    width: 120px !important;
+  }
 }
 
 @media (min-width: @screen-lg-min) {
@@ -63,6 +72,10 @@
 
   .vortaro-logo-star {
     font-size: 0.4em;
+  }
+
+  .search-input {
+    width: auto;
   }
 
 }

@@ -12,7 +12,7 @@ gulp.task 'less', ->
     gulp.src './less/styles.less'
     less()
     size()
-    gulp.dest './public/css'
+    gulp.dest './dist/css'
     livereload()
   ])
 

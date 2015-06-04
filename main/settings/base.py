@@ -22,7 +22,8 @@ USE_I18N = True
 
 USE_L10N = False
 
-LANGUAGE_CODE = 'ru-RU'
+# LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = 'eo'
 
 TIME_ZONE = 'Europe/Moscow'
 DATE_FORMAT = 'd.m.Y'
@@ -70,6 +71,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
 
+    'bootstrap3',
     'django_extensions',
 
     'app',

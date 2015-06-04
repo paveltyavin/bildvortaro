@@ -63,7 +63,7 @@ b_app_dev = ->
     @emit 'end'
   .pipe source 'app.js'
   .pipe buffer()
-  .pipe gulp.dest './public/js/'
+  .pipe gulp.dest './dist/js/'
   .pipe livereload()
 
 gulp.task 'browserify:app:dev', b_app_dev
@@ -84,7 +84,7 @@ b_app_prod = ->
   b_app.bundle()
   .pipe source 'app.js'
   .pipe buffer()
-  .pipe gulp.dest './public/js/'
+  .pipe gulp.dest './dist/js/'
 
 gulp.task 'browserify:app:prod', b_app_prod
 
@@ -103,9 +103,9 @@ gulp.task 'browserify:vendor', ->
       @emit 'end'
   .pipe source 'vendor.js'
   .pipe buffer()
-  .pipe uglify()
+#  .pipe uglify()
   .pipe size()
-  .pipe gulp.dest('./public/js/')
+  .pipe gulp.dest('./dist/js/')
 
 module.exports =
   b_app_dev: b_app_dev

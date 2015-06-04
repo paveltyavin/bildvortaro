@@ -12,6 +12,9 @@
       "hbsfy"
     ]
   },
+  "browser": {
+    "data": "./js/data.coffee"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

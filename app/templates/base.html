@@ -8,50 +8,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
-<body class="{% block body_class %}{% endblock %}"
-      data-module_name="{% block module_name %}{% endblock %}">
-
-{% block navbar %}
-    <div class="container navbar-container">
-        <div class="row navbar">
-            <div class="col-sm-6 col-xs-12">
-                <a class="vortaro-logo" href="/">
-                    BildVortaro<span class="vortaro-logo-star">★</span>com
-                </a>
+<body>
+<nav class="container navbar-container">
+    <div class="row navbar">
+        <div class="col-md-5 col-sm-4 col-xs-12">
+            <a class="vortaro-logo" href="#">
+                BildVortaro<span class="vortaro-logo-star">★</span>com
+            </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+            <div class="navbar-r">
+                <form action="/" class="search-form form form-inline">
+                    <input type="text" class="search-input form-control" name="search"
+                           placeholder="Serĉu...">
+                    <input class="btn btn-default form-control" type="submit" value="ok">
+                </form>
             </div>
-            <div class="col-sm-3 col-xs-12">
-                <div class="navbar-r">
-                    <form action="/" class="search-form form form-inline">
-                        <input type="text" class="search-input form-control" name="search"
-                               placeholder="Serĉu...">
-                        <input class="btn btn-default form-control" type="submit" value="ok">
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="navbar-r">
-                    <p class="form-control-static">
-                        <a href="{% url 'add' %}" class="pull-right">aldoni vorto</a>
-                    </p>
-                </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="navbar-r">
+                <p class="form-control-static">
+                    <a href="#" class="pull-right add_word">aldoni vorto</a>
+                </p>
             </div>
         </div>
     </div>
-{% endblock %}
+</nav>
+<div class="container main_region"></div>
 
-<div class="container">
-    {% block content %}{% endblock %}
+<div class="container footer">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">{{ now.year }}</div>
+        <div class="col-md-4"></div>
+    </div>
 </div>
-
-{% block footer %}
-    <div class="container footer">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">{{ now.year }}</div>
-            <div class="col-md-4"></div>
-        </div>
-    </div>
-{% endblock %}
 
 {% if DEBUG %}
     <script>

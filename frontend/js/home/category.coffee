@@ -15,7 +15,7 @@ class CategoryItemView extends marionette.ItemView
   className: 'category-block'
 
   onRender: =>
-    filter = data.reqres.request 'filter'
+    filter = data.filter
     filter.on 'change:category', =>
       category = filter.get 'category'
       if @model.get('slug') is category

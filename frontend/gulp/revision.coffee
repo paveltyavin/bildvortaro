@@ -4,13 +4,13 @@ moment = require 'moment'
 
 gulp.task 'revision', ->
   try
-    fs.mkdirSync('./public/')
+    fs.mkdirSync('./dist/')
   catch e
     if e.code != 'EEXIST'
       throw e;
   try
-    fs.mkdirSync('./public/templates/')
+    fs.mkdirSync('./dist/templates/')
   catch e
     if e.code != 'EEXIST'
       throw e;
-  fs.writeFile('./public/templates/revision.txt', moment().format('llll'));
+  fs.writeFile('./dist/templates/revision.txt', moment().format('llll'));

@@ -1,9 +1,8 @@
 # coding=utf-8
-from django_filters.filters import CharFilter
-from django_filters.filterset import FilterSet
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
-from app.models import Word
+from rest_framework.parsers import JSONParser
+from app.models import Word, WordCategory
 from app.api import serializers
 
 
@@ -22,11 +21,48 @@ class WordList(ListAPIView):
         search = self.request.query_params.get('search')
         if search:
             qs = qs.filter(name__icontains=search)
-        category = self.request.query_params.get('category')
-        if category:
-            qs = qs.filter(categories__category__slug=category)
-
+        category_slug = self.request.query_params.get('category')
+        if category_slug:
+            qs = qs.filter(wordcategory__category__slug=category_slug)
         return qs
+
+
+class WordCategoryList(ListAPIView):
+    serializer_class = serializers.WordCategorySerializer
+    parser_classes = (JSONParser,)
+
+    def get_queryset(self):
+        return WordCategory.objects.filter(
+            word_id=self.kwargs.get('word_pk'),
+        )
+
+    def post(self, request):
+        pass
+
+
+class WordCategoryDetail(RetrieveUpdateDestroyAPIView):
+    serializer_class = serializers.WordCategorySerializer
+
+    def get_queryset(self):
+        return WordCategory.objects.filter(
+            word_id=self.kwargs.get('word_pk'),
+        )
+
+
+class WordDetail(RetrieveUpdateDestroyAPIView):
+    serializer_class = serializers.WordDetailSerializer
+    lookup_field = 'slug'
+
+    def post(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def get_queryset(self):
+        qs = Word.objects.filter(show_main=True)
+        return qs
+
+
+class WordDigitDetail(WordDetail):
+    lookup_field = 'pk'
 
 
 class CategoryList(ListAPIView):
