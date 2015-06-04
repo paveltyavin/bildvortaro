@@ -3,7 +3,7 @@ _ = require 'underscore'
 marionette = require 'backbone.marionette'
 backbone = require 'backbone'
 
-data = require './data'
+data = require 'data'
 
 class Navbar extends marionette.LayoutView
   el: 'nav'
@@ -14,8 +14,15 @@ class Navbar extends marionette.LayoutView
 
   onSearchFormSubmit: (event)=>
     event.preventDefault()
+    search = @$('.search-input').val()
 
-    data.filter.set search: @$('search-input').val()
+    if search
+      app = data.reqres.request 'app'
+      cv = app.main_region.currentView
+      if cv.word_list_view
+        data.filter.set search: search
+      else
+        backbone.history.navigate '?search=' + search, trigger: true
 
   onHomeClick: (event)=>
     event.preventDefault()

@@ -13,24 +13,20 @@ class Layout extends marionette.LayoutView
     word_list_region: '.word_list_region'
     category_list_region: '.category_list_region'
 
-  events:
-    'submit .search-form': 'onSearchFormSubmit'
-
   onFilterChange: =>
-    url = '/?' + $.param @filter.toJSON()
-    backbone.history.navigare url
-    @word_collection.fetch data: @filter.toJSON()
-
-
-  onSearchFormSubmit: (event)=>
-    event.preventDefault()
+    filter = data.filter
+    url = '/?' + $.param filter.toJSON()
+    backbone.history.navigate url
+    @word_collection.fetch data: filter.toJSON()
 
   onRender: =>
+    filter = data.filter
+    @listenTo filter, 'change', @onFilterChange
+
     @word_collection = new word.WordCollection
     @word_list_view = new word.WordListView
       collection: @word_collection
     @word_list_region.show(@word_list_view)
-    @word_collection.fetch()
 
     @category_collection = new category.CategoryCollection
     @category_list_view = new category.CategoryListView
@@ -41,6 +37,9 @@ class Layout extends marionette.LayoutView
     filter_data = _.object _.compact _.map location.search.slice(1).split('&'), (item) ->
       if item
         item.split('=')
-    data.filter.set filter_data
+    if _.isEmpty filter_data
+      @word_collection.fetch()
+    else
+      filter.set filter_data
 
 module.exports = Layout

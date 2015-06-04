@@ -1,7 +1,7 @@
 # coding=utf-8
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser, FileUploadParser
 from app.models import Word, WordCategory
 from app.api import serializers
 
@@ -33,7 +33,7 @@ class WordCategoryList(ListAPIView):
 
     def get_queryset(self):
         return WordCategory.objects.filter(
-            word_id=self.kwargs.get('word_pk'),
+            word_id=self.kwargs.get('pk'),
         )
 
     def post(self, request):
@@ -44,25 +44,25 @@ class WordCategoryDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WordCategorySerializer
 
     def get_queryset(self):
-        return WordCategory.objects.filter(
-            word_id=self.kwargs.get('word_pk'),
-        )
+        return WordCategory.objects.all()
 
 
 class WordDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WordDetailSerializer
-    lookup_field = 'slug'
 
     def post(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
     def get_queryset(self):
-        qs = Word.objects.filter(show_main=True)
-        return qs
+        return Word.objects.all()
 
 
-class WordDigitDetail(WordDetail):
-    lookup_field = 'pk'
+class WordSlugDetail(WordDetail):
+    lookup_field = 'slug'
+
+
+class WordImage(WordDetail):
+    parser_classes = (FileUploadParser,)
 
 
 class CategoryList(ListAPIView):

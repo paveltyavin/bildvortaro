@@ -5,6 +5,10 @@ marionette = require 'backbone.marionette'
 ModelBinder = require 'ModelBinder'
 
 data = require 'data'
+category = require './category'
+
+require 'jquery-ui'
+require 'blueimp-file-upload'
 
 class Word extends backbone.Model
   url: =>
@@ -16,14 +20,30 @@ class Word extends backbone.Model
     @slug = options.slug
 
 
-class WordView extends marionette.ItemView
-  template: require './templates/item'
+class WordDetailView extends marionette.ItemView
+  template: require './templates/detail'
   onRender: =>
     @$('.edit').on 'click', =>
       data.vent.trigger('word:edit')
 
-class WordEditView extends marionette.ItemView
-  template: require './templates/edit'
+
+class WordImageView extends marionette.ItemView
+  template: require './templates/image'
+
+
+class WordImageEditView extends marionette.ItemView
+  template: require './templates/image_edit'
+
+  onRender: =>
+    @$('.image_upload').fileupload
+      url: '/api/word/' + @model.id + '/image/'
+      dataType: 'json',
+      done: (e, data) =>
+        @model.fetch()
+
+
+class WordDetailEditView extends marionette.ItemView
+  template: require './templates/detail_edit'
   bindings:
     name: '[name=name]'
     description: '[name=description]'
@@ -40,30 +60,35 @@ class WordEditView extends marionette.ItemView
 
 class Layout extends marionette.LayoutView
   regions:
-    word_region: '.word_region'
+    detail_region: '.detail_region'
+    image_region: '.image_region'
+    category_list_region: '.category_list_region'
+    word_list_region: '.word_list_region'
   template: require './templates/layout'
   initialize: (options)=>
     @word = new Word
       slug: options.slug
   onRender: =>
     @word.fetch().done =>
-      view = new WordView
-        model: @word
-      @word_region.show(view)
+      @detail_region.show(new WordDetailView({model: @word}))
+      @image_region.show(new WordImageView({model: @word}))
+
+      category_collection = new category.CategoryCollection
+        word_id: @word.id
+      @category_list_region.show(new category.CategoryListView({collection: category_collection}))
+      category_collection.fetch()
 
     @listenTo data.vent, 'word:edit', =>
-      view = new WordEditView
-        model: @word
-      @word_region.show(view)
+      @detail_region.show(new WordDetailEditView({model: @word}))
+      @image_region.show(new WordImageEditView({model: @word}))
 
 
     @listenTo data.vent, 'word:save', =>
       changed_name = @word.changed.name or false
 
       @word.save().then =>
-        view = new WordView
-          model: @word
-        @word_region.show(view)
+        @detail_region.show(new WordDetailView({model: @word}))
+        @image_region.show(new WordImageView({model: @word}))
 
         if changed_name
           backbone.history.navigate 'vorto/' + @word.get('slug')
