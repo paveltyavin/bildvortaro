@@ -34,6 +34,14 @@ class WordDetailSerializer(ModelSerializer):
         ]
 
 
+class WordImageSerializer(ModelSerializer):
+    class Meta:
+        model = Word
+        fields = [
+            'image',
+        ]
+
+
 class WordSerializer(ModelSerializer):
     thumb = SerializerMethodField()
 
@@ -73,6 +81,7 @@ class CategorySerializer(ModelSerializer):
     class Meta:
         model = Word
         fields = [
+            'id',
             'name',
             'thumb',
             'slug',

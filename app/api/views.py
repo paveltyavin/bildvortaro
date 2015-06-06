@@ -1,7 +1,9 @@
 # coding=utf-8
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.exceptions import ParseError
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import JSONParser, FileUploadParser
+from rest_framework.response import Response
 from app.models import Word, WordCategory
 from app.api import serializers
 
@@ -29,15 +31,26 @@ class WordList(ListAPIView):
 
 class WordCategoryList(ListAPIView):
     serializer_class = serializers.WordCategorySerializer
-    parser_classes = (JSONParser,)
 
     def get_queryset(self):
         return WordCategory.objects.filter(
             word_id=self.kwargs.get('pk'),
         )
 
-    def post(self, request):
-        pass
+    def post(self, request, **kwargs):
+        try:
+            category = Word.objects.get(id=self.request.data.get('category_id'))
+        except Word.DoesNotExist:
+            return ParseError()
+        try:
+            word = Word.objects.get(id=self.kwargs.get('pk'))
+        except Word.DoesNotExist:
+            return ParseError()
+        WordCategory.objects.get_or_create(
+            word=word,
+            category=category,
+        )
+        return Response()
 
 
 class WordCategoryDetail(RetrieveUpdateDestroyAPIView):
@@ -61,12 +74,23 @@ class WordSlugDetail(WordDetail):
     lookup_field = 'slug'
 
 
-class WordImage(WordDetail):
+class WordImage(UpdateAPIView):
     parser_classes = (FileUploadParser,)
+    serializer_class = serializers.WordImageSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Word.objects.all()
 
 
 class CategoryList(ListAPIView):
     serializer_class = serializers.CategorySerializer
 
     def get_queryset(self):
-        return Word.objects.filter(show_top=True)
+        qs = Word.objects.filter(show_top=True)
+        search = self.request.query_params.get('search')
+        if search:
+            qs = qs.filter(name__icontains=search)
+        return qs
