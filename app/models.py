@@ -44,7 +44,7 @@ class Word(models.Model):
     date_created = models.DateTimeField(verbose_name=u'Время создания', default=now)
     date_modified = models.DateTimeField(verbose_name=u'Время изменения', default=now)
 
-    name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True)
+    name = models.CharField(max_length=128, verbose_name=u'Имя', blank=True, unique=True,)
     description = models.TextField(verbose_name=u'Описание', blank=True)
     slug = models.SlugField(max_length=128, verbose_name=u'Слаг', blank=True, default='')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image, default='', )

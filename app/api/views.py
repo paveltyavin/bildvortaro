@@ -1,6 +1,6 @@
 # coding=utf-8
 from rest_framework.exceptions import ParseError
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, ListCreateAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import JSONParser, FileUploadParser
 from rest_framework.response import Response
@@ -13,7 +13,7 @@ class WordPagination(PageNumberPagination):
     max_page_size = 100
 
 
-class WordList(ListAPIView):
+class WordList(ListCreateAPIView):
     serializer_class = serializers.WordSerializer
     pagination_class = WordPagination
 
@@ -27,6 +27,20 @@ class WordList(ListAPIView):
         if category_slug:
             qs = qs.filter(wordcategory__category__slug=category_slug)
         return qs
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=201, headers=headers)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(
+            user_created=user,
+            user_modified=user,
+        )
 
 
 class WordCategoryList(ListAPIView):
