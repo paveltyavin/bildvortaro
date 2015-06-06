@@ -14,7 +14,7 @@ class WordDetailSerializer(ModelSerializer):
 
     def get_thumb(self, obj):
         if obj.image:
-            t = get_thumbnail(obj.image, '200x200')
+            t = get_thumbnail(obj.image, '300x300')
             request = self.context.get('request', None)
             if request is not None:
                 return request.build_absolute_uri(t.url)

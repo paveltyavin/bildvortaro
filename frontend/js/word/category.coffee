@@ -23,10 +23,20 @@ class CategoryCollection extends backbone.Collection
 
 class CategoryItemView extends marionette.ItemView
   template: require './templates/category_item'
+  className: 'category_item'
   onRender: =>
     @$el.on 'click', =>
       slug = @model.get('category').slug
       backbone.history.navigate '/vorto/' + slug, trigger: true
+
+
+class CategoryEditItemView extends  marionette.ItemView
+  template: require './templates/category_edit_item'
+  className: 'category_edit_item'
+  events:
+    'click .remove': 'onClickRemove'
+  onClickRemove: =>
+    @model.destroy()
 
 
 class CategoryListView extends marionette.CollectionView
@@ -34,12 +44,12 @@ class CategoryListView extends marionette.CollectionView
 
 
 class CategoryEditListView extends marionette.CompositeView
-  childView: CategoryItemView
+  childView: CategoryEditItemView
   childViewContainer: '.childViewContainer'
   template: require './templates/category_edit_list'
   onRender: =>
-    @$('.new_category').select2
-      placeholder: "search"
+    @$('.category_new').select2
+      placeholder: "aldoni kategoro"
       minimumInputLength: -1
       ajax:
         url: '/api/category/'

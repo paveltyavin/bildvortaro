@@ -1,7 +1,49 @@
-.edit_block {
-  margin-top: 20px;
-}
+.word_layout {
+  .edit_block {
+    margin-top: 20px;
+  }
 
-.new_category {
-  width: 200px;
+  .label_image_upload {
+    margin-top: 10px;
+  }
+
+  .description {
+    min-height: 85px;
+  }
+
+  .category_item, .category_edit_item {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+    h3 {
+      margin-top: 5px;
+      font-size: 20px;
+    }
+    img {
+      width: 100px;
+    }
+  }
+  .category_edit_item {
+    position: relative;
+    .remove {
+      cursor: pointer;
+      position: absolute;
+      right: 10px;
+      top: 5px;
+    }
+  }
+  .category_item {
+    cursor: pointer;
+  }
+
+  .childViewContainer {
+    display: inline-block;
+  }
+
+  .category_new {
+    display: inline-block;
+    width: 150px;
+    vertical-align: top;
+    margin-top: 10px;
+  }
 }

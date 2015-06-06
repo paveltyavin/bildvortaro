@@ -69,6 +69,7 @@ class Layout extends marionette.LayoutView
     category_list_region: '.category_list_region'
     word_list_region: '.word_list_region'
   template: require './templates/layout'
+  className: 'word_layout'
 
   initialize: (options)=>
     @word = new Word

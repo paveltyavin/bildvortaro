@@ -8,6 +8,7 @@ data = require './../data'
 ModelBinder = require 'ModelBinder'
 
 class Layout extends marionette.LayoutView
+  className: 'home_layout'
   template: require './templates/layout'
   regions:
     word_list_region: '.word_list_region'
