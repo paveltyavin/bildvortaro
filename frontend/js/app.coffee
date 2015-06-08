@@ -22,6 +22,7 @@ class AppRouter extends marionette.AppRouter
     "": "home"
     "vorto/:vorto": "word"
     "aldoni": "add"
+    "s/:search": "search"
 
 app = new App()
 data.reqres.setHandler 'app', ->

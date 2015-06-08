@@ -17,12 +17,7 @@ class Navbar extends marionette.LayoutView
     search = @$('.search-input').val()
 
     if search
-      app = data.reqres.request 'app'
-      cv = app.main_region.currentView
-      if cv.word_list_view
-        data.filter.set search: search
-      else
-        backbone.history.navigate '?search=' + search, trigger: true
+      backbone.history.navigate 's/' + search, trigger: true
 
   onHomeClick: (event)=>
     event.preventDefault()
@@ -31,5 +26,8 @@ class Navbar extends marionette.LayoutView
   onAddClick: (event)=>
     event.preventDefault()
     backbone.history.navigate 'aldoni', trigger: true
+
+  onRender: =>
+    null
 
 module.exports = Navbar

@@ -5,7 +5,7 @@ marionette = require 'backbone.marionette'
 ModelBinder = require 'ModelBinder'
 
 data = require 'data'
-category = require './category'
+relation = require './relation'
 
 require 'jquery-ui'
 require 'blueimp-file-upload'
@@ -41,7 +41,7 @@ class WordImageEditView extends marionette.ItemView
     @$('#image_upload').fileupload
       url: '/api/word/' + @model.id + '/image/'
       dataType: 'json'
-      done: (e, data) =>
+      done: =>
         @model.fetch()
 
 
@@ -66,7 +66,7 @@ class Layout extends marionette.LayoutView
   regions:
     detail_region: '.detail_region'
     image_region: '.image_region'
-    category_list_region: '.category_list_region'
+    relation_list_region: '.relation_list_region'
     word_list_region: '.word_list_region'
   template: require './templates/layout'
   className: 'word_layout'
@@ -80,15 +80,15 @@ class Layout extends marionette.LayoutView
       @detail_region.show(new WordDetailView({model: @word}))
       @image_region.show(new WordImageView({model: @word}))
 
-      @category_collection = new category.CategoryCollection
+      @relation_collection = new relation.RelationCollection
         word_id: @word.id
-      @category_list_region.show(new category.CategoryListView({collection: @category_collection}))
-      @category_collection.fetch()
+      @relation_list_region.show(new relation.RelationListView({collection: @relation_collection}))
+      @relation_collection.fetch()
 
     @listenTo data.vent, 'word:edit', =>
       @detail_region.show(new WordDetailEditView({model: @word}))
       @image_region.show(new WordImageEditView({model: @word}))
-      @category_list_region.show(new category.CategoryEditListView({collection: @category_collection}))
+      @relation_list_region.show(new relation.RelationEditListView({collection: @relation_collection}))
 
 
     @listenTo data.vent, 'word:save', =>
@@ -97,7 +97,7 @@ class Layout extends marionette.LayoutView
       @word.save().then =>
         @detail_region.show(new WordDetailView({model: @word}))
         @image_region.show(new WordImageView({model: @word}))
-        @category_list_region.show(new category.CategoryListView({collection: @category_collection}))
+        @relation_list_region.show(new relation.RelationListView({collection: @relation_collection}))
 
         if changed_name
           backbone.history.navigate 'vorto/' + @word.get('slug')

@@ -2,9 +2,9 @@
 from rest_framework.exceptions import ParseError
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, ListCreateAPIView
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import JSONParser, FileUploadParser
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
-from app.models import Word, WordCategory
+from app.models import Word
 from app.api import serializers
 
 
@@ -18,14 +18,11 @@ class WordList(ListCreateAPIView):
     pagination_class = WordPagination
 
     def get_queryset(self):
-        qs = Word.objects.filter(show_main=True)
+        qs = Word.objects.all()
 
         search = self.request.query_params.get('search')
         if search:
             qs = qs.filter(name__icontains=search)
-        category_slug = self.request.query_params.get('category')
-        if category_slug:
-            qs = qs.filter(wordcategory__category__slug=category_slug)
         return qs
 
     def create(self, request, *args, **kwargs):
@@ -43,35 +40,41 @@ class WordList(ListCreateAPIView):
         )
 
 
-class WordCategoryList(ListAPIView):
-    serializer_class = serializers.WordCategorySerializer
+class WordRelationList(ListAPIView):
+    serializer_class = serializers.WordSerializer
 
     def get_queryset(self):
-        return WordCategory.objects.filter(
-            word_id=self.kwargs.get('pk'),
-        )
-
-    def post(self, request, **kwargs):
-        try:
-            category = Word.objects.get(id=self.request.data.get('category_id'))
-        except Word.DoesNotExist:
-            return ParseError()
         try:
             word = Word.objects.get(id=self.kwargs.get('pk'))
         except Word.DoesNotExist:
-            return ParseError()
-        WordCategory.objects.get_or_create(
-            word=word,
-            category=category,
-        )
+            raise ParseError()
+        return word.word_set.all()
+
+    def post(self, request, **kwargs):
+        try:
+            word = Word.objects.get(id=self.kwargs.get('pk'))
+        except Word.DoesNotExist:
+            raise ParseError()
+
+        try:
+            related_word = Word.objects.get(id=self.request.data.get('word_id'))
+        except Word.DoesNotExist:
+            raise ParseError()
+        word.word_set.add(related_word)
         return Response()
 
+    def delete(self, request, **kwargs):
+        try:
+            word = Word.objects.get(id=self.kwargs.get('pk'))
+        except Word.DoesNotExist:
+            raise ParseError()
 
-class WordCategoryDetail(RetrieveUpdateDestroyAPIView):
-    serializer_class = serializers.WordCategorySerializer
-
-    def get_queryset(self):
-        return WordCategory.objects.all()
+        try:
+            related_word = Word.objects.get(id=self.request.data.get('word_id'))
+        except Word.DoesNotExist:
+            raise ParseError()
+        word.word_set.remove(related_word)
+        return Response()
 
 
 class WordDetail(RetrieveUpdateDestroyAPIView):
@@ -97,14 +100,3 @@ class WordImage(UpdateAPIView):
 
     def get_queryset(self):
         return Word.objects.all()
-
-
-class CategoryList(ListAPIView):
-    serializer_class = serializers.CategorySerializer
-
-    def get_queryset(self):
-        qs = Word.objects.filter(show_top=True)
-        search = self.request.query_params.get('search')
-        if search:
-            qs = qs.filter(name__icontains=search)
-        return qs
