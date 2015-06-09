@@ -20,14 +20,23 @@
             <div class="navbar-r">
                 <form action="/" class="search-form form form-inline">
                     <input type="text" class="search-input form-control" name="search"
-                           placeholder="Serĉu...">
+                           placeholder="Serĉi...">
                     <input class="btn btn-default form-control" type="submit" value="ok">
                 </form>
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="navbar-r">
-                <div class="btn btn-default add_word pull-right">
+            <div class="navbar-r pull-right">
+                {% if request.user.is_anonymous %}
+                    <div class="btn btn-default register">
+                        registri
+                    </div>
+                {% else %}
+                    <div class="btn btn-default vi">
+                        vi
+                    </div>
+                {% endif %}
+                <div class="btn btn-default add_word">
                     aldoni vorto
                 </div>
             </div>

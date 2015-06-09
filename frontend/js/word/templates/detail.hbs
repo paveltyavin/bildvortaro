@@ -1,3 +1,11 @@
+{{# if can_edit }}
+    <div class="edit btn btn-default">
+        redakti
+    </div>
+    <div class="remove btn btn-default">
+        forvisi
+    </div>
+{{/if}}
 <div class="row">
     <div class="col-md-10">
         <h2>{{name}}</h2>
@@ -5,19 +13,5 @@
         <p class="description">
             {{description}}
         </p>
-
     </div>
-    <div class="col-md-2">
-
-        {{# if can_edit }}
-            <div class="pull-right edit btn btn-default">
-                redakti
-            </div>
-            <div class="pull-right remove btn btn-default">
-                forvisi
-            </div>
-        {{/if}}
-
-    </div>
-
 </div>

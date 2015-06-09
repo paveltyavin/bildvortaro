@@ -2,16 +2,14 @@ marionette = require 'backbone.marionette'
 WordLayout = require './word/layout'
 HomeLayout = require './home/layout'
 AddLayout = require './add/layout'
+ViLayout = require './vi/layout'
 
 data = require './data'
 
 class Controller extends marionette.Controller
   home: =>
-    $('.search-input').val('')
-
-    view = new HomeLayout()
     app = data.reqres.request 'app'
-    app.main_region.show(view)
+    app.main_region.show(new HomeLayout())
 
   word: (word_slug) =>
     view = new WordLayout
@@ -20,16 +18,18 @@ class Controller extends marionette.Controller
     app.main_region.show(view)
 
   search: (search) =>
-    $('.search-input').val(search)
     view = new HomeLayout
       search: search
     app = data.reqres.request 'app'
     app.main_region.show(view)
 
   add: =>
-    view = new AddLayout()
     app = data.reqres.request 'app'
-    app.main_region.show(view)
+    app.main_region.show(new AddLayout())
+
+  vi: =>
+    app = data.reqres.request 'app'
+    app.main_region.show(new ViLayout())
 
 module.exports = Controller
 

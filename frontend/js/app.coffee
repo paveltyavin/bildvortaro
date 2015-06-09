@@ -23,6 +23,7 @@ class AppRouter extends marionette.AppRouter
     "vorto/:vorto": "word"
     "aldoni": "add"
     "s/:search": "search"
+    "vi": "vi"
 
 app = new App()
 data.reqres.setHandler 'app', ->
@@ -33,7 +34,10 @@ app.on 'start', ->
   controller = new Controller
   router = new AppRouter
     controller: controller
+  data.reqres.setHandler 'router', ->
+    app
   backbone.history.start(pushState: true)
+
 
 data.filter.on 'change', ->
   backbone.history.navigate ''

@@ -10,6 +10,7 @@ class Navbar extends marionette.LayoutView
   events:
     'click .vortaro-logo': 'onHomeClick'
     'click .add_word': 'onAddClick'
+    'click .vi': 'onViClick'
     'submit .search-form': 'onSearchFormSubmit'
 
   onSearchFormSubmit: (event)=>
@@ -18,6 +19,10 @@ class Navbar extends marionette.LayoutView
 
     if search
       backbone.history.navigate 's/' + search, trigger: true
+
+  onViClick: (event) =>
+    event.preventDefault()
+    backbone.history.navigate 'vi', trigger: true
 
   onHomeClick: (event)=>
     event.preventDefault()
@@ -28,6 +33,9 @@ class Navbar extends marionette.LayoutView
     backbone.history.navigate 'aldoni', trigger: true
 
   onRender: =>
-    null
+    router = data.reqres.request 'router'
+    router.on "route", (route, params) ->
+      console.log "Different Page: " + route
+      @$('.search-input').val()
 
 module.exports = Navbar
