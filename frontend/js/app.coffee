@@ -39,14 +39,17 @@ app.on 'start', ->
   backbone.history.start(pushState: true)
 
 
-data.filter.on 'change', ->
-  backbone.history.navigate ''
+class UserCurrent extends backbone.Model
+  url: '/api/user/current/'
+
 
 loadInitialData = ->
   d = $.Deferred()
-  setTimeout ->
+  user_current = new UserCurrent
+  user_current.fetch().then ->
+    data.reqres.setHandler 'user_current', ->
+      user_current
     d.resolve()
-  , 50
   return d
 
 try

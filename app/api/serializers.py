@@ -1,7 +1,7 @@
 # coding=utf-8
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from sorl.thumbnail.shortcuts import get_thumbnail
-from app.models import Word
+from app.models import Word, User
 
 default_thumb_options = {'padding': True, 'quality': 65, 'upscale': False, 'background': "#fff"}
 
@@ -61,3 +61,12 @@ class WordSerializer(ModelSerializer):
             'slug',
         ]
 
+
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+        ]

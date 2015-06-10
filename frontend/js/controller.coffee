@@ -3,6 +3,7 @@ WordLayout = require './word/layout'
 HomeLayout = require './home/layout'
 AddLayout = require './add/layout'
 ViLayout = require './vi/layout'
+RegisterView = require './vi/register'
 
 data = require './data'
 
@@ -29,7 +30,11 @@ class Controller extends marionette.Controller
 
   vi: =>
     app = data.reqres.request 'app'
-    app.main_region.show(new ViLayout())
+    user_current = data.reqres.request 'user_current'
+    if user_current.id is null
+      app.main_region.show(new RegisterView())
+    else
+      app.main_region.show(new ViLayout())
 
 module.exports = Controller
 

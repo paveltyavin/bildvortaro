@@ -11,6 +11,7 @@ class Navbar extends marionette.LayoutView
     'click .vortaro-logo': 'onHomeClick'
     'click .add_word': 'onAddClick'
     'click .vi': 'onViClick'
+    'click .register': 'onViClick'
     'submit .search-form': 'onSearchFormSubmit'
 
   onSearchFormSubmit: (event)=>
@@ -30,7 +31,12 @@ class Navbar extends marionette.LayoutView
 
   onAddClick: (event)=>
     event.preventDefault()
-    backbone.history.navigate 'aldoni', trigger: true
+    user_current = data.reqres.request 'user_current'
+
+    if user_current.id is null
+      backbone.history.navigate 'vi', trigger: true
+    else
+      backbone.history.navigate 'aldoni', trigger: true
 
   onRender: =>
     router = data.reqres.request 'router'

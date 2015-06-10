@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'^word/(?P<slug>[-\w\d]+)/$', views.WordSlugDetail.as_view()),
     url(r'^word/(?P<pk>\d+)/image/$', views.WordImage.as_view()),
     url(r'^word/(?P<pk>\d+)/relation/$', views.WordRelationList.as_view()),
+
+    url(r'^user/current/$', views.UserCurrent.as_view()),
 ]

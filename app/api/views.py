@@ -1,6 +1,7 @@
 # coding=utf-8
 from rest_framework.exceptions import ParseError
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView, ListCreateAPIView, \
+    RetrieveUpdateAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
@@ -100,3 +101,10 @@ class WordImage(UpdateAPIView):
 
     def get_queryset(self):
         return Word.objects.all()
+    
+    
+class UserCurrent(RetrieveUpdateAPIView):
+    serializer_class = serializers.UserSerializer
+
+    def get_object(self):
+        return self.request.user
