@@ -35,7 +35,7 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(DJANGO_ROOT, 'frontend/public'),
+    os.path.join(DJANGO_ROOT, 'frontend/dist'),
 )
 
 TEMPLATE_DIRS = (
