@@ -3,7 +3,9 @@ _ = require 'underscore'
 marionette = require 'backbone.marionette'
 backbone = require 'backbone'
 
+
 class Word extends backbone.Model
+
 
 class WordCollection extends backbone.Collection
   model: Word
@@ -12,6 +14,7 @@ class WordCollection extends backbone.Collection
     @count = response.count
     return response.results
 
+
 class WordItemView extends marionette.ItemView
   template: require './templates/word_item'
   className: 'word-block'
@@ -19,6 +22,7 @@ class WordItemView extends marionette.ItemView
     @$el.on 'click', (event)=>
       event.preventDefault()
       backbone.history.navigate 'vorto/' + @model.get('slug'), trigger: true
+
 
 class WordListView extends marionette.CollectionView
   page: 0

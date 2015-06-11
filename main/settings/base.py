@@ -59,6 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 )
 
 INSTALLED_APPS = (
@@ -70,6 +71,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+
+    'reversion',
 
     'bootstrap3',
     'django_extensions',

@@ -26,7 +26,7 @@ class WordDetailSerializer(ModelSerializer):
     get_thumb = get_get_thumb('300x300')
 
     def get_can_edit(self, obj):
-        return True
+        return self.context['request'].user.is_authenticated()
 
     class Meta:
         model = Word

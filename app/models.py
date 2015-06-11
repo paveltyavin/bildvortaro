@@ -1,10 +1,9 @@
 # coding=utf-8
-import datetime
+import re
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
 from django.utils.timezone import now
-from sorl.thumbnail.shortcuts import get_thumbnail
 
 
 class User(AbstractUser):
@@ -40,7 +39,7 @@ class Word(models.Model):
     description = models.TextField(verbose_name=u'Описание', blank=True)
     slug = models.SlugField(max_length=128, verbose_name=u'Слаг', blank=True, default='')
     image = models.ImageField(verbose_name=u'Изображение', upload_to=get_image, default='', )
-    word_set = models.ManyToManyField('Word', symmetrical=True)
+    word_set = models.ManyToManyField('Word', symmetrical=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.id:
@@ -48,6 +47,8 @@ class Word(models.Model):
         else:
             self.date_modified = now()
         self.slug = slugify(self.name)
+        if re.match('\d+', self.slug):
+            self.slug = u"{}_".format(self.slug)
         super(Word, self).save(*args, **kwargs)
 
     def __unicode__(self):

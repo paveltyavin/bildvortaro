@@ -4,6 +4,7 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, U
     RetrieveUpdateAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FileUploadParser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from app.models import Word
 from app.api import serializers
@@ -17,6 +18,7 @@ class WordPagination(PageNumberPagination):
 class WordList(ListCreateAPIView):
     serializer_class = serializers.WordSerializer
     pagination_class = WordPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         qs = Word.objects.all()
@@ -43,6 +45,7 @@ class WordList(ListCreateAPIView):
 
 class WordRelationList(ListAPIView):
     serializer_class = serializers.WordSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         try:
@@ -80,6 +83,7 @@ class WordRelationList(ListAPIView):
 
 class WordDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.WordDetailSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def post(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
@@ -90,19 +94,21 @@ class WordDetail(RetrieveUpdateDestroyAPIView):
 
 class WordSlugDetail(WordDetail):
     lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class WordImage(UpdateAPIView):
     parser_classes = (FileUploadParser,)
     serializer_class = serializers.WordImageSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def post(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
     def get_queryset(self):
         return Word.objects.all()
-    
-    
+
+
 class UserCurrent(RetrieveUpdateAPIView):
     serializer_class = serializers.UserSerializer
 

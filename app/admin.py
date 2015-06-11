@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from app.models import Word, User
+import reversion
 
 
-class WordAdmin(admin.ModelAdmin):
+class WordAdmin(reversion.VersionAdmin):
     list_display = (
         'name',
         'date_modified',

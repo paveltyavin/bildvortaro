@@ -22,9 +22,23 @@ class Word extends backbone.Model
 
 class WordDetailView extends marionette.ItemView
   template: require './templates/detail'
-  onRender: =>
-    @$('.edit').on 'click', =>
+  events:
+    'click .edit': 'onEditClick'
+    'click .remove': 'onRemoveClick'
+  onEditClick: =>
+    user_current = data.reqres.request 'user_current'
+    if user_current.id is null
+      backbone.history.navigate 'vi', trigger:true
+    else
       data.vent.trigger('word:edit')
+  onRemoveClick: =>
+    user_current = data.reqres.request 'user_current'
+    if user_current.id is null
+      backbone.history.navigate 'vi', trigger:true
+    else
+      if confirm 'Forvisi?'
+        @model.destroy().then =>
+          backbone.history.navigate '', trigger: true
 
 
 class WordImageView extends marionette.ItemView
