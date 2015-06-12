@@ -12,6 +12,7 @@ cd /home/vinograd19/vortaro/src/;
 python manage.py migrate --noinput;
 
 cd /home/vinograd19/vortaro/src/frontend;
+nvm use "0.12";
 gulp;
 
 cd /home/vinograd19/vortaro/src/;
