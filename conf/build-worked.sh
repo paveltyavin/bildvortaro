@@ -13,6 +13,7 @@ python manage.py migrate --noinput;
 
 cd /home/vinograd19/vortaro/src/frontend;
 nvm use "0.12";
+npm install;
 gulp;
 
 cd /home/vinograd19/vortaro/src/;
