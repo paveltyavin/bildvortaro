@@ -10,7 +10,7 @@ test -d /home/vinograd19/vortaro/pids/ || mkdir -p /home/vinograd19/vortaro/pids
 test -d /home/vinograd19/vortaro/log/ || mkdir -p /home/vinograd19/vortaro/log/
 
 exec gunicorn \
-    --env DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE proj.wsgi \
+    --env DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE main.wsgi \
     --bind=localhost:8004 \
     --workers=3 \
     --pid=/home/vinograd19/vortaro/pids/gunicorn_prod.pid \
